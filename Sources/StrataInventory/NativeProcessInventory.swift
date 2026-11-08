@@ -24,7 +24,7 @@ package enum NativeProcessInventory {
     return name.isEmpty ? shortName : String(name)
   }
   private static func sample(_ raw: SBProcess, paths: UnsafePointer<CChar>?) -> ProcessSample {
-    let path = paths.map { path(at: raw.path_offset, length: raw.path_length, in: $0) } ?? ""
+    let path = paths.map { decodePath(at: raw.path_offset, length: raw.path_length, in: $0) } ?? ""
     var shortName = raw.name
     return ProcessSample(
       id: ProcessIdentity(
@@ -47,7 +47,7 @@ package enum NativeProcessInventory {
       cycles: raw.cycles, performanceCoreNanoseconds: raw.performance_cpu_ns,
       peakFootprintBytes: raw.peak_footprint)
   }
-  private static func path(at offset: UInt32, length: UInt32, in paths: UnsafePointer<CChar>) -> String {
+  private static func decodePath(at offset: UInt32, length: UInt32, in paths: UnsafePointer<CChar>) -> String {
     String(
       decoding: UnsafeRawBufferPointer(start: paths + Int(offset), count: Int(length)), as: UTF8.self)
   }
