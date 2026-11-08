@@ -31,7 +31,7 @@ struct WiFiContent: View {
     MetricHero(value: model.value(for: .wifi), caption: signalCaption)
     SurfaceCard {
       if let wifi = model.devices?.wifi, wifi.interface != nil {
-        SwitchRow(title: String(localized: "Wi-Fi"), isOn: Binding(get: { wifi.powered }, set: model.setWiFiPower))
+        SwitchRow(title: String(localized: "Wi-Fi"), isOn: Binding(get: { wifi.powered }, set: { model.setWiFiPower($0) }))
           .disabled(controller.joiningNetworkID != nil)
       } else {
         DetailRow(

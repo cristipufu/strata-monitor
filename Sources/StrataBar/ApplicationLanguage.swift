@@ -38,7 +38,7 @@ struct LanguageSection: View {
 
   var body: some View {
     Section("Language") {
-      Picker("Language", selection: Binding(get: { language.selection }, set: language.select)) {
+      Picker("Language", selection: Binding(get: { language.selection }, set: { language.select($0) })) {
         Text("System Default").tag("")
         ForEach(language.languages, id: \.self) { code in
           Text(verbatim: ApplicationLanguage.name(code)).tag(code)

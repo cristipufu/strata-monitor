@@ -26,6 +26,8 @@ jobs:
           echo "DEVELOPER_DIR=$DEVELOPER_DIR" >> "$GITHUB_ENV"
           xcodebuild -version
           swift --version
+      - name: Resolve dependencies for update signature tests
+        run: swift package resolve
       - name: Check extracted app messages
         run: python3 scripts/localize.py extract --check-source
       - name: Test localization and update signing tools

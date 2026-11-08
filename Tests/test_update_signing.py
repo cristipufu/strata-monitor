@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import plistlib
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -11,10 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 SIGNER = ROOT / '.build/artifacts/sparkle/Sparkle/bin/sign_update'
 
 
-@unittest.skipUnless(SIGNER.is_file(), 'Resolve the pinned Sparkle package before signature integration tests')
+@unittest.skipUnless(sys.platform == 'darwin', 'Sparkle signature integration tests require macOS')
 class UpdateSigningTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        if not SIGNER.is_file():
+            raise RuntimeError('Run swift package resolve before update signature tests')
         swift = ('import CryptoKit; import Foundation; '
                  'let key = Curve25519.Signing.PrivateKey(); '
                  'let values = ["private": key.rawRepresentation.base64EncodedString(), '

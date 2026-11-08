@@ -51,9 +51,9 @@ struct UpdatesSection: View {
     Section("Updates") {
       if updates.isAvailable {
         Toggle("Check for updates automatically", isOn: Binding(
-          get: { updates.automaticallyChecks }, set: updates.setAutomaticChecks))
+          get: { updates.automaticallyChecks }, set: { updates.setAutomaticChecks($0) }))
         Toggle("Download and install updates automatically", isOn: Binding(
-          get: { updates.automaticallyDownloads }, set: updates.setAutomaticDownloads))
+          get: { updates.automaticallyDownloads }, set: { updates.setAutomaticDownloads($0) }))
           .disabled(!updates.automaticallyChecks)
         Text("Checks GitHub once a day when enabled. Signed updates install when Strata Monitor quits.")
           .footnoteStyle()

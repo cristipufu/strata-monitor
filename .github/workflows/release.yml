@@ -105,6 +105,7 @@ jobs:
 
       - name: Validate translations and release tooling
         run: |
+          swift package resolve
           python3 scripts/localize.py extract --check-source
           python3 -m unittest discover -s Tests -p 'test_*.py'
           python3 scripts/localize.py check

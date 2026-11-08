@@ -234,7 +234,7 @@ private struct FullVisibilitySetting: View {
     VStack(alignment: .leading, spacing: Design.Spacing.small) {
       SwitchRow(
         title: String(localized: "Show all processes"),
-        isOn: Binding(get: { controller.isRequested }, set: controller.setEnabled))
+        isOn: Binding(get: { controller.isRequested }, set: { controller.setEnabled($0) }))
       Text(
         "Adds a small read-only helper that runs as root, so system processes and other users' processes show CPU, memory, disk and energy. An administrator approves it in System Settings."
       )
