@@ -1,3 +1,4 @@
+import Foundation
 import StrataCore
 
 enum ProcessActionConfirmation {
@@ -18,14 +19,14 @@ enum ProcessActionConfirmation {
   var title: String {
     switch self {
     case .signal(let action): action.signal.title
-    case .applicationQuit: "Quit"
+    case .applicationQuit: String(localized: "Quit")
     }
   }
   var explanation: String {
     switch self {
     case .signal(let action): action.signal.explanation
     case .applicationQuit:
-      "Ask the application to quit normally. It can show a save prompt or decline. Strata Monitor will not escalate this request."
+      String(localized: "Ask the application to quit normally. It can show a save prompt or decline. Strata Monitor will not escalate this request.")
     }
   }
 }

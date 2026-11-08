@@ -12,8 +12,8 @@ struct NativeWiFiBackend: WiFiBackend {
   }
   func scan() throws -> [WiFiScanCandidate] {
     guard let interface = interfaces.interface(named: nil), let name = interface.name, !name.isEmpty
-    else { throw DeviceError.unavailable("No Wi-Fi interface is available.") }
-    guard interface.powered else { throw DeviceError.unavailable("Turn on Wi-Fi before scanning.") }
+    else { throw DeviceError.unavailable(String(localized: "No Wi-Fi interface is available.")) }
+    guard interface.powered else { throw DeviceError.unavailable(String(localized: "Turn on Wi-Fi before scanning.")) }
     try Task.checkCancellation()
     let networks = try interface.scan(ssid: nil)
     let administrativePolicy = interface.administratorRequired
@@ -32,7 +32,7 @@ struct NativeWiFiBackend: WiFiBackend {
       interface.name == candidate.interfaceName, interface.powered
     else {
       throw DeviceError.unavailable(
-        "This network cannot be joined directly. Refresh or use System Settings.")
+        String(localized: "This network cannot be joined directly. Refresh or use System Settings."))
     }
     try requireOrdinaryAssociation(interface)
     try Task.checkCancellation()
@@ -46,14 +46,14 @@ struct NativeWiFiBackend: WiFiBackend {
       })
     else {
       throw DeviceError.unavailable(
-        "The selected network changed or disappeared. Refresh nearby networks.")
+        String(localized: "The selected network changed or disappeared. Refresh nearby networks."))
     }
     try requireOrdinaryAssociation(interface)
     try Task.checkCancellation()
     try interface.associate(network)
     guard interface.associatedSSID == ssid, interface.associatedWithUnprotectedNetwork else {
       throw DeviceError.unavailable(
-        "Wi-Fi did not report the selected network after joining. Check System Settings.")
+        String(localized: "Wi-Fi did not report the selected network after joining. Check System Settings."))
     }
   }
   private func requireOrdinaryAssociation(_ interface: any WiFiInterfaceHandle) throws {

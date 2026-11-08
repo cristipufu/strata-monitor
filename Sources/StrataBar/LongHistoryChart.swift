@@ -8,7 +8,7 @@ struct LongHistoryChart: View {
     case hour = 3600
     case day = 86_400
     var id: Self { self }
-    var title: LocalizedStringKey { self == .hour ? "Last hour" : "Last 24 hours" }
+    var title: String { self == .hour ? String(localized: "Last hour") : String(localized: "Last 24 hours") }
   }
   @ObservedObject var recorder: HistoryRecorder
   let metric: HistoryMetric

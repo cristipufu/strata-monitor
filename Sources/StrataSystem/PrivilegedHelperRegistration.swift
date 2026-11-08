@@ -16,10 +16,10 @@ public enum PrivilegedHelperStatus: String, Sendable, Equatable {
   }
   public var title: String {
     switch self {
-    case .notRegistered: "Off"
-    case .enabled: "On"
-    case .requiresApproval: "Needs approval in Login Items & Extensions"
-    case .notFound: "Not available in this copy of Strata Monitor"
+    case .notRegistered: String(localized: "Off")
+    case .enabled: String(localized: "On")
+    case .requiresApproval: String(localized: "Needs approval in Login Items & Extensions")
+    case .notFound: String(localized: "Not available in this copy of Strata Monitor")
     }
   }
 }
@@ -29,10 +29,10 @@ public enum PrivilegedHelperRegistrationError: LocalizedError, Sendable, Equatab
   public var errorDescription: String? {
     switch self {
     case .notAllowed:
-      "Not allowed. Turn on Strata Monitor in System Settings › General › Login Items & Extensions."
+      String(localized: "Not allowed. Turn on Strata Monitor in System Settings › General › Login Items & Extensions.")
     case .invalidSignature:
-      "This copy of Strata Monitor isn't signed and notarized, so macOS won't run its helper."
-    case .notFound: "This copy of Strata Monitor doesn't include the helper."
+      String(localized: "This copy of Strata Monitor isn't signed and notarized, so macOS won't run its helper.")
+    case .notFound: String(localized: "This copy of Strata Monitor doesn't include the helper.")
     case .failed(let message): message
     }
   }

@@ -61,7 +61,7 @@ public actor WiFiService: WiFiNetworking {
       let candidate = candidates[networkID]
     else {
       throw DeviceError.unavailable(
-        "This network selection expired. Refresh nearby networks before joining.")
+        String(localized: "This network selection expired. Refresh nearby networks before joining."))
     }
     switch candidate.joinCapability {
     case .unprotectedNetwork: break

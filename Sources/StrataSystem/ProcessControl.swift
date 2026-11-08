@@ -8,10 +8,10 @@ public enum ProcessActionError: LocalizedError, Sendable {
   public var errorDescription: String? {
     switch self {
     case .ineligible:
-      "This process cannot be controlled from Strata Monitor. System processes and other users' processes are protected."
-    case .expired: "This confirmation expired. Select the process and try again."
-    case .targetChanged: "The process ended or changed. Refresh before trying again."
-    case .accessDenied: "macOS did not permit controlling this process. No signal was sent."
+      String(localized: "This process cannot be controlled from Strata Monitor. System processes and other users' processes are protected.")
+    case .expired: String(localized: "This confirmation expired. Select the process and try again.")
+    case .targetChanged: String(localized: "The process ended or changed. Refresh before trying again.")
+    case .accessDenied: String(localized: "macOS did not permit controlling this process. No signal was sent.")
     }
   }
 }

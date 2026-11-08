@@ -31,7 +31,7 @@ struct NativeAudioHardware: AudioHardware {
   func describeOutput(_ id: UInt32) -> AudioOutput? {
     guard id != kAudioObjectUnknown, hasOutput(id) else { return nil }
     return AudioOutput(
-      objectID: id, name: copiedString(id, kAudioObjectPropertyName) ?? "Audio output",
+      objectID: id, name: copiedString(id, kAudioObjectPropertyName) ?? String(localized: "Audio output"),
       isDefault: false,
       uniqueID: copiedString(id, kAudioDevicePropertyDeviceUID))
   }
@@ -108,6 +108,6 @@ struct NativeAudioHardware: AudioHardware {
     let status = withUnsafePointer(to: &value) {
       AudioObjectSetPropertyData(id, &property, 0, nil, UInt32(MemoryLayout<T>.size), $0)
     }
-    guard status == noErr else { throw DeviceError.operationFailed("Audio change", status) }
+    guard status == noErr else { throw DeviceError.operationFailed(String(localized: "Audio change"), status) }
   }
 }

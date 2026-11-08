@@ -16,6 +16,7 @@ name: Release
 #   MACOS_API_KEY_P8      base64 of an App Store Connect API key (.p8), used to notarize
 #   MACOS_API_KEY_ID      that key's ID
 #   MACOS_API_ISSUER_ID   its issuer ID
+#   SPARKLE_ED_PRIVATE_KEY  Sparkle update signing key; SUPublicEDKey in Info.plist must match
 #   MACOS_TEAM_ID         the Apple Developer team ID
 # Without them a manual run still builds an ad-hoc signed copy for testing, and a tag fails:
 # Gatekeeper refuses an unsigned app on any other Mac, so it must never become a release.
@@ -40,6 +41,7 @@ concurrency:
 env:
   XCODE_VERSION: "26.6"
   # Secrets can't be read in an `if:`, so their presence is evaluated once here and tested as a string.
+  HAS_UPDATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY != '' }}
   HAS_APPLE_SIGNING: ${{ secrets.MACOS_CERT_P12 != '' }}
 
 jobs:
@@ -60,6 +62,12 @@ jobs:
         if: github.ref_type == 'tag' && env.HAS_APPLE_SIGNING != 'true'
         run: |
           echo "::error::The signing secrets are not set (see the top of release.yml). A release has to be signed and notarized."
+          exit 1
+
+      - name: Refuse to release without an update signing key
+        if: github.ref_type == 'tag' && env.HAS_UPDATE_KEY != 'true'
+        run: |
+          echo "::error::SPARKLE_ED_PRIVATE_KEY is required for signed update archives and feeds."
           exit 1
 
       - name: Select Xcode ${{ env.XCODE_VERSION }}
@@ -92,7 +100,15 @@ jobs:
             echo "prerelease=$PRERELEASE"
             echo "artifact=$ARTIFACT"
           } >> "$GITHUB_OUTPUT"
-          echo "building Strata Monitor $VERSION"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $RUN_NUMBER" Resources/Info.plist
+          echo "building Strata Monitor $VERSION ($RUN_NUMBER)"
+
+      - name: Validate translations and release tooling
+        run: |
+          python3 scripts/localize.py extract --check-source
+          python3 -m unittest discover -s Tests -p 'test_*.py'
+          python3 scripts/localize.py check
+          python3 scripts/readme-localize.py check
 
       - name: Run the tests before signing
         run: scripts/test.sh
@@ -194,6 +210,13 @@ jobs:
           (cd dist && shasum -a 256 StrataMonitor.dmg StrataMonitor.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
           ls -lh dist
 
+      - name: Sign the update archive and feed
+        if: github.ref_type == 'tag'
+        env:
+          SPARKLE_ED_PRIVATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: python3 scripts/appcast.py "$VERSION"
+
       - name: Upload
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -232,5 +255,5 @@ jobs:
           set -euo pipefail
           flags=(--generate-notes)
           if [ "$PRERELEASE" = true ]; then flags+=(--prerelease); fi
-          gh release create "$TAG" dist/StrataMonitor.dmg dist/StrataMonitor.zip dist/SHA256SUMS.txt \
+          gh release create "$TAG" dist/StrataMonitor.dmg dist/StrataMonitor.zip dist/SHA256SUMS.txt dist/appcast.xml \
             --repo "$GITHUB_REPOSITORY" --title "Strata Monitor $VERSION" --verify-tag "${flags[@]}"

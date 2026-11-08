@@ -7,61 +7,61 @@ enum ProcessColumns {
   static func individual() -> [ExplorerColumn<ProcessSample>] {
     [
       ExplorerColumn(
-        title: "Process", width: 230, value: \.displayName, sortedBy: ProcessSort.name),
+        title: String(localized: "Process"), width: 230, value: \.displayName, sortedBy: ProcessSort.name),
       ExplorerColumn(
-        title: "User", width: 100, value: { $0.userName ?? String($0.userID) },
+        title: String(localized: "User"), width: 100, value: { $0.userName ?? String($0.userID) },
         sortedBy: ProcessSort.user),
       ExplorerColumn(
-        title: "CPU", width: 70,
+        title: String(localized: "CPU"), width: 70,
         value: \.cpuDescription, monospaced: true,
         sortedBy: ProcessSort.cpu),
       ExplorerColumn(
-        title: "Footprint", width: 85,
+        title: String(localized: "Footprint"), width: 85,
         value: { $0.footprintBytes.map(ValueFormat.bytes) ?? ReadingValue.unavailable },
         monospaced: true, sortedBy: ProcessSort.memory),
       ExplorerColumn(
-        title: "Power", width: 75, value: { power($0.watts, readable: $0.activity != nil) },
+        title: String(localized: "Power"), width: 75, value: { power($0.watts, readable: $0.activity != nil) },
         monospaced: true, sortedBy: ProcessSort.power),
       ExplorerColumn(
-        title: "CPU Time", width: 85,
+        title: String(localized: "CPU Time"), width: 85,
         value: {
           $0.cpuTimeNanoseconds.map { ValueFormat.cpuTime(nanoseconds: $0) }
             ?? ReadingValue.unavailable
         }, monospaced: true, sortedBy: ProcessSort.cpuTime, isShownByDefault: false),
       ExplorerColumn(
-        title: "Threads", width: 65,
+        title: String(localized: "Threads"), width: 65,
         value: { $0.threads.map { String($0) } ?? ReadingValue.unavailable }, monospaced: true,
         sortedBy: ProcessSort.threads, isShownByDefault: false),
       ExplorerColumn(
-        title: "Wakeups", width: 80,
+        title: String(localized: "Wakeups"), width: 80,
         value: { perSecond($0.wakeupsPerSecond, readable: $0.activity != nil) },
         monospaced: true, sortedBy: ProcessSort.wakeups, isShownByDefault: false),
       ExplorerColumn(
-        title: "Disk Reads", width: 85,
+        title: String(localized: "Disk Reads"), width: 85,
         value: { rate($0.diskReadBytesPerSecond, readable: $0.diskReadBytes != nil) },
         monospaced: true, sortedBy: ProcessSort.diskRead, isShownByDefault: false),
       ExplorerColumn(
-        title: "Disk Writes", width: 85,
+        title: String(localized: "Disk Writes"), width: 85,
         value: { rate($0.diskWrittenBytesPerSecond, readable: $0.diskWrittenBytes != nil) },
         monospaced: true, sortedBy: ProcessSort.diskWrite, isShownByDefault: false),
       ExplorerColumn(
-        title: "GPU", width: 65,
+        title: String(localized: "GPU"), width: 65,
         value: { $0.gpuPercent.map(ValueFormat.processCPU) ?? ReadingValue.notObserved },
         monospaced: true, sortedBy: ProcessSort.gpu, isShownByDefault: false),
       ExplorerColumn(
-        title: "GPU Time", width: 85,
+        title: String(localized: "GPU Time"), width: 85,
         value: {
           $0.gpuTimeNanoseconds.map { ValueFormat.cpuTime(nanoseconds: $0) }
             ?? ReadingValue.notObserved
         }, monospaced: true, sortedBy: ProcessSort.gpuTime, isShownByDefault: false),
       ExplorerColumn(
-        title: "State", width: 80, value: { state($0.runState) }, sortedBy: ProcessSort.state,
+        title: String(localized: "State"), width: 80, value: { state($0.runState) }, sortedBy: ProcessSort.state,
         isShownByDefault: false),
       ExplorerColumn(
-        title: "Kind", width: 70, value: { kind(translated: $0.isTranslated) },
+        title: String(localized: "Kind"), width: 70, value: { kind(translated: $0.isTranslated) },
         sortedBy: ProcessSort.kind, isShownByDefault: false),
       ExplorerColumn(
-        title: "Started", width: 130, value: { started($0.id) }, monospaced: true,
+        title: String(localized: "Started"), width: 130, value: { started($0.id) }, monospaced: true,
         sortedBy: ProcessSort.started, isShownByDefault: false),
       ExplorerColumn(
         title: "PID", width: 60, value: { String($0.id.pid) }, monospaced: true,
@@ -72,30 +72,30 @@ enum ProcessColumns {
   static func families() -> [ExplorerColumn<ProcessTreeRow>] {
     [
       ExplorerColumn(
-        title: "Process Family", width: 260, value: \.title, sortedBy: ProcessSort.name),
+        title: String(localized: "Process Family"), width: 260, value: \.title, sortedBy: ProcessSort.name),
       ExplorerColumn(
-        title: "CPU", width: 80,
+        title: String(localized: "CPU"), width: 80,
         value: { row in
           ReadingValue.processRate(
             row.cpu.map { (row.partialCPU ? "≥" : "") + ValueFormat.processCPU($0) },
             readable: row.isCPUReadable)
         }, monospaced: true, sortedBy: ProcessSort.cpu),
       ExplorerColumn(
-        title: "Footprint", width: 90,
+        title: String(localized: "Footprint"), width: 90,
         value: { row in
           row.footprint.map { (row.partialMemory ? "≥" : "") + ValueFormat.bytes($0) }
             ?? ReadingValue.unavailable
         }, monospaced: true, sortedBy: ProcessSort.memory),
       ExplorerColumn(
-        title: "Power", width: 75,
+        title: String(localized: "Power"), width: 75,
         value: { power($0.orderingValues.watts, readable: $0.isActivityReadable) },
         monospaced: true, sortedBy: ProcessSort.power),
       ExplorerColumn(
-        title: "Threads", width: 65,
+        title: String(localized: "Threads"), width: 65,
         value: { $0.orderingValues.threads.map { String(Int($0)) } ?? ReadingValue.unavailable },
         monospaced: true, sortedBy: ProcessSort.threads, isShownByDefault: false),
       ExplorerColumn(
-        title: "Disk Writes", width: 85,
+        title: String(localized: "Disk Writes"), width: 85,
         value: { rate($0.orderingValues.diskWrite, readable: $0.isActivityReadable) },
         monospaced: true, sortedBy: ProcessSort.diskWrite, isShownByDefault: false),
       ExplorerColumn(

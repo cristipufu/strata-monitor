@@ -79,7 +79,7 @@ final class ExplorerNavigation: ObservableObject {
     ResourceNavigationRequest(section: section, revision: revision)
   }
   var resourceScopeTitle: String? {
-    volumeScope.map { "Open files on \($0.name)" } ?? pathScope.map { "Paths under \($0.path)" }
+    volumeScope.map { String(localized: "Open files on \($0.name)") } ?? pathScope.map { String(localized: "Paths under \($0.path)") }
   }
   func includesResource(_ resource: ProcessResource) -> Bool {
     (pathScope?.contains(resource) ?? true) && (volumeScope?.contains(resource) ?? true)

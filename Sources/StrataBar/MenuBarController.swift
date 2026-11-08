@@ -82,7 +82,7 @@ final class MenuBarController: NSObject {
     statusItem.isVisible = true
     guard let button = statusItem.button else { return }
     button.postsFrameChangedNotifications = true
-    button.toolTip = "Strata Monitor · Hover to unfold, click for readings"
+    button.toolTip = String(localized: "Strata Monitor · Hover to unfold, click for readings")
     button.target = self
     button.action = #selector(indicatorPressed)
     let view = TrackingHost(
@@ -103,7 +103,7 @@ final class MenuBarController: NSObject {
     button.addSubview(view)
     indicatorHost = view
     button.setAccessibilityLabel("Strata Monitor")
-    button.setAccessibilityHelp("Press to open readings. Hover to unfold.")
+    button.setAccessibilityHelp(String(localized: "Press to open readings. Hover to unfold."))
     refreshAccessibilityValue()
   }
   @objc private func indicatorPressed() {
@@ -138,14 +138,14 @@ final class MenuBarController: NSObject {
     dismissImmediately()
     let menu = NSMenu()
     let explorer = menu.addItem(
-      withTitle: "Open Explorer", action: #selector(explorerPressed), keyEquivalent: "e")
+      withTitle: String(localized: "Open Explorer"), action: #selector(explorerPressed), keyEquivalent: "e")
     explorer.target = self
     let settings = menu.addItem(
-      withTitle: "Settings…", action: #selector(settingsPressed), keyEquivalent: ",")
+      withTitle: String(localized: "Settings…"), action: #selector(settingsPressed), keyEquivalent: ",")
     settings.target = self
     menu.addItem(.separator())
     menu.addItem(
-      withTitle: "Quit Strata Monitor", action: #selector(NSApplication.terminate(_:)),
+      withTitle: String(localized: "Quit Strata Monitor"), action: #selector(NSApplication.terminate(_:)),
       keyEquivalent: "q")
     return menu
   }

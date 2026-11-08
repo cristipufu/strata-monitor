@@ -45,7 +45,7 @@ public struct Profile: Identifiable, Codable, Equatable, Sendable {
   }
   public mutating func validate() {
     name = String(name.trimmingCharacters(in: .whitespacesAndNewlines).prefix(40))
-    if name.isEmpty { name = "Untitled" }
+    if name.isEmpty { name = String(localized: "Untitled") }
     if !Self.scalarReadings.contains(ring) { ring = .cpu }
     if !Self.scalarReadings.contains(bar) { bar = .network }
     if center == .overview { center = .wifi }
@@ -56,8 +56,8 @@ public struct Profile: Identifiable, Codable, Equatable, Sendable {
   }
   public static var defaults: [Profile] {
     [
-      Profile(name: "Everyday", ring: .battery), Profile(name: "Desktop"),
-      Profile(name: "Performance", ring: .cpu, center: .memory, bar: .network),
+      Profile(name: String(localized: "Everyday"), ring: .battery), Profile(name: String(localized: "Desktop")),
+      Profile(name: String(localized: "Performance"), ring: .cpu, center: .memory, bar: .network),
     ]
   }
 }
@@ -139,7 +139,7 @@ public struct Preferences: Codable, Sendable {
     selectProfile(preset.id)
   }
   public var activeProfile: Profile {
-    profiles.first { $0.id == selectedProfile } ?? profiles.first ?? Profile(name: "Desktop")
+    profiles.first { $0.id == selectedProfile } ?? profiles.first ?? Profile(name: String(localized: "Desktop"))
   }
   public mutating func validate() {
     if profiles.isEmpty { profiles = Profile.defaults }

@@ -8,15 +8,15 @@ struct PowerBreakdown: View {
   var body: some View {
     SurfaceCard {
       VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-        SectionHeading("Power")
-        DetailRow(label: "Mac is drawing", value: watts(power.systemWatts))
+        SectionHeading(String(localized: "Power"))
+        DetailRow(label: String(localized: "Mac is drawing"), value: watts(power.systemWatts))
         if power.onExternalPower == true {
-          DetailRow(label: power.adapterName ?? "Power adapter", value: watts(power.adapterWatts))
+          DetailRow(label: power.adapterName ?? String(localized: "Power adapter"), value: watts(power.adapterWatts))
         }
         if power.batteryInstalled == true {
-          DetailRow(label: "Battery", value: batteryFlow)
+          DetailRow(label: String(localized: "Battery"), value: batteryFlow)
           DetailRow(
-            label: "Battery temperature",
+            label: String(localized: "Battery temperature"),
             value: power.batteryTemperatureCelsius.map {
               Measurement(value: $0, unit: UnitTemperature.celsius).formatted(
                 .measurement(
@@ -45,7 +45,7 @@ struct AwakeReasons: View {
   let snapshot: PowerSnapshot
   private enum Kind: CaseIterable {
     case display, system
-    var title: LocalizedStringKey { self == .display ? "Display" : "Mac" }
+    var title: String { self == .display ? String(localized: "Display") : String(localized: "Mac") }
     var symbol: String { self == .display ? "display" : "laptopcomputer" }
     func includes(_ prevention: SleepPrevention) -> Bool {
       switch prevention {
@@ -60,7 +60,7 @@ struct AwakeReasons: View {
       power: snapshot.reading, sleepBlockers: snapshot.sleepBlockers,
       ownPID: ProcessInfo.processInfo.processIdentifier
     ).awakeReasons
-    ItemsCard(title: "Keeping your Mac awake") {
+    ItemsCard(title: String(localized: "Keeping your Mac awake")) {
       ForEach(Kind.allCases, id: \.self) { kind in
         let holders = reasons?.filter { kind.includes($0.blocker.prevention) }
         HStack(spacing: Design.Spacing.small) {

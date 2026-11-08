@@ -20,13 +20,13 @@ import StrataCore
 
   func makeMenu() -> NSMenu {
     let menu = NSMenu(title: String(localized: "Process"))
-    add("Find", #selector(find), "f", to: menu)
-    add("Show Inspector", #selector(toggleInspector), "i", to: menu)
+    add(String(localized: "Find"), #selector(find), "f", to: menu)
+    add(String(localized: "Show Inspector"), #selector(toggleInspector), "i", to: menu)
     menu.addItem(.separator())
-    add("Pause", #selector(togglePause), "p", modifiers: [.command, .option], to: menu)
-    add("Quit Process…", #selector(quitProcess), "q", modifiers: [.command, .option], to: menu)
-    add("Terminate…", #selector(terminate), Self.backspace, to: menu)
-    add("Force Quit…", #selector(forceQuit), Self.backspace, modifiers: [.command, .option], to: menu)
+    add(String(localized: "Pause"), #selector(togglePause), "p", modifiers: [.command, .option], to: menu)
+    add(String(localized: "Quit Process…"), #selector(quitProcess), "q", modifiers: [.command, .option], to: menu)
+    add(String(localized: "Terminate…"), #selector(terminate), Self.backspace, to: menu)
+    add(String(localized: "Force Quit…"), #selector(forceQuit), Self.backspace, modifiers: [.command, .option], to: menu)
     return menu
   }
 
@@ -35,7 +35,7 @@ import StrataCore
     modifiers: NSEvent.ModifierFlags = .command, to menu: NSMenu
   ) {
     let item = menu.addItem(
-      withTitle: String(localized: String.LocalizationValue(title)), action: action,
+      withTitle: title, action: action,
       keyEquivalent: key)
     item.keyEquivalentModifierMask = modifiers
     item.target = self

@@ -17,21 +17,21 @@ enum LeaderMeasure {
     case .diskWrites: .diskWrite
     }
   }
-  var title: LocalizedStringKey {
+  var title: String {
     switch self {
-    case .cpu: "Using the most CPU"
-    case .gpu: "Using the most GPU"
-    case .memory: "Using the most memory"
-    case .power: "Using the most power"
-    case .diskWrites: "Writing the most"
+    case .cpu: String(localized: "Using the most CPU")
+    case .gpu: String(localized: "Using the most GPU")
+    case .memory: String(localized: "Using the most memory")
+    case .power: String(localized: "Using the most power")
+    case .diskWrites: String(localized: "Writing the most")
     }
   }
-  var idleText: LocalizedStringKey {
+  var idleText: String {
     switch self {
-    case .cpu, .memory: "Collecting process information…"
-    case .gpu: "Nothing is using the GPU right now."
-    case .power: "Measured after the next reading."
-    case .diskWrites: "Nothing is writing to disk right now."
+    case .cpu, .memory: String(localized: "Collecting process information…")
+    case .gpu: String(localized: "Nothing is using the GPU right now.")
+    case .power: String(localized: "Measured after the next reading.")
+    case .diskWrites: String(localized: "Nothing is writing to disk right now.")
     }
   }
   // Without the helper, system processes have no value for these.
@@ -81,7 +81,7 @@ struct LeaderRow: Identifiable {
 
 // "Using the most …": the processes behind a page's reading, each opening in the Explorer.
 struct ProcessLeaders<Footer: View>: View {
-  let title: LocalizedStringKey
+  let title: String
   let rows: [LeaderRow]
   let emptyText: Text
   let select: (ProcessIdentity) -> Void
@@ -117,7 +117,7 @@ struct ProcessLeaders<Footer: View>: View {
 
 extension ProcessLeaders where Footer == EmptyView {
   init(
-    title: LocalizedStringKey, rows: [LeaderRow], emptyText: Text,
+    title: String, rows: [LeaderRow], emptyText: Text,
     select: @escaping (ProcessIdentity) -> Void, viewAll: (() -> Void)? = nil
   ) {
     self.init(
@@ -168,7 +168,7 @@ private struct LeaderRowView: View {
 
 // A page's list of things, such as volumes, outputs or devices, in one card with dividers.
 struct ItemsCard<Accessory: View, Content: View>: View {
-  let title: LocalizedStringKey
+  let title: String
   @ViewBuilder var accessory: Accessory
   @ViewBuilder var content: Content
   var body: some View {
@@ -186,7 +186,7 @@ struct ItemsCard<Accessory: View, Content: View>: View {
 }
 
 extension ItemsCard where Accessory == EmptyView {
-  init(title: LocalizedStringKey, @ViewBuilder content: () -> Content) {
+  init(title: String, @ViewBuilder content: () -> Content) {
     self.init(title: title, accessory: { EmptyView() }, content: content)
   }
 }
@@ -195,7 +195,7 @@ extension ItemsCard where Accessory == EmptyView {
 struct RefreshAccessory: View {
   let isBusy: Bool
   var isDisabled = false
-  let help: LocalizedStringKey
+  let help: String
   let action: () -> Void
   var body: some View {
     if isBusy {
@@ -208,7 +208,7 @@ struct RefreshAccessory: View {
 }
 
 struct ExplorerLink: View {
-  let title: LocalizedStringKey
+  let title: String
   let action: () -> Void
   var body: some View {
     Button(action: action) { Label(title, systemImage: Design.Symbol.explorer) }

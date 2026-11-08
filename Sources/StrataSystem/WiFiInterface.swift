@@ -50,7 +50,7 @@ private final class NativeWiFiInterface: WiFiInterfaceHandle {
   func associate(_ network: any WiFiAccessPoint) throws {
     guard let network = network as? NativeWiFiAccessPoint else {
       throw DeviceError.unavailable(
-        "The selected network handle is unavailable. Refresh nearby networks.")
+        String(localized: "The selected network handle is unavailable. Refresh nearby networks."))
     }
     try interface.associate(to: network.network, password: nil)
   }

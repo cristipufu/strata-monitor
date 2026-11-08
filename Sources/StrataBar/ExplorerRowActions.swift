@@ -25,16 +25,16 @@ struct ExplorerRowAction {
   ) -> [ExplorerRowAction] {
     var actions: [ExplorerRowAction] = []
     if let inspectOwner {
-      actions.append(ExplorerRowAction(title: "Inspect Owner") { inspectOwner(resource.owner) })
+      actions.append(ExplorerRowAction(title: String(localized: "Inspect Owner")) { inspectOwner(resource.owner) })
     }
     actions.append(copyPID(resource.owner))
     actions += file(resource.path)
     // A resource without a local port reports its path as its endpoint.
     if resource.endpoint != resource.path {
-      actions.append(ExplorerRowAction(title: "Copy Endpoint") { copy(resource.endpoint) })
+      actions.append(ExplorerRowAction(title: String(localized: "Copy Endpoint")) { copy(resource.endpoint) })
     }
     if let remote = resource.remoteEndpoint {
-      actions.append(ExplorerRowAction(title: "Copy Remote Endpoint") { copy(remote) })
+      actions.append(ExplorerRowAction(title: String(localized: "Copy Remote Endpoint")) { copy(remote) })
     }
     return actions
   }
@@ -49,22 +49,22 @@ struct ExplorerRowAction {
         .terminate, for: owner, currentPID: currentPID, currentUser: currentUser)
     else { return [] }
     return [
-      ExplorerRowAction(title: "Stop Process Using Port \(resource.localPort)…") {
+      ExplorerRowAction(title: String(localized: "Stop Process Using Port \(String(resource.localPort))…")) {
         terminate(owner)
       }
     ]
   }
   func file(_ path: String) -> [ExplorerRowAction] {
     guard !path.isEmpty else { return [] }
-    let copyPath = ExplorerRowAction(title: "Copy Path") { copy(path) }
+    let copyPath = ExplorerRowAction(title: String(localized: "Copy Path")) { copy(path) }
     guard path.hasPrefix("/") else { return [copyPath] }
     return [
       copyPath,
-      ExplorerRowAction(title: "Reveal in Finder") { reveal(URL(fileURLWithPath: path)) },
+      ExplorerRowAction(title: String(localized: "Reveal in Finder")) { reveal(URL(fileURLWithPath: path)) },
     ]
   }
   private func copyPID(_ identity: ProcessIdentity) -> ExplorerRowAction {
-    ExplorerRowAction(title: "Copy PID") { copy(String(identity.pid)) }
+    ExplorerRowAction(title: String(localized: "Copy PID")) { copy(String(identity.pid)) }
   }
 }
 

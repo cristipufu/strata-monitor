@@ -31,11 +31,11 @@ public actor DeviceCollector {
   public func setWiFiPower(_ powered: Bool) throws {
     try Task.checkCancellation()
     guard let interface = CWWiFiClient.shared().interface() else {
-      throw DeviceError.unavailable("No Wi-Fi interface is available.")
+      throw DeviceError.unavailable(String(localized: "No Wi-Fi interface is available."))
     }
     guard interface.configuration()?.requireAdministratorForPower == false else {
       throw DeviceError.unavailable(
-        "Wi-Fi power changes require system authorization. Use System Settings.")
+        String(localized: "Wi-Fi power changes require system authorization. Use System Settings."))
     }
     try interface.setPower(powered)
   }

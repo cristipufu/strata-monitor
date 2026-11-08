@@ -43,10 +43,10 @@ extension AppModel {
   func accessibleValue(for reading: Reading) -> String {
     if reading == .network {
       return
-        "receiving \(ValueFormat.rate(sample?.network?.received)), sending \(ValueFormat.rate(sample?.network?.sent))"
+        String(localized: "receiving \(ValueFormat.rate(sample?.network?.received)), sending \(ValueFormat.rate(sample?.network?.sent))")
     }
     if reading == .battery, devices?.battery?.charging == true {
-      return "\(value(for: reading)), charging"
+      return String(localized: "\(value(for: reading)), charging")
     }
     return value(for: reading)
   }
@@ -61,7 +61,7 @@ extension AppModel {
     case .wifi: linkDescription
     case .bluetooth: bluetoothDescription
     case .disk: diskDescription
-    case .display: "\(NSScreen.screens.count) displays"
+    case .display: String(localized: "\(NSScreen.screens.count) displays")
     case .overview: "Strata Monitor"
     }
   }
@@ -72,14 +72,14 @@ extension AppModel {
     guard let observation = devices?.batteryObservation else { return ReadingValue.notObserved }
     switch observation {
     case .unavailable: return ReadingValue.unavailable
-    case .absent: return "No battery"
+    case .absent: return String(localized: "No battery")
     case .present(let battery):
       return battery.fraction.map { ValueFormat.percent($0) } ?? ReadingValue.unavailable
     }
   }
   private var soundDescription: String {
     ReadingValue.text(observing: devices?.audio) { audio in
-      audio.muted == true ? "Muted" : audio.volume.map { ValueFormat.percent($0) }
+      audio.muted == true ? String(localized: "Muted") : audio.volume.map { ValueFormat.percent($0) }
     }
   }
   private var diskDescription: String {
@@ -90,22 +90,22 @@ extension AppModel {
   private var bluetoothDescription: String {
     guard let snapshot = bluetooth.snapshot else { return ReadingValue.notObserved }
     switch snapshot.access {
-    case .notDetermined: return "Open Bluetooth"
-    case .denied, .restricted: return "Access unavailable"
+    case .notDetermined: return String(localized: "Open Bluetooth")
+    case .denied, .restricted: return String(localized: "Access unavailable")
     case .allowed:
-      if snapshot.powered == false { return "Bluetooth off" }
+      if snapshot.powered == false { return String(localized: "Bluetooth off") }
       guard let count = snapshot.connectedCount else { return ReadingValue.unavailable }
-      return count == 1 ? "1 connected" : "\(count) connected"
+      return count == 1 ? String(localized: "1 connected") : String(localized: "\(count) connected")
     }
   }
   private var linkDescription: String {
     if connection == .wired { return "Ethernet" }
     guard let wifi = devices?.wifi else { return ReadingValue.notObserved }
-    if wifi.interface == nil { return "No Wi-Fi interface" }
-    if !wifi.powered { return "Wi-Fi off" }
-    if connection == .connecting { return "Connecting" }
-    if connection == .offline { return "No connection" }
-    return wifi.ssid ?? "Wi-Fi on"
+    if wifi.interface == nil { return String(localized: "No Wi-Fi interface") }
+    if !wifi.powered { return String(localized: "Wi-Fi off") }
+    if connection == .connecting { return String(localized: "Connecting") }
+    if connection == .offline { return String(localized: "No connection") }
+    return wifi.ssid ?? String(localized: "Wi-Fi on")
   }
   func fraction(for reading: Reading) -> Double? {
     switch reading {

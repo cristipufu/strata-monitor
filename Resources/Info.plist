@@ -15,4 +15,11 @@
     <key>NSHighResolutionCapable</key><true/>
     <key>NSLocationWhenInUseUsageDescription</key><string>Strata Monitor uses location permission only to display Wi-Fi network names. Other readings work without it.</string>
     <key>NSBluetoothAlwaysUsageDescription</key><string>Strata Monitor shows Bluetooth devices, reads accessory batteries, and makes connections you request. Other readings work without Bluetooth access.</string>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
+    <key>NSHumanReadableCopyright</key><string>© 2026 Cristian Pufu</string>
+    <key>SUFeedURL</key><string>https://github.com/cristipufu/strata-monitor/releases/latest/download/appcast.xml</string>
+    <key>SUPublicEDKey</key><string>v/AJ7eGuS63A9eYBN3+osXrUHp9DHvylstkauTyOg8o=</string>
+    <key>SURequireSignedFeed</key><true/>
+    <key>SUVerifyUpdateBeforeExtraction</key><true/>
+    <key>SUSendProfileInfo</key><false/>
 </dict></plist>

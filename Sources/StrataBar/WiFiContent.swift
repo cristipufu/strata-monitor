@@ -31,11 +31,11 @@ struct WiFiContent: View {
     MetricHero(value: model.value(for: .wifi), caption: signalCaption)
     SurfaceCard {
       if let wifi = model.devices?.wifi, wifi.interface != nil {
-        SwitchRow(title: "Wi-Fi", isOn: Binding(get: { wifi.powered }, set: model.setWiFiPower))
+        SwitchRow(title: String(localized: "Wi-Fi"), isOn: Binding(get: { wifi.powered }, set: model.setWiFiPower))
           .disabled(controller.joiningNetworkID != nil)
       } else {
         DetailRow(
-          label: "Wi-Fi",
+          label: String(localized: "Wi-Fi"),
           value: model.devices == nil ? ReadingValue.notObserved : ReadingValue.unavailable)
       }
     }.onChange(of: authorization.status) { _, status in
@@ -44,7 +44,7 @@ struct WiFiContent: View {
         model.refreshDeviceReadings()
       }
     }
-    ItemsCard(title: "Nearby networks") {
+    ItemsCard(title: String(localized: "Nearby networks")) {
       if controller.isScanning {
         ProgressView().controlSize(.mini)
         Button("Cancel", action: controller.cancelScan).buttonStyle(.plain)
@@ -53,7 +53,7 @@ struct WiFiContent: View {
         RefreshAccessory(
           isBusy: false,
           isDisabled: controller.joiningNetworkID != nil || model.devices?.wifi.powered != true,
-          help: "Find nearby networks", action: controller.scan)
+          help: String(localized: "Find nearby networks"), action: controller.scan)
       }
     } content: {
       nearbyNetworks
@@ -98,12 +98,12 @@ struct WiFiContent: View {
     case .notDetermined:
       PermissionPrompt(
         explanation:
-          "Allow location access to see network names.",
-        action: .request("Allow Network Names", authorization.request))
+          String(localized: "Allow location access to see network names."),
+        action: .request(String(localized: "Allow Network Names"), authorization.request))
     case .denied, .restricted:
       PermissionPrompt(
         explanation:
-          "Location access is off, so network names are hidden.",
+          String(localized: "Location access is off, so network names are hidden."),
         action: .openPrivacySettings(.locationServices))
     default:
       EmptyView()

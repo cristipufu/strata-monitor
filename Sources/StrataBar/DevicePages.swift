@@ -16,17 +16,17 @@ struct BatteryContent: View {
     if let battery = model.devices?.battery {
       SurfaceCard {
         VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-          SectionHeading("Health")
-          DetailRow(label: "Condition", value: battery.health ?? ReadingValue.unavailable)
+          SectionHeading(String(localized: "Health"))
+          DetailRow(label: String(localized: "Condition"), value: battery.health ?? ReadingValue.unavailable)
           DetailRow(
-            label: "Maximum capacity",
+            label: String(localized: "Maximum capacity"),
             value: battery.maximumCapacityFraction.map { ValueFormat.percent($0) }
               ?? ReadingValue.unavailable)
           DetailRow(
-            label: "Cycle count",
+            label: String(localized: "Cycle count"),
             value: battery.cycleCount.map(String.init) ?? ReadingValue.unavailable)
           DetailRow(
-            label: "Low Power Mode", value: model.devices?.lowPowerMode == true ? "On" : "Off")
+            label: String(localized: "Low Power Mode"), value: model.devices?.lowPowerMode == true ? String(localized: "On") : String(localized: "Off"))
         }
       }
     }
@@ -37,21 +37,21 @@ struct BatteryContent: View {
   @ViewBuilder private var hero: some View {
     switch model.devices?.batteryObservation {
     case nil:
-      LoadingState("Reading battery…")
+      LoadingState(String(localized: "Reading battery…"))
     case .present(let battery):
       MetricHero(
         value: battery.fraction.map { ValueFormat.percent($0) } ?? ReadingValue.unavailable,
         caption: state(battery))
     case .absent:
       if case .drawingFromAdapter(let watts, _)? = model.powerSnapshot.map(powerSummary) {
-        MetricHero(value: ValueFormat.watts(watts), caption: "drawn from the power adapter")
+        MetricHero(value: ValueFormat.watts(watts), caption: String(localized: "drawn from the power adapter"))
       } else {
-        LoadingState("Reading power…")
+        LoadingState(String(localized: "Reading power…"))
       }
     case .unavailable:
       EmptyState(
-        symbol: "battery.0percent", title: "Battery information unavailable",
-        detail: "Strata Monitor will try again.")
+        symbol: "battery.0percent", title: String(localized: "Battery information unavailable"),
+        detail: String(localized: "Strata Monitor will try again."))
     }
   }
   private func powerSummary(_ snapshot: PowerSnapshot) -> PowerSummary {
@@ -106,8 +106,8 @@ struct SoundContent: View {
                 .frame(width: 18)
             }
             .buttonStyle(.glass).disabled(!audio.canSetMute || audio.outputIdentity == nil)
-            .help(audio.muted == true ? "Unmute" : "Mute")
-            .accessibilityLabel(audio.muted == true ? "Unmute" : "Mute")
+            .help(audio.muted == true ? String(localized: "Unmute") : String(localized: "Mute"))
+            .accessibilityLabel(audio.muted == true ? String(localized: "Unmute") : String(localized: "Mute"))
             if audio.volume != nil {
               Slider(value: $sliderValue, in: 0...1) { editing in
                 if editing {
@@ -128,7 +128,7 @@ struct SoundContent: View {
           }
         }
       }
-      ItemsCard(title: "Output") {
+      ItemsCard(title: String(localized: "Output")) {
         ForEach(audio.outputs) { output in
           if output.id != audio.outputs.first?.id { Divider() }
           Button {
@@ -146,7 +146,7 @@ struct SoundContent: View {
         }
       }
     } else {
-      LoadingState("Reading sound devices…")
+      LoadingState(String(localized: "Reading sound devices…"))
     }
     Color.clear.frame(height: 0)
       .onAppear { sliderValue = model.devices?.audio.volume ?? 0.5 }

@@ -26,7 +26,7 @@ struct ProcessBrowser: View {
     )
     .overlay {
       if rows.isEmpty {
-        emptyState(symbol: "magnifyingglass", noMatches: "No matching processes")
+        emptyState(symbol: "magnifyingglass", noMatches: String(localized: "No matching processes"))
       }
     }
   }
@@ -39,7 +39,7 @@ struct ProcessBrowser: View {
       )
       .overlay {
         if snapshot.rows.isEmpty {
-          emptyState(symbol: "square.stack.3d.up", noMatches: "No matching families")
+          emptyState(symbol: "square.stack.3d.up", noMatches: String(localized: "No matching families"))
         }
       }
       Text(
@@ -54,10 +54,10 @@ struct ProcessBrowser: View {
     EmptyState(
       symbol: symbol,
       title: scan == nil
-        ? "Reading processes…" : scan?.failed == true ? "Process query unavailable" : noMatches,
+        ? String(localized: "Reading processes…") : scan?.failed == true ? String(localized: "Process query unavailable") : noMatches,
       detail: scan?.explanation
         ?? (query.isEmpty
-          ? "Live measurements will appear shortly."
-          : "Try a name, executable path, PID, or uid:501."))
+          ? String(localized: "Live measurements will appear shortly.")
+          : String(localized: "Try a name, executable path, PID, or uid:501.")))
   }
 }

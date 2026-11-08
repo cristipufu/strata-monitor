@@ -86,7 +86,7 @@ struct AccessoryBatteryFlow {
         Set(found).count == found.count
       else {
         return closeDevice(
-          issue: error ?? "Standard battery services are unavailable or ambiguous.", at: now)
+          issue: error ?? String(localized: "Standard battery services are unavailable or ambiguous."), at: now)
       }
       services = found
       return nextLevel(at: now)
@@ -95,7 +95,7 @@ struct AccessoryBatteryFlow {
       guard error == nil, found.count == 1, let characteristic = found.first,
         characteristic.readable
       else {
-        return recordLevel(nil, issue: error ?? "A readable battery level is unavailable.", at: now)
+        return recordLevel(nil, issue: error ?? String(localized: "A readable battery level is unavailable."), at: now)
       }
       phase = .value(characteristic.id)
       return [.read(id, characteristic.id)]
@@ -103,15 +103,15 @@ struct AccessoryBatteryFlow {
       guard activeDevice == id, phase == .value(characteristic) else { return [] }
       guard error == nil, let data, data.count == 1, let percent = data.first, percent <= 100 else {
         return recordLevel(
-          nil, issue: error ?? "The accessory returned an invalid battery level.", at: now)
+          nil, issue: error ?? String(localized: "The accessory returned an invalid battery level."), at: now)
       }
       return recordLevel(Int(percent), issue: nil, at: now)
     case .servicesChanged(let id):
       guard activeDevice == id, phase != .closing else { return [] }
-      return closeDevice(issue: "Battery services changed. Read the accessory again.", at: now)
+      return closeDevice(issue: String(localized: "Battery services changed. Read the accessory again."), at: now)
     case .disconnected(let id):
       guard activeDevice == id else { return [] }
-      if phase != .closing { deviceIssue = "The accessory disconnected during the battery read." }
+      if phase != .closing { deviceIssue = String(localized: "The accessory disconnected during the battery read.") }
       return completeDevice(at: now)
     case .timedOut(let token):
       guard watchdogID == token, let deadline = watchdogDeadline, now >= deadline else { return [] }
@@ -128,7 +128,7 @@ struct AccessoryBatteryFlow {
       return [.retrieve]
     case .waiting:
       return phase == .radio
-        ? [] : stop(with: .failed("Bluetooth reset during the battery read."), at: now)
+        ? [] : stop(with: .failed(String(localized: "Bluetooth reset during the battery read.")), at: now)
     case .off: return stop(with: .poweredOff, at: now)
     case .denied: return stop(with: .permissionRequired, at: now)
     case .unsupported: return stop(with: .unsupported, at: now)
@@ -139,14 +139,14 @@ struct AccessoryBatteryFlow {
   {
     guard phase == .candidates else { return [] }
     guard Set(found.map(\.id)).count == found.count else {
-      return stop(with: .failed("Accessory identities are ambiguous. Try reading again."), at: now)
+      return stop(with: .failed(String(localized: "Accessory identities are ambiguous. Try reading again.")), at: now)
     }
     totalCandidates = found.count
     candidates = Array(
       found.sorted { $0.id.uuidString < $1.id.uuidString }.prefix(policy.maximumDevices))
     if totalCandidates > candidates.count {
       reportIssue =
-        "Read limited to \(policy.maximumDevices) of \(totalCandidates) connected battery accessories."
+        String(localized: "Read limited to \(policy.maximumDevices) of \(totalCandidates) connected battery accessories.")
     }
     return [.retainDevices(Set(candidates.map(\.id)))] + nextDevice(at: now)
   }
@@ -194,12 +194,12 @@ struct AccessoryBatteryFlow {
   private mutating func timeout(at now: TimeInterval) -> [BatteryReadCommand] {
     if phase == .closing {
       reportIssue =
-        "Temporary connection release was not confirmed. Remaining accessories were not read."
+        String(localized: "Temporary connection release was not confirmed. Remaining accessories were not read.")
       index = candidates.count
       return finish()
     }
-    if activeDevice != nil { return closeDevice(issue: "The battery read timed out.", at: now) }
-    return stop(with: .failed("Bluetooth did not become ready before the read timed out."), at: now)
+    if activeDevice != nil { return closeDevice(issue: String(localized: "The battery read timed out."), at: now) }
+    return stop(with: .failed(String(localized: "Bluetooth did not become ready before the read timed out.")), at: now)
   }
   private mutating func stop(with error: AccessoryBatteryError, at now: TimeInterval)
     -> [BatteryReadCommand]
@@ -217,10 +217,10 @@ struct AccessoryBatteryFlow {
     let remaining = candidates.filter { !reported.contains($0.id) }.map {
       AccessoryBatteryDevice(
         id: $0.id, name: $0.name, levels: [],
-        issue: "Not read: session time or connection cleanup limit.")
+        issue: String(localized: "Not read: session time or connection cleanup limit."))
     }
     if !remaining.isEmpty && reportIssue == nil {
-      reportIssue = "The battery reading reached its session time limit."
+      reportIssue = String(localized: "The battery reading reached its session time limit.")
     }
     return [
       .finish(

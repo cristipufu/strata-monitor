@@ -4,12 +4,12 @@ import SwiftUI
 
 private enum SettingsSection: CaseIterable, Hashable {
   case indicator, interaction, general, about
-  var title: LocalizedStringKey {
+  var title: String {
     switch self {
-    case .indicator: "Indicator"
-    case .interaction: "Interaction"
-    case .general: "General"
-    case .about: "About"
+    case .indicator: String(localized: "Indicator")
+    case .interaction: String(localized: "Interaction")
+    case .general: String(localized: "General")
+    case .about: String(localized: "About")
     }
   }
   var symbol: String {
@@ -24,6 +24,8 @@ private enum SettingsSection: CaseIterable, Hashable {
 
 struct SettingsView: View {
   @ObservedObject var model: AppModel
+  let updates: ApplicationUpdates
+  let language: ApplicationLanguage?
   let showWelcome: () -> Void
   @State private var section = SettingsSection.indicator
   @State private var loginEnabled = SMAppService.mainApp.status == .enabled
@@ -96,10 +98,10 @@ struct SettingsView: View {
     }
     Section("Appearance") {
       Picker("Color", selection: profileBinding.accent) {
-        ForEach(Accent.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
+        ForEach(Accent.allCases, id: \.self) { Text($0.title).tag($0) }
       }
       Picker("Fill", selection: profileBinding.fillStyle) {
-        ForEach(FillStyle.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
+        ForEach(FillStyle.allCases, id: \.self) { Text($0.title).tag($0) }
       }
       Toggle("Show tracks", isOn: profileBinding.showsTracks)
       Toggle("Battery percentage", isOn: profileBinding.showsBatteryPercent)
@@ -108,18 +110,18 @@ struct SettingsView: View {
         verticalSpacing: Design.Spacing.medium
       ) {
         PresetSliderRow(
-          title: "Ring thickness", value: thicknessSelection,
+          title: String(localized: "Ring thickness"), value: thicknessSelection,
           range: 0...Double(RingThicknessPreset.allCases.count - 1),
           selection: RingThicknessPreset.nearest(to: model.profile.ringThickness).title,
           choices: RingThicknessPreset.allCases.map(\.title))
         PresetSliderRow(
-          title: "Icon size", value: profileBinding.iconSize, range: Profile.iconSizeRange,
+          title: String(localized: "Icon size"), value: profileBinding.iconSize, range: Profile.iconSizeRange,
           selection: Self.points(model.profile.iconSize),
           choices: stride(
             from: Profile.iconSizeRange.lowerBound, through: Profile.iconSizeRange.upperBound,
             by: 1
           ).map(Self.points),
-          spokenValue: "\(Int(model.profile.iconSize)) points")
+          spokenValue: String(localized: "\(Int(model.profile.iconSize)) points"))
       }
     }
   }
@@ -130,10 +132,10 @@ struct SettingsView: View {
         "Hover reveals the menu-bar items to the left of the ring without taking focus. Click the ring for readings."
       ).footnoteStyle()
       Picker("Unfold transition", selection: profileBinding.unfoldStyle) {
-        ForEach(UnfoldStyle.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
+        ForEach(UnfoldStyle.allCases, id: \.self) { Text($0.title).tag($0) }
       }
       Picker("Reading changes", selection: profileBinding.fillMotion) {
-        ForEach(FillMotion.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
+        ForEach(FillMotion.allCases, id: \.self) { Text($0.title).tag($0) }
       }
     }
     Section("Moments") {
@@ -146,9 +148,11 @@ struct SettingsView: View {
     }
   }
   @ViewBuilder private var general: some View {
+    if let language { LanguageSection(language: language) }
+    UpdatesSection(updates: updates)
     Section {
       Picker("Theme", selection: $model.preferences.appearance) {
-        ForEach(Appearance.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
+        ForEach(Appearance.allCases, id: \.self) { Text($0.title).tag($0) }
       }
       Picker("Update readings", selection: $model.preferences.updateSpeed) {
         Text("Every second").tag(UpdateSpeed.fast)
@@ -186,6 +190,10 @@ struct SettingsView: View {
       Text("Every layer, understood.").foregroundStyle(.secondary)
       Text("An original native macOS application. Public source, MIT license.")
       Text("Version \(Self.version)").footnoteStyle()
+      Link("Source Code", destination: URL(string: "https://github.com/cristipufu/strata-monitor")!)
+      if let notices = Bundle.main.url(forResource: "THIRD_PARTY_NOTICES", withExtension: "md") {
+        Link("Third-Party Notices", destination: notices)
+      }
     }
   }
   private static let profileLimit = 20
@@ -197,7 +205,7 @@ struct SettingsView: View {
 }
 
 private struct PresetSliderRow: View {
-  let title: LocalizedStringKey
+  let title: String
   @Binding var value: Double
   let range: ClosedRange<Double>
   let selection: String
@@ -225,7 +233,7 @@ private struct FullVisibilitySetting: View {
   var body: some View {
     VStack(alignment: .leading, spacing: Design.Spacing.small) {
       SwitchRow(
-        title: "Show all processes",
+        title: String(localized: "Show all processes"),
         isOn: Binding(get: { controller.isRequested }, set: controller.setEnabled))
       Text(
         "Adds a small read-only helper that runs as root, so system processes and other users' processes show CPU, memory, disk and energy. An administrator approves it in System Settings."

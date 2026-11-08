@@ -33,10 +33,10 @@ enum AccessoryBatteryError: LocalizedError, Equatable, Sendable {
   case failed(String)
   var errorDescription: String? {
     switch self {
-    case .canceled: "The battery reading was canceled."
-    case .permissionRequired: "Allow Bluetooth access before reading accessory batteries."
-    case .poweredOff: "Turn on Bluetooth before reading accessory batteries."
-    case .unsupported: "Standard Bluetooth LE battery reading is unavailable on this Mac."
+    case .canceled: String(localized: "The battery reading was canceled.")
+    case .permissionRequired: String(localized: "Allow Bluetooth access before reading accessory batteries.")
+    case .poweredOff: String(localized: "Turn on Bluetooth before reading accessory batteries.")
+    case .unsupported: String(localized: "Standard Bluetooth LE battery reading is unavailable on this Mac.")
     case .failed(let message): message
     }
   }

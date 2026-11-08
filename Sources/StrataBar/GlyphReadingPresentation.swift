@@ -6,7 +6,7 @@ extension AppModel {
     GlyphPresentation(
       ring: fraction(for: profile.ring), bar: fraction(for: profile.bar),
       center: glyphCenter, ringTone: glyphRingTone, badge: glyphBatteryBadge,
-      accessibilityLabel: "Strata Monitor. \(accessibilityStatus)")
+      accessibilityLabel: String(localized: "Strata Monitor. \(accessibilityStatus)"))
   }
   var glyphCenter: GlyphCenter {
     if let moment { return .symbol(moment.symbol) }

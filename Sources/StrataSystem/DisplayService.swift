@@ -39,7 +39,7 @@ public actor DisplayService: DisplayManaging {
   public func catalog() throws -> DisplayCatalog {
     let displays = try hardware.snapshot()
     guard displays.identities.count == displays.count else {
-      throw DisplayControlError.unavailable("Display identities are ambiguous.")
+      throw DisplayControlError.unavailable(String(localized: "Display identities are ambiguous."))
     }
     let result = DisplayCatalog(id: UUID(), displays: displays)
     context = CatalogContext(value: result, captured: clock.now)
@@ -48,16 +48,16 @@ public actor DisplayService: DisplayManaging {
   public func preview(_ change: DisplayChange, catalogID: UUID) throws -> DisplayTrial {
     try Task.checkCancellation()
     guard pending == nil else {
-      throw DisplayControlError.unavailable("Keep or revert the current preview first.")
+      throw DisplayControlError.unavailable(String(localized: "Keep or revert the current preview first."))
     }
     guard let context, context.value.id == catalogID,
       clock.now - context.captured < catalogLifetime,
       context.value.canPreview
-    else { throw DisplayControlError.unavailable("Refresh Displays before changing its settings.") }
+    else { throw DisplayControlError.unavailable(String(localized: "Refresh Displays before changing its settings.")) }
     let original = try hardware.snapshot()
     guard original.sameConfiguration(as: context.value.displays), original.supportsRestoration
     else {
-      throw DisplayControlError.unavailable("Display settings changed. Refresh and try again.")
+      throw DisplayControlError.unavailable(String(localized: "Display settings changed. Refresh and try again."))
     }
     let mutation = try mutation(for: change, displays: original)
     try Task.checkCancellation()
@@ -74,7 +74,7 @@ public actor DisplayService: DisplayManaging {
       guard expected.identities == original.identities, expected.supportsRestoration,
         satisfies(change, displays: expected)
       else {
-        throw DisplayControlError.unavailable("The display did not apply the requested setting.")
+        throw DisplayControlError.unavailable(String(localized: "The display did not apply the requested setting."))
       }
       try Task.checkCancellation()
       let ready = makeTrial(id: trial.id, catalogID: catalogID, canKeep: true)
@@ -92,10 +92,10 @@ public actor DisplayService: DisplayManaging {
     let current = try requireTrial(trialID)
     guard clock.now < current.deadline else {
       try revert(trialID)
-      throw DisplayControlError.unavailable("The display preview expired.")
+      throw DisplayControlError.unavailable(String(localized: "The display preview expired."))
     }
     guard current.value.canKeep, let expected = current.expected else {
-      throw DisplayControlError.unavailable("This preview needs recovery. Choose Revert.")
+      throw DisplayControlError.unavailable(String(localized: "This preview needs recovery. Choose Revert."))
     }
     let observed = try hardware.snapshot()
     guard observed.sameConfiguration(as: expected) else { try abandonChangedConfiguration() }
@@ -108,7 +108,7 @@ public actor DisplayService: DisplayManaging {
         [current.mutation], identities: current.original.identities, persistence: .session)
       guard try hardware.snapshot().sameConfiguration(as: expected) else {
         throw DisplayControlError.unavailable(
-          "The display configuration changed while keeping the preview.")
+          String(localized: "The display configuration changed while keeping the preview."))
       }
       clearTrial()
     } catch {
@@ -158,8 +158,8 @@ public actor DisplayService: DisplayManaging {
       pending?.expected = nil
       pending?.value = makeTrial(
         id: current.value.id, catalogID: current.value.catalogID, canKeep: false)
-      issue = "The change failed and recovery could not finish: \(recovery.localizedDescription)"
-      throw DisplayControlError.unavailable(issue ?? "Display recovery failed.")
+      issue = String(localized: "The change failed and recovery could not finish: \(recovery.localizedDescription)")
+      throw DisplayControlError.unavailable(issue ?? String(localized: "Display recovery failed."))
     }
     throw error
   }
@@ -173,19 +173,19 @@ public actor DisplayService: DisplayManaging {
         display.currentMode != mode
       else {
         throw DisplayControlError.unavailable(
-          "Choose an available resolution different from the current one.")
+          String(localized: "Choose an available resolution different from the current one."))
       }
       return .mode(identity, mode)
     case .mirror(let identity, let master):
       guard let display = displays.first(where: { $0.id == identity }), display.mirrorOf != master,
         master != identity
-      else { throw DisplayControlError.unavailable("Choose a different mirroring arrangement.") }
+      else { throw DisplayControlError.unavailable(String(localized: "Choose a different mirroring arrangement.")) }
       if let master {
         guard let target = displays.first(where: { $0.id == master }), target.mirrorOf == nil,
           !displays.contains(where: { $0.mirrorOf == identity })
         else {
           throw DisplayControlError.unavailable(
-            "Separate the existing mirror group before changing its source.")
+            String(localized: "Separate the existing mirror group before changing its source."))
         }
       }
       return .mirror(identity, master)
@@ -201,28 +201,28 @@ public actor DisplayService: DisplayManaging {
   }
   private func requireTrial(_ id: UUID) throws -> Pending {
     guard let pending, pending.value.id == id else {
-      throw DisplayControlError.unavailable("This display preview is no longer active.")
+      throw DisplayControlError.unavailable(String(localized: "This display preview is no longer active."))
     }
     return pending
   }
   private func abandonChangedConfiguration() throws -> Never {
     clearTrial()
     issue =
-      "Display settings or connected displays changed outside this preview. Review Displays settings."
-    throw DisplayControlError.unavailable(issue ?? "Display configuration changed.")
+      String(localized: "Display settings or connected displays changed outside this preview. Review Displays settings.")
+    throw DisplayControlError.unavailable(issue ?? String(localized: "Display configuration changed."))
   }
   private func restore(_ original: [DisplayInfo], persistence: DisplayPersistence) throws {
     let current = try hardware.snapshot()
     if current.sameConfiguration(as: original), persistence == .application { return }
     guard current.identities == original.identities else {
       throw DisplayControlError.unavailable(
-        "Connected displays changed; the previous configuration cannot be restored safely.")
+        String(localized: "Connected displays changed; the previous configuration cannot be restored safely."))
     }
     try hardware.apply(
       original.restoration, identities: original.identities, persistence: persistence)
     guard try hardware.snapshot().sameConfiguration(as: original) else {
       throw DisplayControlError.unavailable(
-        "The previous display configuration could not be fully restored.")
+        String(localized: "The previous display configuration could not be fully restored."))
     }
   }
   private func clearTrial() {

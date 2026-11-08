@@ -22,7 +22,7 @@ final class SnapshotExportController: ObservableObject {
     let panel = NSSavePanel()
     panel.allowedContentTypes = [.json]
     panel.nameFieldStringValue = "Strata Monitor \(snapshot.scope.rawValue).json"
-    panel.prompt = "Export"
+    panel.prompt = String(localized: "Export")
     self.panel = panel
     panel.beginSheetModal(for: window) { [weak self, weak panel] response in
       guard let self, self.request == request else { return }

@@ -41,7 +41,7 @@ struct NativeBluetoothBackend: BluetoothBackend {
     // an arbitrary address, discover accessories, or initiate pairing.
     guard let device = nativeDevices().first(where: { $0.addressString == deviceID }),
       device.isPaired()
-    else { throw DeviceError.unavailable("This device is no longer paired. Refresh Bluetooth.") }
+    else { throw DeviceError.unavailable(String(localized: "This device is no longer paired. Refresh Bluetooth.")) }
     try Task.checkCancellation()
     guard device.isConnected() != connected else { return }
     let status =
@@ -54,14 +54,14 @@ struct NativeBluetoothBackend: BluetoothBackend {
     guard device.isConnected() != connected else { return }
     if status == kIOReturnUnsupported {
       throw DeviceError.unavailable(
-        "This accessory does not support this connection control. Use Bluetooth settings.")
+        String(localized: "This accessory does not support this connection control. Use Bluetooth settings."))
     }
     if status != kIOReturnSuccess {
       throw DeviceError.operationFailed(
-        connected ? "Connecting Bluetooth" : "Disconnecting Bluetooth", status)
+        connected ? String(localized: "Connecting Bluetooth") : String(localized: "Disconnecting Bluetooth"), status)
     }
     throw DeviceError.unavailable(
-      "The device did not reach the requested connection state. Refresh Bluetooth or use System Settings."
+      String(localized: "The device did not reach the requested connection state. Refresh Bluetooth or use System Settings.")
     )
   }
   private func nativeDevices() -> [IOBluetoothDevice] {

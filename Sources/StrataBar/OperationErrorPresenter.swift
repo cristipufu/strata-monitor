@@ -32,10 +32,10 @@ final class OperationErrorPresenter {
     }
     guard let window = owner(), window.isVisible else { return }
     let alert = makeAlert()
-    alert.messageText = "Unable to complete action"
+    alert.messageText = String(localized: "Unable to complete action")
     alert.informativeText = message
     alert.alertStyle = .warning
-    alert.addButton(withTitle: "OK")
+    alert.addButton(withTitle: String(localized: "OK"))
     self.alert = alert
     alert.beginSheetModal(for: window) { [weak self] _ in
       MainActor.assumeIsolated {

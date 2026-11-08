@@ -9,17 +9,17 @@ public enum PrivilegedHelperError: LocalizedError, Sendable, Equatable {
   public var errorDescription: String? {
     switch self {
     case .unsignedBuild:
-      "This build isn't signed by a developer team, so it can't verify the helper."
+      String(localized: "This build isn't signed by a developer team, so it can't verify the helper.")
     case .unreachable:
-      "The helper isn't running. Turn it on in System Settings › General › Login Items & Extensions."
-    case .untrustedHelper: "The helper's signature doesn't match this copy of Strata Monitor."
-    case .connectionRefused: "The helper refused the connection from this copy of Strata Monitor."
-    case .needsReregistration: "The helper is from another version of Strata Monitor and needs approval again."
-    case .notPrivileged: "The helper isn't running as an administrator service."
-    case .timedOut: "The helper didn't answer in time."
-    case .interrupted: "The helper stopped while answering."
-    case .refused(.rateLimited): "The helper is busy. Try again in a moment."
-    case .refused: "The helper couldn't answer this request."
+      String(localized: "The helper isn't running. Turn it on in System Settings › General › Login Items & Extensions.")
+    case .untrustedHelper: String(localized: "The helper's signature doesn't match this copy of Strata Monitor.")
+    case .connectionRefused: String(localized: "The helper refused the connection from this copy of Strata Monitor.")
+    case .needsReregistration: String(localized: "The helper is from another version of Strata Monitor and needs approval again.")
+    case .notPrivileged: String(localized: "The helper isn't running as an administrator service.")
+    case .timedOut: String(localized: "The helper didn't answer in time.")
+    case .interrupted: String(localized: "The helper stopped while answering.")
+    case .refused(.rateLimited): String(localized: "The helper is busy. Try again in a moment.")
+    case .refused: String(localized: "The helper couldn't answer this request.")
     }
   }
   var persists: Bool {

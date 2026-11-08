@@ -12,9 +12,9 @@ struct BluetoothContent: View {
       notice(snapshot)
       if snapshot.access == .allowed {
         MetricHero(value: connected(snapshot), caption: paired(snapshot))
-        ItemsCard(title: "Devices") {
+        ItemsCard(title: String(localized: "Devices")) {
           RefreshAccessory(
-            isBusy: false, isDisabled: controller.busyDeviceID != nil, help: "Refresh devices",
+            isBusy: false, isDisabled: controller.busyDeviceID != nil, help: String(localized: "Refresh devices"),
             action: controller.refresh)
         } content: {
           if snapshot.powered == true && snapshot.devices.isEmpty {
@@ -46,12 +46,12 @@ struct BluetoothContent: View {
     case .notDetermined:
       PermissionPrompt(
         explanation:
-          "Allow Bluetooth access to see paired devices.",
-        action: .request("Allow Bluetooth Devices", controller.requestAccess))
+          String(localized: "Allow Bluetooth access to see paired devices."),
+        action: .request(String(localized: "Allow Bluetooth Devices"), controller.requestAccess))
     case .denied, .restricted:
       PermissionPrompt(
         explanation:
-          "Bluetooth access is off, so paired devices are hidden.",
+          String(localized: "Bluetooth access is off, so paired devices are hidden."),
         action: .openPrivacySettings(.bluetooth))
     case .allowed:
       if let issue = snapshot.issue {
@@ -70,8 +70,8 @@ struct BluetoothContent: View {
           .fixedSize(horizontal: false, vertical: true)
         Text(
           controller.busyDeviceID == device.id
-            ? (device.connected ? "Disconnecting…" : "Connecting…")
-            : (device.connected ? "Connected" : "Not connected")
+            ? (device.connected ? String(localized: "Disconnecting…") : String(localized: "Connecting…"))
+            : (device.connected ? String(localized: "Connected") : String(localized: "Not connected"))
         ).footnoteStyle()
       }
       Spacer()
@@ -80,9 +80,9 @@ struct BluetoothContent: View {
       }
       if controller.busyDeviceID == device.id {
         ProgressView().controlSize(.small)
-          .accessibilityLabel(device.connected ? "Disconnecting" : "Connecting")
+          .accessibilityLabel(device.connected ? String(localized: "Disconnecting") : String(localized: "Connecting"))
       } else {
-        Button(device.connected ? "Disconnect" : "Connect") {
+        Button(device.connected ? String(localized: "Disconnect") : String(localized: "Connect")) {
           controller.setConnected(!device.connected, deviceID: device.id)
         }.buttonStyle(.glass).controlSize(.small)
           .disabled(controller.busyDeviceID != nil || controller.batteries.isReading)
@@ -94,14 +94,14 @@ struct BluetoothContent: View {
 private struct AccessoryBatteryContent: View {
   @ObservedObject var controller: AccessoryBatteryController
   var body: some View {
-    ItemsCard(title: "Accessory batteries") {
+    ItemsCard(title: String(localized: "Accessory batteries")) {
       if controller.isReading {
         ProgressView().controlSize(.mini)
         Button("Cancel", action: controller.cancel).buttonStyle(.plain)
           .font(Design.Typography.footnote).disabled(controller.isCanceling)
       } else if controller.report != nil {
         RefreshAccessory(
-          isBusy: false, isDisabled: !controller.canRead, help: "Read accessory batteries again",
+          isBusy: false, isDisabled: !controller.canRead, help: String(localized: "Read accessory batteries again"),
           action: controller.read)
       }
     } content: {
@@ -117,7 +117,7 @@ private struct AccessoryBatteryContent: View {
           }
         }
         if controller.isReading {
-          Text(controller.isCanceling ? "Finishing battery read…" : "Reading batteries…")
+          Text(controller.isCanceling ? String(localized: "Finishing battery read…") : String(localized: "Reading batteries…"))
             .footnoteStyle()
         }
         if let report = controller.report {
@@ -138,7 +138,7 @@ private struct AccessoryBatteryContent: View {
               }
               ForEach(device.levels) { level in
                 DetailRow(
-                  label: device.levels.count == 1 ? "Battery" : "Battery \(level.id)",
+                  label: device.levels.count == 1 ? String(localized: "Battery") : String(localized: "Battery \(level.id)"),
                   value: level.percent.map { "\($0)%" } ?? ReadingValue.unavailable)
                 if let issue = level.issue { Text(issue).footnoteStyle() }
               }

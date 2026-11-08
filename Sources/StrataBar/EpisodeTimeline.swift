@@ -11,8 +11,8 @@ struct EpisodeTimeline: View {
       EpisodeList(recorder: recorder, model: model, select: select)
     } else {
       EmptyState(
-        symbol: "clock.arrow.circlepath", title: "History is off",
-        detail: "Turn on Keep history in Settings › General to see what your Mac was busy with.")
+        symbol: "clock.arrow.circlepath", title: String(localized: "History is off"),
+        detail: String(localized: "Turn on Keep history in Settings › General to see what your Mac was busy with."))
     }
   }
 }
@@ -25,8 +25,8 @@ private struct EpisodeList: View {
     let episodes = recorder.episodes.sorted { $0.start > $1.start }
     if episodes.isEmpty {
       EmptyState(
-        symbol: "checkmark.circle", title: "Nothing unusual yet",
-        detail: "Processes that stay busy, draw power, grow in memory or wake the Mac often appear here.")
+        symbol: "checkmark.circle", title: String(localized: "Nothing unusual yet"),
+        detail: String(localized: "Processes that stay busy, draw power, grow in memory or wake the Mac often appear here."))
     } else {
       let running = Set(model.processes.map(\.id))
       List(episodes) { episode in
@@ -64,18 +64,18 @@ private struct EpisodeRow: View {
   }
   private var detail: String {
     let start = episode.start.formatted(date: .abbreviated, time: .shortened)
-    guard let end = episode.end else { return "\(start) · ongoing" }
+    guard let end = episode.end else { return String(localized: "\(start) · ongoing") }
     let duration = Duration.seconds(max(60, end.timeIntervalSince(episode.start))).formatted(
       .units(allowed: [.hours, .minutes], width: .abbreviated))
     return "\(start) · \(duration)"
   }
   private static func measure(_ episode: Episode) -> String {
     switch episode.kind {
-    case .cpu: "\(Int(episode.average))% CPU, peak \(Int(episode.peak))%"
-    case .watts: "\(ValueFormat.watts(episode.average)), peak \(ValueFormat.watts(episode.peak))"
-    case .memoryGrowth: "grew \(ValueFormat.bytes(UInt64(max(0, episode.peak))))"
-    case .wakeups: "\(ValueFormat.perSecond(episode.average)) wakeups"
-    case .systemCPU: "CPU \(ValueFormat.percent(episode.average)) busy"
+    case .cpu: String(localized: "\(Int(episode.average))% CPU, peak \(Int(episode.peak))%")
+    case .watts: String(localized: "\(ValueFormat.watts(episode.average)), peak \(ValueFormat.watts(episode.peak))")
+    case .memoryGrowth: String(localized: "grew \(ValueFormat.bytes(UInt64(max(0, episode.peak))))")
+    case .wakeups: String(localized: "\(ValueFormat.perSecond(episode.average)) wakeups")
+    case .systemCPU: String(localized: "CPU \(ValueFormat.percent(episode.average)) busy")
     case .memoryPressure: String(localized: "memory pressure high")
     }
   }

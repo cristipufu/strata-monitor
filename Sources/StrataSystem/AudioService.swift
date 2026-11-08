@@ -6,7 +6,7 @@ struct AudioService {
 
   func snapshot() -> AudioState {
     guard let ids = hardware.deviceIDs() else {
-      return unavailable(outputs: [], issue: "Audio outputs are unavailable.")
+      return unavailable(outputs: [], issue: String(localized: "Audio outputs are unavailable."))
     }
     let selected = hardware.defaultOutput()
     let outputs = ids.compactMap { id -> AudioOutput? in
@@ -15,15 +15,15 @@ struct AudioService {
       return output
     }
     guard selected != .unavailable else {
-      return unavailable(outputs: outputs, issue: "The current audio output is unavailable.")
+      return unavailable(outputs: outputs, issue: String(localized: "The current audio output is unavailable."))
     }
     guard let output = outputs.first(where: \.isDefault) else {
       return unavailable(
         outputs: outputs,
-        issue: selected == .none ? nil : "The audio output changed. Refreshing its controls.")
+        issue: selected == .none ? nil : String(localized: "The audio output changed. Refreshing its controls."))
     }
     guard let identity = output.identity else {
-      return unavailable(outputs: outputs, issue: "Controls are unavailable for this output.")
+      return unavailable(outputs: outputs, issue: String(localized: "Controls are unavailable for this output."))
     }
     return readings(for: identity, outputs: outputs)
   }
@@ -36,7 +36,7 @@ struct AudioService {
         return output
       }
       return unavailable(
-        outputs: deselected, issue: "The audio output changed. Refreshing its controls.")
+        outputs: deselected, issue: String(localized: "The audio output changed. Refreshing its controls."))
     }
     let volume = controls.volume.flatMap { $0.isFinite && (0...1).contains($0) ? $0 : nil }
     return AudioState(
@@ -45,10 +45,10 @@ struct AudioService {
       canSetMute: controls.canSetMute && controls.muted != nil,
       issue: (controls.canSetVolume && volume == nil)
         || (controls.canSetMute && controls.muted == nil)
-        ? "Some output controls are unavailable." : nil)
+        ? String(localized: "Some output controls are unavailable.") : nil)
   }
   func setVolume(_ value: Double, on output: AudioOutputIdentity) throws {
-    guard value.isFinite else { throw DeviceError.unavailable("The volume value is unavailable.") }
+    guard value.isFinite else { throw DeviceError.unavailable(String(localized: "The volume value is unavailable.")) }
     try changeControls(
       on: output, permits: { $0.canSetVolume },
       change: {
@@ -74,7 +74,7 @@ struct AudioService {
     try Task.checkCancellation()
     try validate(output, requiresDefault: true)
     guard permits(hardware.controls(for: output.objectID)) else {
-      throw DeviceError.unavailable("This output no longer supports that control.")
+      throw DeviceError.unavailable(String(localized: "This output no longer supports that control."))
     }
     try Task.checkCancellation()
     try validate(output, requiresDefault: true)
@@ -83,7 +83,7 @@ struct AudioService {
   private func validate(_ output: AudioOutputIdentity, requiresDefault: Bool) throws {
     guard isCurrent(output, requiresDefault: requiresDefault) else {
       throw DeviceError.unavailable(
-        "The audio output changed or disconnected. Try again with the current output.")
+        String(localized: "The audio output changed or disconnected. Try again with the current output."))
     }
   }
   private func isCurrent(_ output: AudioOutputIdentity, requiresDefault: Bool) -> Bool {

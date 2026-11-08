@@ -6,7 +6,7 @@ struct CPUContent: View {
   let openExplorer: (ExplorerDestination) -> Void
   var body: some View {
     MetricHero(
-      value: model.value(for: .cpu), caption: "of total CPU capacity",
+      value: model.value(for: .cpu), caption: String(localized: "of total CPU capacity"),
       values: model.historyValues(for: .cpu), timestamps: model.history.points.map(\.uptime),
       color: Reading.cpu.tint
     ).help("A process can use up to 100% of each logical core.")
@@ -14,7 +14,7 @@ struct CPUContent: View {
     if let sample = model.sample, !sample.cores.isEmpty {
       SurfaceCard {
         VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-          SectionHeading("\(sample.cores.count) logical cores")
+          SectionHeading(String(localized: "\(sample.cores.count) logical cores"))
           HStack(alignment: .bottom, spacing: Design.Spacing.xSmall) {
             ForEach(Array(sample.cores.enumerated()), id: \.offset) { index, value in
               RoundedRectangle(cornerRadius: 3).fill(
@@ -26,7 +26,7 @@ struct CPUContent: View {
               .help("Core \(index + 1): \(ValueFormat.percent(value))")
             }
           }.frame(height: 42)
-          DetailRow(label: "Thermal pressure", value: sample.thermalPressure.rawValue.capitalized)
+          DetailRow(label: String(localized: "Thermal pressure"), value: sample.thermalPressure.title)
         }
       }
     }
@@ -44,27 +44,27 @@ struct GPUContent: View {
     if let gpu = model.sample?.gpu {
       MetricHero(
         value: model.value(for: .gpu),
-        caption: gpu.model.map { "of the \($0) GPU's capacity" } ?? "of GPU capacity",
+        caption: gpu.model.map { String(localized: "of the \($0) GPU's capacity") } ?? String(localized: "of GPU capacity"),
         values: model.historyValues(for: .gpu), timestamps: model.history.points.map(\.uptime),
         color: Reading.gpu.tint)
       MeasureLeaders(model: model, measure: .gpu, openExplorer: openExplorer)
       SurfaceCard {
         VStack(spacing: Design.Spacing.medium) {
-          DetailRow(label: "Rendering", value: ValueFormat.percent(gpu.rendererUtilization))
-          DetailRow(label: "Geometry", value: ValueFormat.percent(gpu.tilerUtilization))
+          DetailRow(label: String(localized: "Rendering"), value: ValueFormat.percent(gpu.rendererUtilization))
+          DetailRow(label: String(localized: "Geometry"), value: ValueFormat.percent(gpu.tilerUtilization))
           DetailRow(
-            label: "Memory in use",
+            label: String(localized: "Memory in use"),
             value: gpu.inUseSystemMemoryBytes.map(ValueFormat.bytes) ?? ReadingValue.unavailable
           ).help("Shared with the rest of the Mac, so it counts toward Memory.")
         }
       }
       RecordedHistory(model: model, metric: .gpu, color: Reading.gpu.tint)
     } else if Date.now.timeIntervalSince(openedAt) < Self.firstReadingWait {
-      LoadingState("Reading the GPU…")
+      LoadingState(String(localized: "Reading the GPU…"))
     } else {
       EmptyState(
-        symbol: Reading.gpu.symbol, title: "GPU readings unavailable",
-        detail: "macOS reports no GPU statistics on this Mac.")
+        symbol: Reading.gpu.symbol, title: String(localized: "GPU readings unavailable"),
+        detail: String(localized: "macOS reports no GPU statistics on this Mac."))
     }
   }
 }
@@ -76,8 +76,8 @@ struct MemoryContent: View {
     MetricHero(
       value: model.value(for: .memory),
       caption: model.sample?.memory.map {
-        "used of \(ValueFormat.bytes($0.total)) · pressure \($0.pressure.rawValue)"
-      } ?? "Waiting for memory data",
+        String(localized: "used of \(ValueFormat.bytes($0.total)) · pressure \($0.pressure.title)")
+      } ?? String(localized: "Waiting for memory data"),
       values: model.historyValues(for: .memory), timestamps: model.history.points.map(\.uptime),
       color: Reading.memory.tint
     ).help("Used is active + wired + compressed memory.")
@@ -85,12 +85,12 @@ struct MemoryContent: View {
     if let memory = model.sample?.memory {
       SurfaceCard {
         VStack(spacing: Design.Spacing.medium) {
-          DetailRow(label: "Active", value: ValueFormat.bytes(memory.active))
-          DetailRow(label: "Wired", value: ValueFormat.bytes(memory.wired))
-          DetailRow(label: "Compressed", value: ValueFormat.bytes(memory.compressed))
-          DetailRow(label: "Inactive / cache", value: ValueFormat.bytes(memory.cached))
+          DetailRow(label: String(localized: "Active"), value: ValueFormat.bytes(memory.active))
+          DetailRow(label: String(localized: "Wired"), value: ValueFormat.bytes(memory.wired))
+          DetailRow(label: String(localized: "Compressed"), value: ValueFormat.bytes(memory.compressed))
+          DetailRow(label: String(localized: "Inactive / cache"), value: ValueFormat.bytes(memory.cached))
           DetailRow(
-            label: "Swap used",
+            label: String(localized: "Swap used"),
             value: memory.swap.map(ValueFormat.bytes) ?? ReadingValue.unavailable)
         }
       }
@@ -106,25 +106,25 @@ struct DiskContent: View {
     if let startup = model.devices?.volumes.first {
       MetricHero(
         value: ValueFormat.bytes(startup.available),
-        caption: "available on \(startup.name) · \(ValueFormat.bytes(startup.total)) capacity",
+        caption: String(localized: "available on \(startup.name) · \(ValueFormat.bytes(startup.total)) capacity"),
         color: Reading.disk.tint, capacity: startup.usedFraction)
     } else if model.devices == nil {
-      LoadingState("Reading volumes…")
+      LoadingState(String(localized: "Reading volumes…"))
     }
     MeasureLeaders(model: model, measure: .diskWrites, openExplorer: openExplorer)
     if let activity = model.sample?.observedDiskActivity {
       SurfaceCard {
         VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-          SectionHeading("Activity")
-          DetailRow(label: "Reads", value: ValueFormat.rate(activity.read))
+          SectionHeading(String(localized: "Activity"))
+          DetailRow(label: String(localized: "Reads"), value: ValueFormat.rate(activity.read))
           rateSparkline(model.history.points.map(\.diskRead), color: Reading.disk.tint)
-          DetailRow(label: "Writes", value: ValueFormat.rate(activity.written))
+          DetailRow(label: String(localized: "Writes"), value: ValueFormat.rate(activity.written))
           rateSparkline(model.history.points.map(\.diskWritten), color: Design.violet)
         }
       }
     }
     volumes
-    ExplorerLink(title: "Explore Open Files") { openExplorer(.resources(nil)) }
+    ExplorerLink(title: String(localized: "Explore Open Files")) { openExplorer(.resources(nil)) }
   }
   private func rateSparkline(_ values: [Double?], color: Color) -> some View {
     Sparkline(
@@ -134,7 +134,7 @@ struct DiskContent: View {
   }
   @ViewBuilder private var volumes: some View {
     if let volumes = model.devices?.volumes {
-      ItemsCard(title: "Volumes") {
+      ItemsCard(title: String(localized: "Volumes")) {
         if volumes.isEmpty {
           Text("Mounted local volumes appear here.").font(Design.Typography.body)
             .foregroundStyle(.secondary)
@@ -170,7 +170,7 @@ struct NetworkContent: View {
   var body: some View {
     MetricHero(
       value: model.value(for: .network),
-      caption: "download · \(ValueFormat.rate(model.sample?.network?.sent)) upload",
+      caption: String(localized: "download · \(ValueFormat.rate(model.sample?.network?.sent)) upload"),
       values: model.historyValues(for: .network), timestamps: model.history.points.map(\.uptime),
       color: Reading.network.tint,
       maximum: max(1000, model.history.points.compactMap(\.download).max() ?? 0), showsRate: true
@@ -179,14 +179,14 @@ struct NetworkContent: View {
       .help("Measured with Apple's nettop while this tab is open.")
     SurfaceCard {
       VStack(spacing: Design.Spacing.medium) {
-        DetailRow(label: "Download", value: ValueFormat.rate(model.sample?.network?.received))
-        DetailRow(label: "Upload", value: ValueFormat.rate(model.sample?.network?.sent))
-        DetailRow(label: "Measured interfaces", value: measuredInterfaces)
+        DetailRow(label: String(localized: "Download"), value: ValueFormat.rate(model.sample?.network?.received))
+        DetailRow(label: String(localized: "Upload"), value: ValueFormat.rate(model.sample?.network?.sent))
+        DetailRow(label: String(localized: "Measured interfaces"), value: measuredInterfaces)
       }
     }
     RecordedHistory(model: model, metric: .networkIn, color: Reading.network.tint, formatsRate: true)
-    ItemsCard(title: "Find a port") { PortLookup(openExplorer: openExplorer) }
-    ExplorerLink(title: "Explore Processes and Ports") { openExplorer(.ports) }
+    ItemsCard(title: String(localized: "Find a port")) { PortLookup(openExplorer: openExplorer) }
+    ExplorerLink(title: String(localized: "Explore Processes and Ports")) { openExplorer(.ports) }
   }
   private var measuredInterfaces: String {
     ReadingValue.text(observing: model.sample?.interfaces) { interfaces in
@@ -265,7 +265,7 @@ private struct NetworkLeaders: View {
   let openExplorer: (ExplorerDestination) -> Void
   var body: some View {
     ProcessLeaders(
-      title: "Sending and receiving the most", rows: rows, emptyText: emptyText,
+      title: String(localized: "Sending and receiving the most"), rows: rows, emptyText: emptyText,
       select: { openExplorer(.processes($0)) })
   }
   private var emptyText: Text {

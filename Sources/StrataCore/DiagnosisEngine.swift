@@ -26,7 +26,7 @@ public struct Diagnosis: Equatable, Sendable {
 }
 
 public struct DiagnosisReport: Equatable, Sendable {
-  public static let nothingUnusual = "Nothing unusual"
+  public static let nothingUnusual = String(localized: "Nothing unusual")
 
   public let causes: [Diagnosis]
 
@@ -115,17 +115,17 @@ public enum DiagnosisEngine {
   ) -> Diagnosis? {
     guard let average = window.sustainedMean(.cpu) else { return nil }
     let minutes = DiagnosisText.minutes(thresholds.sustainedWindow)
-    var evidence = ["CPU \(ValueFormat.percent(average)) busy on average for the last \(minutes)"]
+    var evidence = [String(localized: "CPU \(ValueFormat.percent(average)) busy on average for the last \(minutes)")]
     if let cores = input.logicalCores, cores > 0 {
       let busy = min(cores, Int((average * Double(cores)).rounded()))
-      evidence.append("\(busy) of \(cores) cores busy")
+      evidence.append(String(localized: "\(busy) of \(cores) cores busy"))
     }
     let busyFor = window.trailingDuration(of: .cpu, atLeast: thresholds.busyCPU)
-    if busyFor >= 60 { evidence.append("Busy for \(DiagnosisText.minutes(busyFor))") }
+    if busyFor >= 60 { evidence.append(String(localized: "Busy for \(DiagnosisText.minutes(busyFor))")) }
     let contributors = top(input.processes, by: .cpu, minimum: 5, count: thresholds.contributorsPerCause)
     let quittable = (contributors.first?.value ?? 0) >= thresholds.quittableCPUPercent
     return Diagnosis(
-      cause: .cpuSaturation, title: "CPU saturated", evidence: evidence, contributors: contributors,
+      cause: .cpuSaturation, title: String(localized: "CPU saturated"), evidence: evidence, contributors: contributors,
       action: action(contributors, quit: quittable), score: thresholds.cpu.score(average))
   }
 
@@ -146,16 +146,16 @@ public enum DiagnosisEngine {
       pressureScore, 0.9 * thresholds.swapGrowth.score(swapGrowth), 0.4 * thresholds.memoryUsed.score(used))
     guard score > 0 else { return nil }
     var evidence: [String] = []
-    if let pressure { evidence.append("Memory pressure \(pressure.title)") }
+    if let pressure { evidence.append(String(localized: "Memory pressure \(pressure.title)")) }
     if let swapGrowth, swapGrowth > 0 {
       evidence.append(
-        "Swap +\(DiagnosisText.bytes(swapGrowth)) in the last \(DiagnosisText.minutes(window.span))")
+        String(localized: "Swap +\(DiagnosisText.bytes(swapGrowth)) in the last \(DiagnosisText.minutes(window.span))"))
     }
-    if let used { evidence.append("Memory \(ValueFormat.percent(used)) used") }
+    if let used { evidence.append(String(localized: "Memory \(ValueFormat.percent(used)) used")) }
     let contributors = top(input.processes, by: .memory, minimum: 0, count: thresholds.contributorsPerCause)
     let quittable = (pressure ?? .normal) >= .high || (swapGrowth ?? 0) >= thresholds.quittableSwapGrowth
     let title =
-      pressure.map { $0 > .normal ? "Memory pressure \($0.title)" : "Swap growing" } ?? "Swap growing"
+      pressure.map { $0 > .normal ? String(localized: "Memory pressure \($0.title)") : String(localized: "Swap growing") } ?? String(localized: "Swap growing")
     return Diagnosis(
       cause: .memoryPressure, title: title, evidence: evidence, contributors: contributors,
       action: action(contributors, quit: quittable), score: score)
@@ -174,11 +174,11 @@ public enum DiagnosisEngine {
       case .elevated, .normal: 0.4
       }
     let powerBoost = thresholds.systemWatts.score(watts) >= 0.5 ? 0.15 : 0
-    var evidence = ["Thermal pressure \(thermal.title)"]
-    if let watts { evidence.append("System power \(DiagnosisText.watts(watts)) on average") }
+    var evidence = [String(localized: "Thermal pressure \(thermal.title)")]
+    if let watts { evidence.append(String(localized: "System power \(DiagnosisText.watts(watts)) on average")) }
     let contributors = energyContributors(input.processes, count: thresholds.contributorsPerCause)
     return Diagnosis(
-      cause: .thermalPressure, title: "Thermal pressure \(thermal.title)", evidence: evidence,
+      cause: .thermalPressure, title: String(localized: "Thermal pressure \(thermal.title)"), evidence: evidence,
       contributors: contributors, action: action(contributors, quit: false), score: min(1, base + powerBoost))
   }
 
@@ -191,12 +191,12 @@ public enum DiagnosisEngine {
     let total = (read ?? 0) + (written ?? 0)
     let minutes = DiagnosisText.minutes(thresholds.sustainedWindow)
     let evidence = [
-      "Disk \(ValueFormat.rate(total)) on average for the last \(minutes)",
-      "Read \(ValueFormat.rate(read)), write \(ValueFormat.rate(written))",
+      String(localized: "Disk \(ValueFormat.rate(total)) on average for the last \(minutes)"),
+      String(localized: "Read \(ValueFormat.rate(read)), write \(ValueFormat.rate(written))"),
     ]
     let contributors = top(input.processes, by: .disk, minimum: 1_000_000, count: thresholds.contributorsPerCause)
     return Diagnosis(
-      cause: .diskActivity, title: "Heavy disk activity", evidence: evidence, contributors: contributors,
+      cause: .diskActivity, title: String(localized: "Heavy disk activity"), evidence: evidence, contributors: contributors,
       action: action(contributors, quit: false), score: thresholds.diskBytesPerSecond.score(total))
   }
 
@@ -204,8 +204,8 @@ public enum DiagnosisEngine {
     guard let average = window.sustainedMean(.gpu) else { return nil }
     let minutes = DiagnosisText.minutes(thresholds.sustainedWindow)
     return Diagnosis(
-      cause: .gpuLoad, title: "GPU busy",
-      evidence: ["GPU \(ValueFormat.percent(average)) busy on average for the last \(minutes)"],
+      cause: .gpuLoad, title: String(localized: "GPU busy"),
+      evidence: [String(localized: "GPU \(ValueFormat.percent(average)) busy on average for the last \(minutes)")],
       contributors: [], action: .none, score: thresholds.gpu.score(average))
   }
 
@@ -216,8 +216,8 @@ public enum DiagnosisEngine {
     let minutes = DiagnosisText.minutes(thresholds.sustainedWindow)
     let contributors = energyContributors(input.processes, count: thresholds.contributorsPerCause)
     return Diagnosis(
-      cause: .powerDraw, title: "High power draw",
-      evidence: ["System power \(DiagnosisText.watts(watts)) on average for the last \(minutes)"],
+      cause: .powerDraw, title: String(localized: "High power draw"),
+      evidence: [String(localized: "System power \(DiagnosisText.watts(watts)) on average for the last \(minutes)")],
       contributors: contributors, action: action(contributors, quit: false),
       score: thresholds.systemWatts.score(watts))
   }

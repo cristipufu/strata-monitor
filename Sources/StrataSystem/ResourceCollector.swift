@@ -5,7 +5,7 @@ import StrataInventory
 public enum InspectionError: LocalizedError, Sendable {
   case processEnded
   public var errorDescription: String? {
-    "This process ended or its identity changed. Refresh the process list."
+    String(localized: "This process ended or its identity changed. Refresh the process list.")
   }
 }
 

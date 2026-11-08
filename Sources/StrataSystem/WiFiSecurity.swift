@@ -1,3 +1,4 @@
+import Foundation
 public enum WiFiSecurityMode: String, CaseIterable, Hashable, Sendable {
   case none, wep, wpaPersonal, wpaPersonalMixed, wpa2Personal, personal, dynamicWEP
   case wpaEnterprise, wpaEnterpriseMixed, wpa2Enterprise, enterprise
@@ -9,14 +10,14 @@ public enum WiFiJoinRestriction: Sendable {
     adHoc
   public var explanation: String {
     switch self {
-    case .protectedNetwork: "Use System Settings for networks that need a password or identity."
-    case .enhancedOpen: "Use System Settings for Enhanced Open networks."
-    case .unknownSecurity: "This network's security could not be established. Use System Settings."
+    case .protectedNetwork: String(localized: "Use System Settings for networks that need a password or identity.")
+    case .enhancedOpen: String(localized: "Use System Settings for Enhanced Open networks.")
+    case .unknownSecurity: String(localized: "This network's security could not be established. Use System Settings.")
     case .identityUnavailable:
-      "Network identity is unavailable. Allow network names or use System Settings."
+      String(localized: "Network identity is unavailable. Allow network names or use System Settings.")
     case .administratorRequired:
-      "Network changes require system authorization. Use System Settings."
-    case .adHoc: "Use System Settings for computer-to-computer networks."
+      String(localized: "Network changes require system authorization. Use System Settings.")
+    case .adHoc: String(localized: "Use System Settings for computer-to-computer networks.")
     }
   }
 }
@@ -31,21 +32,21 @@ public enum WiFiJoinCapability: Sendable {
 
 extension Set where Element == WiFiSecurityMode {
   var networkSecurityLabel: String {
-    if isEmpty || contains(.unknown) { return "Security unavailable" }
-    if self == [.none] { return "Unprotected" }
-    if contains(.none) { return "Mixed security" }
-    if contains(.oweTransition) { return "Enhanced Open transition" }
-    if contains(.owe) { return "Enhanced Open" }
-    if contains(.wpa3Transition) { return "WPA2/WPA3 Personal" }
-    if contains(.wpa3Enterprise) { return "WPA3 Enterprise" }
-    if contains(.wpa3Personal) { return "WPA3 Personal" }
-    if contains(.wpaEnterpriseMixed) { return "WPA/WPA2 Enterprise" }
-    if contains(.wpaPersonalMixed) { return "WPA/WPA2 Personal" }
-    if contains(.wpa2Enterprise) { return "WPA2 Enterprise" }
-    if contains(.wpa2Personal) { return "WPA2 Personal" }
-    if contains(.wpaEnterprise) || contains(.enterprise) { return "Enterprise" }
-    if contains(.wpaPersonal) || contains(.personal) { return "WPA Personal" }
+    if isEmpty || contains(.unknown) { return String(localized: "Security unavailable") }
+    if self == [.none] { return String(localized: "Unprotected") }
+    if contains(.none) { return String(localized: "Mixed security") }
+    if contains(.oweTransition) { return String(localized: "Enhanced Open transition") }
+    if contains(.owe) { return String(localized: "Enhanced Open") }
+    if contains(.wpa3Transition) { return String(localized: "WPA2/WPA3 Personal") }
+    if contains(.wpa3Enterprise) { return String(localized: "WPA3 Enterprise") }
+    if contains(.wpa3Personal) { return String(localized: "WPA3 Personal") }
+    if contains(.wpaEnterpriseMixed) { return String(localized: "WPA/WPA2 Enterprise") }
+    if contains(.wpaPersonalMixed) { return String(localized: "WPA/WPA2 Personal") }
+    if contains(.wpa2Enterprise) { return String(localized: "WPA2 Enterprise") }
+    if contains(.wpa2Personal) { return String(localized: "WPA2 Personal") }
+    if contains(.wpaEnterprise) || contains(.enterprise) { return String(localized: "Enterprise") }
+    if contains(.wpaPersonal) || contains(.personal) { return String(localized: "WPA Personal") }
     if contains(.wep) || contains(.dynamicWEP) { return "WEP" }
-    return "Security unavailable"
+    return String(localized: "Security unavailable")
   }
 }

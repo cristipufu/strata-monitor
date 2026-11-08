@@ -4,9 +4,9 @@ public enum ProcessCoverage: String, Codable, Sendable {
   case allProcesses, ownProcessesWithEstimates, ownProcesses
   public var title: String {
     switch self {
-    case .allProcesses: "All processes"
-    case .ownProcessesWithEstimates: "Own processes; CPU and memory for others"
-    case .ownProcesses: "Own processes; others listed"
+    case .allProcesses: String(localized: "All processes")
+    case .ownProcessesWithEstimates: String(localized: "Own processes; CPU and memory for others")
+    case .ownProcesses: String(localized: "Own processes; others listed")
     }
   }
 }

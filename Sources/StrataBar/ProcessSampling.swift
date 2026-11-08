@@ -86,10 +86,10 @@ struct ProcessSampleSection: View {
   private static let shownFrames = 8
   var body: some View {
     VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-      SectionHeading("Sample")
+      SectionHeading(String(localized: "Sample"))
       switch controller.state {
       case .sampling(let identity) where identity == process.id:
-        LoadingState("Sampling for \(ProcessSamplingController.seconds) seconds…")
+        LoadingState(String(localized: "Sampling for \(ProcessSamplingController.seconds) seconds…"))
       case .finished(let identity, let report) where identity == process.id:
         frames(report)
         HStack {

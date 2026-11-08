@@ -5,9 +5,11 @@ import StrataSystem
 import SwiftUI
 
 @MainActor
-final class ApplicationDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+final class ApplicationDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMenuItemValidation {
   private let model: AppModel
   private let preview: PreviewConfiguration
+  private var updates = ApplicationUpdates()
+  private var language: ApplicationLanguage?
   private var menuBar: MenuBarController?
   private var explorerWindow: NSWindow?
   private var settingsWindow: NSWindow?
@@ -63,6 +65,8 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate, NSWindowDelega
   }
 
   func applicationDidFinishLaunching(_ notification: Notification) {
+    updates = .configured(in: .main, isPreview: preview.isEnabled)
+    language = ApplicationLanguage(defaults: preview.isEnabled ? nil : .standard)
     observeAppearance()
     installMenu()
     // A previous run that ended without quitting cannot have resumed what it paused.
@@ -135,43 +139,49 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate, NSWindowDelega
   private func applicationMenu() -> NSMenu {
     let menu = NSMenu(title: "Strata Monitor")
     menu.addItem(
-      withTitle: "About Strata Monitor",
+      withTitle: String(localized: "About Strata Monitor"),
       action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
+    menu.addItem(withTitle: String(localized: "Check for Updates…"),
+      action: #selector(checkForUpdates), keyEquivalent: "").target = self
     menu.addItem(.separator())
-    menu.addItem(withTitle: "Settings…", action: #selector(settingsAction), keyEquivalent: ",")
+    menu.addItem(withTitle: String(localized: "Settings…"), action: #selector(settingsAction), keyEquivalent: ",")
       .target = self
-    menu.addItem(withTitle: "Open Explorer", action: #selector(explorerAction), keyEquivalent: "e")
+    menu.addItem(withTitle: String(localized: "Open Explorer"), action: #selector(explorerAction), keyEquivalent: "e")
       .target = self
     menu.addItem(.separator())
-    menu.addItem(withTitle: "Hide Strata Monitor", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
+    menu.addItem(withTitle: String(localized: "Hide Strata Monitor"), action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
     menu.addItem(.separator())
     menu.addItem(
-      withTitle: "Quit Strata Monitor", action: #selector(NSApplication.terminate(_:)),
+      withTitle: String(localized: "Quit Strata Monitor"), action: #selector(NSApplication.terminate(_:)),
       keyEquivalent: "q")
     return menu
   }
   private func editMenu() -> NSMenu {
-    let menu = NSMenu(title: "Edit")
-    menu.addItem(withTitle: "Undo", action: Selector(("undo:")), keyEquivalent: "z")
-    menu.addItem(withTitle: "Redo", action: Selector(("redo:")), keyEquivalent: "Z")
+    let menu = NSMenu(title: String(localized: "Edit"))
+    menu.addItem(withTitle: String(localized: "Undo"), action: Selector(("undo:")), keyEquivalent: "z")
+    menu.addItem(withTitle: String(localized: "Redo"), action: Selector(("redo:")), keyEquivalent: "Z")
     menu.addItem(.separator())
-    menu.addItem(withTitle: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x")
-    menu.addItem(withTitle: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c")
-    menu.addItem(withTitle: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v")
+    menu.addItem(withTitle: String(localized: "Cut"), action: #selector(NSText.cut(_:)), keyEquivalent: "x")
+    menu.addItem(withTitle: String(localized: "Copy"), action: #selector(NSText.copy(_:)), keyEquivalent: "c")
+    menu.addItem(withTitle: String(localized: "Paste"), action: #selector(NSText.paste(_:)), keyEquivalent: "v")
     menu.addItem(
-      withTitle: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
+      withTitle: String(localized: "Select All"), action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
     return menu
   }
   private func windowMenu() -> NSMenu {
-    let menu = NSMenu(title: "Window")
+    let menu = NSMenu(title: String(localized: "Window"))
     menu.addItem(
-      withTitle: "Minimize", action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
-    menu.addItem(withTitle: "Zoom", action: #selector(NSWindow.performZoom(_:)), keyEquivalent: "")
+      withTitle: String(localized: "Minimize"), action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
+    menu.addItem(withTitle: String(localized: "Zoom"), action: #selector(NSWindow.performZoom(_:)), keyEquivalent: "")
     menu.addItem(.separator())
     menu.addItem(
-      withTitle: "Close Window", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+      withTitle: String(localized: "Close Window"), action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
     return menu
   }
+  func validateMenuItem(_ item: NSMenuItem) -> Bool {
+    item.action == #selector(checkForUpdates) ? updates.canCheck : true
+  }
+  @objc private func checkForUpdates() { updates.checkNow() }
   @objc private func settingsAction() { showSettings() }
   @objc private func explorerAction() { showExplorer(.resume) }
   private func showExplorer(_ destination: ExplorerDestination) {
@@ -194,9 +204,9 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate, NSWindowDelega
     menuBar?.dismiss()
     if settingsWindow == nil {
       settingsWindow = makeWindow(
-        .workspace, title: "Settings", size: NSSize(width: 720, height: 620),
+        .workspace, title: String(localized: "Settings"), size: NSSize(width: 720, height: 620),
         minimum: NSSize(width: 720, height: 620),
-        content: SettingsView(model: model) { [weak self] in self?.showWelcome() })
+        content: SettingsView(model: model, updates: updates, language: language) { [weak self] in self?.showWelcome() })
       if !preview.isEnabled { settingsWindow?.setFrameAutosaveName("StrataBar.Settings") }
     }
     present(settingsWindow)
@@ -204,7 +214,7 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate, NSWindowDelega
   private func showWelcome() {
     if welcomeWindow == nil {
       welcomeWindow = makeWindow(
-        .onboarding, title: "Welcome to Strata Monitor", size: NSSize(width: 560, height: 520),
+        .onboarding, title: String(localized: "Welcome to Strata Monitor"), size: NSSize(width: 560, height: 520),
         minimum: NSSize(width: 560, height: 520),
         content: WelcomeView(model: model) { [weak self] in
           self?.model.preferences.hasCompletedWelcome = true
@@ -333,9 +343,9 @@ struct WelcomeView: View {
           .font(Design.Typography.lead).foregroundStyle(.secondary).multilineTextAlignment(.center)
       }
       HStack(alignment: .top, spacing: Design.Spacing.xLarge) {
-        step("cursorarrow", "Hover", "Reveal your menu bar")
-        step("hand.tap", "Click", "Find the details")
-        step("square.stack.3d.up", "Explore", "Follow a process")
+        step("cursorarrow", String(localized: "Hover"), String(localized: "Reveal your menu bar"))
+        step("hand.tap", String(localized: "Click"), String(localized: "Find the details"))
+        step("square.stack.3d.up", String(localized: "Explore"), String(localized: "Follow a process"))
       }.padding(.vertical, Design.Spacing.small)
       Button("Make Yourself at Home", action: finish).buttonStyle(.glassProminent)
         .controlSize(.large).tint(Design.mint)

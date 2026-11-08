@@ -60,9 +60,9 @@ public struct AudioState: Sendable {
   public let canSetMute: Bool
   public var issue: String? = nil
   public var outputIdentity: AudioOutputIdentity? { outputs.first(where: \.isDefault)?.identity }
-  public var outputName: String { outputs.first(where: \.isDefault)?.name ?? "No output device" }
+  public var outputName: String { outputs.first(where: \.isDefault)?.name ?? String(localized: "No output device") }
   public var observedOutputName: String? {
-    outputs.first(where: \.isDefault)?.name ?? (issue == nil ? "No output device" : nil)
+    outputs.first(where: \.isDefault)?.name ?? (issue == nil ? String(localized: "No output device") : nil)
   }
 }
 
@@ -118,7 +118,7 @@ public enum DeviceError: LocalizedError, Sendable {
     switch self {
     case .unavailable(let message): message
     case .operationFailed(let action, let status):
-      "\(action) failed (\(status)). The device may have changed."
+      String(localized: "\(action) failed (\(String(status))). The device may have changed.")
     }
   }
 }

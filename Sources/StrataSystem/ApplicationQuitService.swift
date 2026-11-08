@@ -37,11 +37,11 @@ public enum ApplicationQuitError: LocalizedError, Sendable {
   case notAnApplication, targetChanged, expired, requestRejected
   public var errorDescription: String? {
     switch self {
-    case .notAnApplication: "Normal Quit is available only for eligible applications."
-    case .targetChanged: "The application ended or changed. Select it again before requesting Quit."
-    case .expired: "This Quit confirmation expired. Select the application and try again."
+    case .notAnApplication: String(localized: "Normal Quit is available only for eligible applications.")
+    case .targetChanged: String(localized: "The application ended or changed. Select it again before requesting Quit.")
+    case .expired: String(localized: "This Quit confirmation expired. Select the application and try again.")
     case .requestRejected:
-      "macOS did not accept the Quit request. The application was not force-quit."
+      String(localized: "macOS did not accept the Quit request. The application was not force-quit.")
     }
   }
 }

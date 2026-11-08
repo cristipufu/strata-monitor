@@ -16,11 +16,11 @@ struct DisplayContent: View {
     if let catalog = controller.catalog {
       MetricHero(value: count(catalog.displays), caption: mainDisplay(catalog.displays))
       HStack {
-        SectionHeading("Displays")
+        SectionHeading(String(localized: "Displays"))
         Spacer()
         RefreshAccessory(
           isBusy: controller.isLoading,
-          isDisabled: controller.isBusy || controller.trial != nil, help: "Refresh displays",
+          isDisabled: controller.isBusy || controller.trial != nil, help: String(localized: "Refresh displays"),
           action: controller.refreshIfVisible)
       }
       ForEach(catalog.displays) { display in
@@ -30,12 +30,12 @@ struct DisplayContent: View {
         Text("Previews aren't available for this setup.").footnoteStyle()
       }
     } else if controller.isLoading {
-      LoadingState("Reading displays…")
+      LoadingState(String(localized: "Reading displays…"))
     }
     SurfaceCard {
       VStack(alignment: .leading, spacing: Design.Spacing.medium) {
         SwitchRow(
-          title: "Keep Awake",
+          title: String(localized: "Keep Awake"),
           isOn: Binding(get: { power.isEnabled }, set: { $0 ? power.enable() : power.disable() }))
         if let error = power.error {
           Label(error, systemImage: "exclamationmark.triangle").footnoteStyle()
@@ -84,7 +84,7 @@ private struct DisplayCard: View {
         )
         .font(Design.Typography.cardTitle).lineLimit(2)
         DetailRow(
-          label: "Current",
+          label: String(localized: "Current"),
           value: display.currentMode.map(DisplayNames.mode) ?? ReadingValue.unavailable)
         if !display.modes.isEmpty {
           Picker("Resolution", selection: $selectedMode) {
@@ -127,7 +127,7 @@ private struct DisplayCard: View {
     NSScreen.screens.first {
       ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value
         == display.id.objectID
-    }?.localizedName ?? (display.isBuiltIn ? "Built-in display" : "Display \(display.id.objectID)")
+    }?.localizedName ?? (display.isBuiltIn ? String(localized: "Built-in display") : String(localized: "Display \(String(display.id.objectID))"))
   }
   static func mode(_ mode: DisplayMode) -> String {
     var parts = ["\(mode.width) × \(mode.height)"]

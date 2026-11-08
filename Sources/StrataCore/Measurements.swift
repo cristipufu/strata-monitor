@@ -6,17 +6,17 @@ public enum Reading: String, CaseIterable, Codable, Identifiable, Sendable {
   public var id: String { rawValue }
   public var title: String {
     switch self {
-    case .overview: "Overview"
-    case .cpu: "CPU"
-    case .gpu: "GPU"
-    case .memory: "Memory"
-    case .network: "Network"
-    case .battery: "Battery"
-    case .sound: "Sound"
-    case .wifi: "Wi-Fi"
-    case .bluetooth: "Bluetooth"
-    case .disk: "Disk"
-    case .display: "Displays"
+    case .overview: String(localized: "Overview")
+    case .cpu: String(localized: "CPU")
+    case .gpu: String(localized: "GPU")
+    case .memory: String(localized: "Memory")
+    case .network: String(localized: "Network")
+    case .battery: String(localized: "Battery")
+    case .sound: String(localized: "Sound")
+    case .wifi: String(localized: "Wi-Fi")
+    case .bluetooth: String(localized: "Bluetooth")
+    case .disk: String(localized: "Disk")
+    case .display: String(localized: "Displays")
     }
   }
   public var symbol: String {

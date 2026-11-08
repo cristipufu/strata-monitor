@@ -4,18 +4,18 @@ public enum ProcessSignal: String, Sendable {
   case terminate, forceQuit, pause, resume
   public var title: String {
     switch self {
-    case .terminate: "Terminate"
-    case .forceQuit: "Force Quit"
-    case .pause: "Pause"
-    case .resume: "Resume"
+    case .terminate: String(localized: "Terminate")
+    case .forceQuit: String(localized: "Force Quit")
+    case .pause: String(localized: "Pause")
+    case .resume: String(localized: "Resume")
     }
   }
   public var explanation: String {
     switch self {
-    case .terminate: "Send SIGTERM so the process can handle its shutdown."
-    case .forceQuit: "Send SIGKILL to stop the process immediately. Unsaved work may be lost."
-    case .pause: "Send SIGSTOP to freeze the process until it is resumed."
-    case .resume: "Send SIGCONT so a paused process continues."
+    case .terminate: String(localized: "Send SIGTERM so the process can handle its shutdown.")
+    case .forceQuit: String(localized: "Send SIGKILL to stop the process immediately. Unsaved work may be lost.")
+    case .pause: String(localized: "Send SIGSTOP to freeze the process until it is resumed.")
+    case .resume: String(localized: "Send SIGCONT so a paused process continues.")
     }
   }
   // Reversible signals act at once; only ending a process asks for confirmation.

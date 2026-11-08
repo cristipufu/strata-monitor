@@ -1,3 +1,4 @@
+import Foundation
 public enum RingThicknessPreset: Int, CaseIterable, Sendable {
   case thin, light, regular, bold, heavy
 
@@ -12,11 +13,11 @@ public enum RingThicknessPreset: Int, CaseIterable, Sendable {
   }
   public var title: String {
     switch self {
-    case .thin: "Thin"
-    case .light: "Light"
-    case .regular: "Regular"
-    case .bold: "Bold"
-    case .heavy: "Heavy"
+    case .thin: String(localized: "Thin")
+    case .light: String(localized: "ring.thickness.light", defaultValue: "Light")
+    case .regular: String(localized: "Regular")
+    case .bold: String(localized: "Bold")
+    case .heavy: String(localized: "Heavy")
     }
   }
   public static func nearest(to thickness: Double) -> Self {

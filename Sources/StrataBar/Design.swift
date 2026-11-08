@@ -117,17 +117,16 @@ extension View {
 }
 
 struct SectionHeading: View {
-  private let title: Text
-  init(_ title: LocalizedStringKey) { self.title = Text(title) }
-  init<Title: StringProtocol>(_ title: Title) { self.title = Text(title) }
+  private let title: String
+  init(_ title: String) { self.title = title }
   var body: some View {
-    title.font(Design.Typography.sectionHeading).tracking(1.1).textCase(.uppercase)
+    Text(title).font(Design.Typography.sectionHeading).tracking(1.1).textCase(.uppercase)
       .foregroundStyle(.secondary)
   }
 }
 
 struct SwitchRow: View {
-  let title: LocalizedStringKey
+  let title: String
   @Binding var isOn: Bool
   var body: some View {
     HStack {
@@ -151,8 +150,8 @@ struct DetailRow: View {
 }
 
 struct LoadingState: View {
-  private let title: LocalizedStringKey
-  init(_ title: LocalizedStringKey) { self.title = title }
+  private let title: String
+  init(_ title: String) { self.title = title }
   var body: some View {
     ProgressView(title).controlSize(.small).frame(maxWidth: .infinity)
       .padding(.vertical, Design.Spacing.xLarge)
@@ -175,10 +174,10 @@ struct EmptyState: View {
 
 struct PermissionPrompt: View {
   enum Action {
-    case request(LocalizedStringKey, @MainActor () -> Void)
+    case request(String, @MainActor () -> Void)
     case openPrivacySettings(SystemSettings.PrivacyPane)
   }
-  let explanation: LocalizedStringKey
+  let explanation: String
   let action: Action
   var body: some View {
     VStack(alignment: .leading, spacing: Design.Spacing.small) {

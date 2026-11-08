@@ -24,10 +24,10 @@ public enum HistoryPressure: UInt8, CaseIterable, Comparable, Sendable {
 
   public var title: String {
     switch self {
-    case .normal: "normal"
-    case .elevated: "elevated"
-    case .high: "high"
-    case .critical: "critical"
+    case .normal: String(localized: "normal")
+    case .elevated: String(localized: "elevated")
+    case .high: String(localized: "high")
+    case .critical: String(localized: "critical")
     }
   }
 

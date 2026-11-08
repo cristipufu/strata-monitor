@@ -50,7 +50,7 @@ import SwiftUI
     if window == nil {
       window = makeWindow(controller) { [weak self] in self?.shouldClose() ?? true }
     }
-    window?.title = controller.trial == nil ? "Review Displays" : "Keep Display Settings"
+    window?.title = controller.trial == nil ? String(localized: "Review Displays") : String(localized: "Keep Display Settings")
     guard window?.isVisible != true else { return }
     placeOnVisibleDisplay()
     window?.show()

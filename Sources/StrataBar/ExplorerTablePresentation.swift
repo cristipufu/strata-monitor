@@ -120,8 +120,8 @@ extension ResourceKind {
     case .device: String(localized: "Device")
     case .pipe: String(localized: "Pipe")
     case .unixSocket: String(localized: "Unix socket")
-    case .tcp: "TCP"
-    case .udp: "UDP"
+    case .tcp: String(localized: "TCP")
+    case .udp: String(localized: "UDP")
     case .other: String(localized: "Other")
     }
   }

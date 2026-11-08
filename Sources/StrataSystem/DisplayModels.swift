@@ -50,7 +50,7 @@ public enum DisplayControlError: LocalizedError, Sendable {
     switch self {
     case .unavailable(let message): message
     case .native(let operation, let code):
-      "\(operation) failed (\(code)). Open Displays settings to review the configuration."
+      String(localized: "\(operation) failed (\(String(code))). Open Displays settings to review the configuration.")
     }
   }
 }

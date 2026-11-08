@@ -43,7 +43,7 @@ public actor ProcessDetailsCollector: ProcessDetailInspecting {
       bytesNoCopy: buffer, count: length,
       deallocator: .custom { pointer, length in sb_sensitive_free(pointer, length) })
     guard let values = ProcessArguments.parse(data) else {
-      return (nil, "The system returned incomplete argument data.")
+      return (nil, String(localized: "The system returned incomplete argument data."))
     }
     return (values, nil)
   }

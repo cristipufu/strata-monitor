@@ -6,25 +6,25 @@ struct ProcessHistorySection: View {
   private var points: [ProcessHistoryPoint] { history.points }
   var body: some View {
     VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-      SectionHeading("Observed history")
+      SectionHeading(String(localized: "Observed history"))
       if points.count < 2 {
         Text("History starts when you select this process.").footnoteStyle()
       } else {
         historyGraph(
-          "CPU", value: ValueFormat.percent(points.last?.cpu), values: points.map(\.cpu),
+          String(localized: "CPU"), value: ValueFormat.percent(points.last?.cpu), values: points.map(\.cpu),
           maximum: max(1, points.compactMap(\.cpu).max() ?? 1), color: Design.mint)
         historyGraph(
-          "Footprint",
+          String(localized: "Footprint"),
           value: points.last?.footprint.map(ValueFormat.bytes) ?? ReadingValue.unavailable,
           values: points.map { $0.footprint.map(Double.init) },
           maximum: max(1, points.compactMap(\.footprint).map(Double.init).max() ?? 1),
           color: Design.violet)
         historyGraph(
-          "Disk read", value: ValueFormat.rate(points.last?.diskRead),
+          String(localized: "Disk read"), value: ValueFormat.rate(points.last?.diskRead),
           values: points.map(\.diskRead),
           maximum: max(1000, points.compactMap(\.diskRead).max() ?? 0), color: .blue)
         historyGraph(
-          "Disk write", value: ValueFormat.rate(points.last?.diskWritten),
+          String(localized: "Disk write"), value: ValueFormat.rate(points.last?.diskWritten),
           values: points.map(\.diskWritten),
           maximum: max(1000, points.compactMap(\.diskWritten).max() ?? 0), color: Design.violet)
         Text("Last 60s · CPU: 100% = one core. Gaps mean unavailable data.").footnoteStyle()
@@ -53,13 +53,13 @@ struct ProcessDetailsSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: Design.Spacing.large) {
       if loading {
-        ProgressView("Inspecting process details…").controlSize(.small)
+        ProgressView(String(localized: "Inspecting process details…")).controlSize(.small)
           .font(Design.Typography.footnote)
       } else if let issue {
         Text(issue).footnoteStyle()
       } else if let details {
         signing(details.signing)
-        DisclosureGroup("Arguments", isExpanded: $showArguments) {
+        DisclosureGroup(String(localized: "Arguments"), isExpanded: $showArguments) {
           VStack(alignment: .leading, spacing: Design.Spacing.small) {
             if let arguments = details.arguments {
               ForEach(Array(arguments.enumerated()), id: \.offset) { index, argument in
@@ -72,12 +72,12 @@ struct ProcessDetailsSection: View {
               }
               if arguments.isEmpty { Text("No arguments reported.") }
             } else {
-              Text(details.argumentsIssue ?? "Arguments unavailable.")
+              Text(details.argumentsIssue ?? String(localized: "Arguments unavailable."))
             }
           }.padding(.top, Design.Spacing.small).foregroundStyle(.secondary)
         }
         DisclosureGroup(
-          "Executable mappings (\(details.executableMappings.count))", isExpanded: $showMappings
+          String(localized: "Executable mappings (\(details.executableMappings.count))"), isExpanded: $showMappings
         ) {
           VStack(alignment: .leading, spacing: Design.Spacing.small) {
             Text(
@@ -104,15 +104,15 @@ struct ProcessDetailsSection: View {
   }
   private func signing(_ info: SigningInfo) -> some View {
     VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-      SectionHeading("Code signature")
+      SectionHeading(String(localized: "Code signature"))
       Label(
-        info.kind.rawValue,
+        info.kind.title,
         systemImage: info.kind == .apple || info.kind == .signed
           ? "signature" : "doc.badge.gearshape"
       )
       .font(Design.Typography.itemTitle)
-      if let identifier = info.identifier { DetailRow(label: "Identifier", value: identifier) }
-      if let team = info.teamIdentifier { DetailRow(label: "Team", value: team) }
+      if let identifier = info.identifier { DetailRow(label: String(localized: "Identifier"), value: identifier) }
+      if let team = info.teamIdentifier { DetailRow(label: String(localized: "Team"), value: team) }
       if let reason = info.explanation { Text(reason).foregroundStyle(.secondary) }
       Text("Signing identifies code; it is not a safety verdict.").footnoteStyle()
     }

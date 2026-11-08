@@ -19,7 +19,7 @@ final class KeepAwakeController: ObservableObject {
       IOPMAssertionLevel(kIOPMAssertionLevelOn),
       "Strata Monitor Keep Awake" as CFString, &identifier)
     guard result == kIOReturnSuccess else {
-      error = "Keep Awake could not start (\(result))."
+      error = String(localized: "Keep Awake could not start (\(result)).")
       return
     }
     assertion = identifier

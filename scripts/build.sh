@@ -3,6 +3,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 source scripts/toolchain.sh
 source scripts/signing.sh
+python3 scripts/localize.py check
+python3 scripts/readme-localize.py check
 configuration="${1:-release}"
 if [[ "$configuration" != debug && "$configuration" != release ]]; then
     echo 'Usage: scripts/build.sh [debug|release]' >&2
@@ -37,6 +39,25 @@ cp "$binary_directory/StrataBarHelper" "$staged_application/$helper_program"
 cp Resources/Info.plist "$staged_application/Contents/Info.plist"
 cp "$daemon_plist" "$staged_application/Contents/Library/LaunchDaemons/$helper_identifier.plist"
 cp LICENSE "$staged_application/Contents/Resources/LICENSE"
+cp THIRD_PARTY_NOTICES.md "$staged_application/Contents/Resources/THIRD_PARTY_NOTICES.md"
+python3 scripts/localize.py build "$staged_application/Contents/Resources"
+python3 - "$staged_application" <<'PY'
+from pathlib import Path
+import plistlib
+import sys
+application = Path(sys.argv[1])
+path = application / 'Contents/Info.plist'
+with path.open('rb') as file:
+    info = plistlib.load(file)
+info['CFBundleLocalizations'] = sorted(folder.stem for folder in (application / 'Contents/Resources').glob('*.lproj'))
+with path.open('wb') as file:
+    plistlib.dump(info, file)
+PY
+framework="$staged_application/Contents/Frameworks/Sparkle.framework"
+mkdir -p "$staged_application/Contents/Frameworks"
+/usr/bin/ditto .build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework "$framework"
+# This app is not sandboxed; Sparkle's sandbox-only XPC services are unnecessary.
+rm -rf "$framework/Versions/B/XPCServices" "$framework/XPCServices"
 swift scripts/Icon.swift "$staged_application/Contents/Resources"
 iconutil -c icns 'build/StrataBar.iconset' -o "$staged_application/Contents/Resources/StrataBar.icns"
 signing_options=(--force --options runtime)
@@ -45,6 +66,9 @@ if [[ "$configuration" == release && "$signing_identity" != - ]]; then
     signing_options+=(--timestamp)
 fi
 # Nested code is signed before the bundle that seals it.
+codesign "${signing_options[@]}" --sign "$signing_identity" "$framework/Versions/B/Autoupdate"
+codesign "${signing_options[@]}" --sign "$signing_identity" "$framework/Versions/B/Updater.app"
+codesign "${signing_options[@]}" --sign "$signing_identity" "$framework"
 codesign "${signing_options[@]}" --identifier "$helper_identifier" --sign "$signing_identity" \
     "$staged_application/$helper_program"
 codesign "${signing_options[@]}" --sign "$signing_identity" "$staged_application"

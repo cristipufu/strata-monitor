@@ -46,6 +46,6 @@ struct SigningInspector {
   }
   private func message(_ status: OSStatus) -> String {
     (SecCopyErrorMessageString(status, nil) as String?)
-      ?? "Code-signing information is not available (\(status))."
+      ?? String(localized: "Code-signing information is not available (\(String(status))).")
   }
 }

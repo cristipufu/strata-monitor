@@ -13,7 +13,7 @@ struct DiagnosisCard: View {
     if recorder.isRecording {
       SurfaceCard {
         VStack(alignment: .leading, spacing: Design.Spacing.small) {
-          SectionHeading("Mac status")
+          SectionHeading(String(localized: "Mac status"))
           ForEach(Self.areas, id: \.self) { area in
             row(area, finding: recorder.diagnosis?.causes.first { $0.cause == area })
           }
@@ -57,14 +57,14 @@ struct DiagnosisCard: View {
     if finding != nil { return Design.orange }
     return recorder.diagnosis == nil ? Color.secondary.opacity(0.4) : Design.mint
   }
-  private static func title(_ area: Diagnosis.Cause) -> LocalizedStringKey {
+  private static func title(_ area: Diagnosis.Cause) -> String {
     switch area {
-    case .cpuSaturation: "CPU"
-    case .memoryPressure: "Memory"
-    case .thermalPressure: "Temperature"
-    case .diskActivity: "Disk"
-    case .gpuLoad: "GPU"
-    case .powerDraw: "Power"
+    case .cpuSaturation: String(localized: "CPU")
+    case .memoryPressure: String(localized: "Memory")
+    case .thermalPressure: String(localized: "Temperature")
+    case .diskActivity: String(localized: "Disk")
+    case .gpuLoad: String(localized: "GPU")
+    case .powerDraw: String(localized: "Power")
     }
   }
   private static func symbol(_ area: Diagnosis.Cause) -> String {

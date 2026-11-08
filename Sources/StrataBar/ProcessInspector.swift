@@ -38,58 +38,58 @@ struct ProcessInspector: View {
           }
           SurfaceCard {
             VStack(spacing: Design.Spacing.medium) {
-              DetailRow(label: "CPU", value: process.cpuDescription)
+              DetailRow(label: String(localized: "CPU"), value: process.cpuDescription)
               DetailRow(
-                label: "Footprint",
+                label: String(localized: "Footprint"),
                 value: process.footprintBytes.map(ValueFormat.bytes) ?? ReadingValue.unavailable)
               DetailRow(
-                label: "Resident",
+                label: String(localized: "Resident"),
                 value: process.residentBytes.map(ValueFormat.bytes) ?? ReadingValue.unavailable)
               DetailRow(
-                label: "Peak footprint",
+                label: String(localized: "Peak footprint"),
                 value: process.activity.map { ValueFormat.bytes($0.peakFootprintBytes) }
                   ?? ReadingValue.unavailable)
               DetailRow(
-                label: "Power",
+                label: String(localized: "Power"),
                 value: ReadingValue.processRate(
                   process.watts.map(ValueFormat.watts), readable: process.activity != nil))
               DetailRow(
-                label: "Wakeups",
+                label: String(localized: "Wakeups"),
                 value: ReadingValue.processRate(
                   process.wakeupsPerSecond.map(ValueFormat.perSecond),
                   readable: process.activity != nil))
               DetailRow(
-                label: "Performance cores",
+                label: String(localized: "Performance cores"),
                 value: ReadingValue.processRate(
                   process.performanceCoreShare.map { ValueFormat.percent($0) },
                   readable: process.activity != nil))
               DetailRow(
-                label: "GPU",
+                label: String(localized: "GPU"),
                 value: process.gpuPercent.map(ValueFormat.processCPU) ?? ReadingValue.notObserved)
               DetailRow(
-                label: "CPU time",
+                label: String(localized: "CPU time"),
                 value: process.cpuTimeNanoseconds.map { ValueFormat.cpuTime(nanoseconds: $0) }
                   ?? ReadingValue.unavailable)
               DetailRow(
-                label: "Threads",
+                label: String(localized: "Threads"),
                 value: process.threads.map(String.init) ?? ReadingValue.unavailable)
               DetailRow(
-                label: "Disk read",
+                label: String(localized: "Disk read"),
                 value: ReadingValue.processRate(
                   process.diskReadBytesPerSecond.map { ValueFormat.rate($0) },
                   readable: process.diskReadBytes != nil))
               DetailRow(
-                label: "Disk write",
+                label: String(localized: "Disk write"),
                 value: ReadingValue.processRate(
                   process.diskWrittenBytesPerSecond.map { ValueFormat.rate($0) },
                   readable: process.diskWrittenBytes != nil))
               DetailRow(
-                label: "User",
+                label: String(localized: "User"),
                 value: process.userName.map { "\($0) (\(process.userID))" } ?? String(process.userID))
-              if let project = process.project { DetailRow(label: "Project", value: project) }
-              DetailRow(label: "Kind", value: ProcessColumns.kind(translated: process.isTranslated))
+              if let project = process.project { DetailRow(label: String(localized: "Project"), value: project) }
+              DetailRow(label: String(localized: "Kind"), value: ProcessColumns.kind(translated: process.isTranslated))
               DetailRow(
-                label: "Started",
+                label: String(localized: "Started"),
                 value: Date(timeIntervalSince1970: Double(process.id.startSeconds)).formatted(
                   date: .abbreviated, time: .shortened))
             }
@@ -102,7 +102,7 @@ struct ProcessInspector: View {
           }
           if !process.path.isEmpty {
             VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-              SectionHeading("Executable")
+              SectionHeading(String(localized: "Executable"))
               Text(process.path).font(Design.Typography.footnote.monospaced())
                 .foregroundStyle(.secondary).textSelection(.enabled).contextMenu {
                 ExplorerActionButtons(actions: rowActions.file(process.path))
@@ -122,7 +122,7 @@ struct ProcessInspector: View {
             .disabled(liveProcess == nil)
           VStack(alignment: .leading, spacing: Design.Spacing.medium) {
             HStack {
-              SectionHeading("Open resources")
+              SectionHeading(String(localized: "Open resources"))
               Spacer()
               if model.isInspecting {
                 ProgressView().controlSize(.mini)
@@ -138,8 +138,8 @@ struct ProcessInspector: View {
             if relatedResources.isEmpty {
               Text(
                 model.isInspecting
-                  ? "Inspecting…"
-                  : model.resources.summary.explanation ?? "No resources in this snapshot."
+                  ? String(localized: "Inspecting…")
+                  : model.resources.summary.explanation ?? String(localized: "No resources in this snapshot.")
               )
               .footnoteStyle()
             }
@@ -167,10 +167,10 @@ struct ProcessInspector: View {
       } else {
         EmptyState(
           symbol: identity == nil ? "cursorarrow.rays" : "clock.badge.xmark",
-          title: identity == nil ? "Follow a process" : "Process no longer available",
+          title: identity == nil ? String(localized: "Follow a process") : String(localized: "Process no longer available"),
           detail: identity == nil
-            ? "Select a process or port to explore the next layer."
-            : "It may have ended, or macOS may restrict its information.")
+            ? String(localized: "Select a process or port to explore the next layer.")
+            : String(localized: "It may have ended, or macOS may restrict its information."))
       }
     }.background(.background.opacity(0.35))
     .onChange(of: identity) { sampling.cancel() }
@@ -182,7 +182,7 @@ struct ProcessInspector: View {
     let children = families.directChildren(of: process.id)
     if parent != nil || !children.isEmpty {
       VStack(alignment: .leading, spacing: Design.Spacing.medium) {
-        SectionHeading("Process family")
+        SectionHeading(String(localized: "Process family"))
         if let parent {
           Button {
             selectProcess(parent.id)
@@ -201,18 +201,18 @@ struct ProcessInspector: View {
           Text("\(children.count - 20) more children").footnoteStyle()
         }
         if let family = families.subtree(of: process.id), family.members.count > 1 {
-          DetailRow(label: "Subtree", value: "\(family.members.count) processes")
+          DetailRow(label: String(localized: "Subtree"), value: String(localized: "\(family.members.count) processes"))
           DetailRow(
-            label: "CPU subtotal",
+            label: String(localized: "CPU subtotal"),
             value: ReadingValue.processRate(
               family.cpuPercent.map(ValueFormat.processCPU), readable: family.isCPUReadable))
           DetailRow(
-            label: "Footprint subtotal",
+            label: String(localized: "Footprint subtotal"),
             value: family.footprintBytes.map(ValueFormat.bytes) ?? ReadingValue.unavailable)
           Text(
             family.hasMissingCPU || family.hasMissingMemory
-              ? "Some measurements are unavailable. Totals include measured members only."
-              : "Includes this process and its observed descendants, each counted once."
+              ? String(localized: "Some measurements are unavailable. Totals include measured members only.")
+              : String(localized: "Includes this process and its observed descendants, each counted once.")
           )
           .footnoteStyle()
         }
@@ -231,13 +231,13 @@ struct ProcessActionButtons: View {
           .disabled(!actions.canQuitApplication(process))
         Divider()
         if process.runState == .stopped {
-          signalButton(.resume, title: "Resume")
+          signalButton(.resume, title: String(localized: "Resume"))
         } else {
-          signalButton(.pause, title: "Pause")
+          signalButton(.pause, title: String(localized: "Pause"))
         }
         Divider()
-        signalButton(.terminate, title: "Terminate…")
-        signalButton(.forceQuit, title: "Force Quit…", role: .destructive)
+        signalButton(.terminate, title: String(localized: "Terminate…"))
+        signalButton(.forceQuit, title: String(localized: "Force Quit…"), role: .destructive)
       } label: {
         Label("Process Actions", systemImage: "stop.circle")
       }
@@ -266,8 +266,8 @@ struct ProcessActionConfirmationDialog: ViewModifier {
   @ObservedObject var actions: ProcessActionController
   func body(content: Content) -> some View {
     content.confirmationDialog(
-      actions.prepared.map { "\($0.title) \($0.name) (PID \($0.identity.pid))?" }
-        ?? "Process action",
+      actions.prepared.map { String(localized: "\($0.title) \($0.name) (PID \(String($0.identity.pid)))?") }
+        ?? String(localized: "Process action"),
       isPresented: Binding(
         get: { actions.prepared != nil }, set: { if !$0 { actions.dismissConfirmation() } }),
       titleVisibility: .visible

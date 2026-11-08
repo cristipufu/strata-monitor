@@ -245,3 +245,46 @@ visual language. Full loaded-library visibility depends on public access. Experi
 controls require physical validation, including permissions, removal, cancellation and recovery.
 No private API, credential collection, account or telemetry service is included. Helper
 approval, upgrade re-registration and removal need manual checks on a notarized build.
+
+
+## Updates and localization
+
+The app owns one `ApplicationUpdates` instance. Production app bundles with a valid
+Ed25519 public key and HTTPS feed start Sparkle; previews and command-line builds do not.
+Sparkle owns the update schedule and preferences. The app exposes manual checking and
+opt-in automatic checking and installation through the menu and General settings.
+No monitoring values are included in update requests. Feed signatures are required, and
+archive signatures are verified before extraction.
+
+`Package.resolved` pins Sparkle and its binary artifact checksum. `scripts/build.sh`
+embeds the framework, removes sandbox-only XPC services, signs its nested updater code
+before signing the framework and app, and packages MIT and third-party notices. Release
+build numbers come from the monotonically increasing workflow run number. The release
+job signs the already notarized ZIP and generates a signed `appcast.xml` with
+`scripts/appcast.py`; an independent CryptoKit check verifies that the archive signing
+key matches the public key embedded in the app. The stable feed uses GitHub's latest
+non-prerelease release asset.
+
+The update private key is stored under the `dev.stratabar.app` account in the maintainer's
+login Keychain and as `SPARKLE_ED_PRIVATE_KEY` in repository Actions secrets. Apple signing
+and notarization use the separate secrets documented in `.github/workflows/release.yml`.
+Do not change `SUPublicEDKey` without a key-migration plan for installed copies. To export
+the key for another release environment, use the pinned Sparkle distribution's
+`bin/generate_keys --account dev.stratabar.app -x <private-file>`, transfer it securely,
+then remove the export. Never commit the file or print its contents.
+
+`Localization/<code>.json` is the app translation source. The compiler extracts native
+SwiftUI literals and explicit `String(localized:)` values; permission descriptions come
+from Info.plist. Custom UI components receive already localized strings. Packaging
+validates all 22 catalogs and writes `.strings`, `.stringsdict` and `InfoPlist.strings`
+into the app bundle, declaring the same language set in `CFBundleLocalizations`.
+Plural resources retain positional types when a process name precedes a count.
+`ApplicationLanguage` owns the optional app-level `AppleLanguages` preference and only
+writes after an explicit supported choice; a change takes effect after reopening.
+Preview instances have no defaults store. Persisted enum and resource-state identifiers
+stay unchanged; localized display titles do not affect queries, sorting or helper data.
+
+The README uses seven message catalogs under `docs/readme/localization`. Its generator
+preserves code blocks, markup and links, adjusts relative asset paths, and retains
+explicit section anchors. Both catalog checks, generated README validation and the
+headless regression tests run in CI and before release signing.

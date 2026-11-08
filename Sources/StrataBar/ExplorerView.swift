@@ -60,7 +60,7 @@ struct ExplorerView: View {
     NavigationSplitView {
       sidebar.navigationSplitViewColumnWidth(min: 180, ideal: 200, max: 240)
     } detail: {
-      detail.frame(minWidth: 400).navigationTitle(section?.rawValue ?? "Processes")
+      detail.frame(minWidth: 400).navigationTitle(section?.title ?? String(localized: "Processes"))
     }
     .inspector(isPresented: inspectorPresented) {
       ProcessInspector(
@@ -128,9 +128,9 @@ struct ExplorerView: View {
             actions: rowActions.process)
           statusBar(
             [
-              "\(matchingCount(content)) matching processes",
+              String(localized: "\(matchingCount(content)) matching processes"),
               model.sample?.processCoverage?.title,
-              "updates every \(model.preferences.updateSpeed.seconds)s",
+              String(localized: "updates every \(model.preferences.updateSpeed.seconds)s"),
             ].compactMap { $0 }.joined(separator: " · "),
             partialExplanation: model.sample?.processScan?.explanation,
             offersExactReadings: navigation.processOrder.key.needsExactReadings)
@@ -146,14 +146,14 @@ struct ExplorerView: View {
                   terminate: terminate)
             })
           statusBar(
-            "\(visibleResources.count) resources · snapshot",
+            String(localized: "\(visibleResources.count) resources · snapshot"),
             partialExplanation: model.resources.summary.explanation)
         }
       }
       .toolbar { toolbar }
       .searchable(
         text: $navigation.query,
-        prompt: section == .processes ? "Name, path, or pid:123" : "Process, path, port:3000")
+        prompt: section == .processes ? String(localized: "Name, path, or pid:123") : String(localized: "Process, path, port:3000"))
       .searchFocused($searchFocused)
       .onChange(of: navigation.searchFocusRequest) { searchFocused = true }
     }
@@ -163,12 +163,12 @@ struct ExplorerView: View {
       List(selection: $navigation.section) {
         Section("Explore") {
           ForEach(Array(ExplorerSection.allCases.prefix(Self.exploreSections))) { item in
-            Label(item.rawValue, systemImage: item.symbol).tag(item)
+            Label(item.title, systemImage: item.symbol).tag(item)
           }
         }
         Section("This Mac") {
           ForEach(Array(ExplorerSection.allCases.dropFirst(Self.exploreSections))) { item in
-            Label(item.rawValue, systemImage: item.symbol).tag(item)
+            Label(item.title, systemImage: item.symbol).tag(item)
           }
         }
       }.listStyle(.sidebar)

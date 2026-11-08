@@ -17,28 +17,28 @@ struct ResourceBrowser: View {
       rows: rows,
       columns: [
         ExplorerColumn(
-          title: "Process", width: 150, value: \.processName, sortedBy: ResourceSort.process),
+          title: String(localized: "Process"), width: 150, value: \.processName, sortedBy: ResourceSort.process),
         ExplorerColumn(
-          title: "PID", width: 60, value: { String($0.owner.pid) }, monospaced: true,
+          title: String(localized: "PID"), width: 60, value: { String($0.owner.pid) }, monospaced: true,
           sortedBy: ResourceSort.pid),
         ExplorerColumn(
-          title: listsPorts ? "Local Endpoint" : "Resource", width: 280, value: \.location,
+          title: listsPorts ? String(localized: "Local Endpoint") : String(localized: "Resource"), width: 280, value: \.location,
           sortedBy: ResourceSort.location),
         ExplorerColumn(
-          title: "Type", width: 96, value: { $0.kind.title }, sortedBy: ResourceSort.kind),
-        ExplorerColumn(title: "State", width: 110, value: \.state, sortedBy: ResourceSort.state),
+          title: String(localized: "Type"), width: 96, value: { $0.kind.title }, sortedBy: ResourceSort.kind),
+        ExplorerColumn(title: String(localized: "State"), width: 110, value: \.displayState, sortedBy: ResourceSort.state),
       ], selection: $selection, sortDescriptors: $order.descriptors, actions: actions
     )
     .overlay {
       if rows.isEmpty {
         if isInspecting {
-          ProgressView("Inspecting accessible processes…")
+          ProgressView(String(localized: "Inspecting accessible processes…"))
         } else {
           EmptyState(
             symbol: listsPorts ? "network" : "doc.text.magnifyingglass",
-            title: summary.failed ? "Resource query unavailable" : "No matching resources",
+            title: summary.failed ? String(localized: "Resource query unavailable") : String(localized: "No matching resources"),
             detail: summary.explanation
-              ?? "Refresh to inspect accessible processes, or change your search.")
+              ?? String(localized: "Refresh to inspect accessible processes, or change your search."))
         }
       }
     }

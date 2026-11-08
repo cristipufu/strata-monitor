@@ -29,7 +29,7 @@ public actor BluetoothCollector: BluetoothManaging {
     try Task.checkCancellation()
     try requireConnectionAccess()
     guard backend.pairedDevices().contains(where: { $0.id == deviceID }) else {
-      throw DeviceError.unavailable("This device is no longer paired. Refresh Bluetooth.")
+      throw DeviceError.unavailable(String(localized: "This device is no longer paired. Refresh Bluetooth."))
     }
     try Task.checkCancellation()
     try requireConnectionAccess()
@@ -37,11 +37,11 @@ public actor BluetoothCollector: BluetoothManaging {
   }
   private func requireConnectionAccess() throws {
     guard backend.access() == .allowed else {
-      throw DeviceError.unavailable("Allow Bluetooth access before changing a connection.")
+      throw DeviceError.unavailable(String(localized: "Allow Bluetooth access before changing a connection."))
     }
     guard backend.powered() == true else {
       throw DeviceError.unavailable(
-        "Turn on Bluetooth in System Settings before connecting a device.")
+        String(localized: "Turn on Bluetooth in System Settings before connecting a device."))
     }
   }
 }

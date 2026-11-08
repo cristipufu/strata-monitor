@@ -67,23 +67,23 @@ enum ProcessSort: String, CaseIterable, ExplorerSortKey {
   case cpuTime, threads, power, wakeups, diskRead, diskWrite, gpu, gpuTime, state, kind, started
   var title: String {
     switch self {
-    case .name: "Name"
-    case .path: "Executable Path"
-    case .cpu: "CPU Usage"
-    case .memory: "Memory Footprint"
+    case .name: String(localized: "Name")
+    case .path: String(localized: "Executable Path")
+    case .cpu: String(localized: "CPU Usage")
+    case .memory: String(localized: "Memory Footprint")
     case .pid: "PID"
-    case .user: "User"
-    case .cpuTime: "CPU Time"
-    case .threads: "Threads"
-    case .power: "Power"
-    case .wakeups: "Wakeups"
-    case .diskRead: "Disk Reads"
-    case .diskWrite: "Disk Writes"
-    case .gpu: "GPU Usage"
-    case .gpuTime: "GPU Time"
-    case .state: "State"
-    case .kind: "Kind"
-    case .started: "Started"
+    case .user: String(localized: "User")
+    case .cpuTime: String(localized: "CPU Time")
+    case .threads: String(localized: "Threads")
+    case .power: String(localized: "Power")
+    case .wakeups: String(localized: "Wakeups")
+    case .diskRead: String(localized: "Disk Reads")
+    case .diskWrite: String(localized: "Disk Writes")
+    case .gpu: String(localized: "GPU Usage")
+    case .gpuTime: String(localized: "GPU Time")
+    case .state: String(localized: "State")
+    case .kind: String(localized: "Kind")
+    case .started: String(localized: "Started")
     }
   }
   var ascendsByDefault: Bool {
@@ -189,7 +189,7 @@ struct ProcessTreeRow: Identifiable {
   var title: String {
     family.map {
       $0.members.count > 1
-        ? "\(process.displayName) · \($0.members.count) processes" : process.displayName
+        ? String(localized: "\(process.displayName) · \($0.members.count) processes") : process.displayName
     } ?? process.displayName
   }
   var cpu: Double? { family == nil ? process.cpuPercent : family?.cpuPercent }

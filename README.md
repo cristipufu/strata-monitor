@@ -4,6 +4,12 @@
 
 <h1 align="center">Strata Monitor</h1>
 
+<!-- readme-languages:start -->
+<p align="center">
+  English · <a href="docs/readme/README.ja.md">日本語</a> · <a href="docs/readme/README.ko.md">한국어</a> · <a href="docs/readme/README.ru.md">Русский</a> · <a href="docs/readme/README.uk.md">Українська</a> · <a href="docs/readme/README.zh-Hans.md">简体中文</a> · <a href="docs/readme/README.zh-Hant.md">繁體中文</a>
+</p>
+<!-- readme-languages:end -->
+
 <p align="center">
   A system monitor that lives in the macOS menu bar.<br>
   CPU, GPU, memory, disk, network, battery and devices, with the processes behind each reading.
@@ -35,6 +41,8 @@
   <img src="docs/screenshots/panel-memory-light.png#gh-light-mode-only" width="260" align="top" alt="Memory tab: memory used and pressure, the largest processes, the breakdown and the last hour"><img src="docs/screenshots/panel-memory-dark.png#gh-dark-mode-only" width="260" align="top" alt="Memory tab: memory used and pressure, the largest processes, the breakdown and the last hour">
 </p>
 
+<a id="menu-bar"></a>
+
 ## Menu bar
 
 - **Three readings in one item.** A ring, a center value and a bar. Pick what each shows in
@@ -48,6 +56,8 @@
 <p align="center">
   <img src="docs/screenshots/menubar-moments.gif" width="600" alt="Moments in the menu bar: power connected, headphones, muted, a drive mounted, a busy process, network unavailable and low battery">
 </p>
+
+<a id="panel"></a>
 
 ## Panel
 
@@ -78,6 +88,8 @@ day, then the tab's lists and controls.
 **View All** on any tab opens the Explorer sorted by that tab's measure. Values not measured yet
 show "—", values macOS doesn't provide show Unavailable, and estimates are marked ≈.
 
+<a id="explorer"></a>
+
 ## Explorer
 
 Every process on the Mac, including other users' and system processes, plus ports and open files.
@@ -95,6 +107,8 @@ Every process on the Mac, including other users' and system processes, plus port
 History stays on the Mac for 24 hours by default (Off, 24 hours or 7 days in Settings ▸ Privacy)
 and holds readings and process names only, never paths or arguments.
 
+<a id="system-processes"></a>
+
 ## System processes
 
 macOS gives an app exact readings only for its own user's processes. Without help, Strata Monitor
@@ -107,12 +121,17 @@ shows other processes' CPU and memory from Apple's `ps` (marked ≈).
 - Answers only Strata Monitor signed by the same team, gives full readings only to administrators,
   and exits after 30 idle seconds. Turn it off in Settings ▸ Privacy.
 
+<a id="privacy"></a>
+
 ## Privacy
 
 - No account, tracking, analytics or packet capture.
 - Public macOS interfaces only.
 - History stays on the Mac.
+- Update checks contact GitHub when you check manually or allow automatic checks. No system readings are sent.
 - Location (Wi-Fi names) and Bluetooth access are requested only from their tabs.
+
+<a id="install"></a>
 
 ## Install
 
@@ -128,6 +147,20 @@ cd strata-monitor
 scripts/build.sh release
 open "build/Strata Monitor.app"
 ```
+
+<a id="updates-and-languages"></a>
+
+## Updates and languages
+
+Use **Check for Updates…** in the Strata Monitor menu, or enable daily checks and automatic
+installation in **Settings ▸ General ▸ Updates**. Updates and the update feed are signed.
+Automatic installation happens when the app quits.
+
+The app supports 22 languages. Choose one in **Settings ▸ General ▸ Language**, then quit and
+reopen the app, or use the language selected in macOS. This README is available in English,
+Japanese, Korean, Russian, Ukrainian, Simplified Chinese and Traditional Chinese.
+
+<a id="development"></a>
 
 ## Development
 
@@ -151,11 +184,22 @@ scripts/benchmark.sh       # collection timings in build/benchmark.json
 Previews never change your settings. See
 [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for the architecture.
 
+<a id="releasing"></a>
+
 ## Releasing
 
 Push a tag matching the app version, such as `v0.1.0`. The [release workflow](.github/workflows/release.yml)
 tests, signs, notarizes and publishes a disk image and a zip.
 
+<a id="contributing-and-security"></a>
+
+## Contributing and security
+
+Bug reports, translations and code are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for setup and checks, and [SECURITY.md](SECURITY.md) to report a vulnerability privately.
+
+<a id="license"></a>
+
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). See [third-party notices](THIRD_PARTY_NOTICES.md) for bundled software.

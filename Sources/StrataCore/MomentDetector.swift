@@ -49,7 +49,7 @@ public struct MomentDetector: Sendable {
   public mutating func observe(episodeStart episode: Episode) -> StatusMoment? {
     guard let process = episode.process else {
       return episode.kind == .memoryPressure
-        ? StatusMoment(symbol: "memorychip", title: "Memory pressure is high", priority: 2) : nil
+        ? StatusMoment(symbol: "memorychip", title: String(localized: "Memory pressure is high"), priority: 2) : nil
     }
     if let last = lastAlerts[process.identity], episode.start.timeIntervalSince(last) < Self.alertInterval {
       return nil
@@ -59,16 +59,16 @@ public struct MomentDetector: Sendable {
     let name = process.project.map { "\(process.name) · \($0)" } ?? process.name
     switch episode.kind {
     case .cpu:
-      return StatusMoment(symbol: "flame", title: "\(name) at \(Int(episode.peak))% CPU", priority: 2)
+      return StatusMoment(symbol: "flame", title: String(localized: "\(name) at \(Int(episode.peak))% CPU"), priority: 2)
     case .watts:
       return StatusMoment(
-        symbol: "bolt", title: "\(name) drawing \(ValueFormat.watts(episode.peak))", priority: 2)
+        symbol: "bolt", title: String(localized: "\(name) drawing \(ValueFormat.watts(episode.peak))"), priority: 2)
     case .memoryGrowth:
       return StatusMoment(
-        symbol: "memorychip", title: "\(name) grew \(ValueFormat.bytes(UInt64(max(0, episode.peak))))",
+        symbol: "memorychip", title: String(localized: "\(name) grew \(ValueFormat.bytes(UInt64(max(0, episode.peak))))"),
         priority: 2)
     case .wakeups:
-      return StatusMoment(symbol: "alarm", title: "\(name) wakes the Mac often", priority: 1)
+      return StatusMoment(symbol: "alarm", title: String(localized: "\(name) wakes the Mac often"), priority: 1)
     case .systemCPU, .memoryPressure:
       return nil
     }
@@ -84,11 +84,11 @@ public struct MomentDetector: Sendable {
       if fraction <= lowBatteryThreshold && !batteryWarningActive {
         batteryWarningActive = true
         events.append(
-          StatusMoment(symbol: "battery.25percent", title: "Battery is low", priority: 3))
+          StatusMoment(symbol: "battery.25percent", title: String(localized: "Battery is low"), priority: 3))
       } else if fraction >= batteryRecoveryThreshold && batteryWarningActive {
         batteryWarningActive = false
         events.append(
-          StatusMoment(symbol: "battery.75percent", title: "Battery recovered", priority: 1))
+          StatusMoment(symbol: "battery.75percent", title: String(localized: "Battery recovered"), priority: 1))
       }
     }
     if let external = next.externalPower, previousDevice.externalPower != nil,
@@ -97,7 +97,7 @@ public struct MomentDetector: Sendable {
       events.append(
         StatusMoment(
           symbol: external ? "powerplug.fill" : "battery.75percent",
-          title: external ? "Power connected" : "On battery", priority: 2))
+          title: external ? String(localized: "Power connected") : String(localized: "On battery"), priority: 2))
     }
     if let name = next.outputName, let previousName = previousDevice.outputName,
       name != previousName
@@ -108,7 +108,7 @@ public struct MomentDetector: Sendable {
       events.append(
         StatusMoment(
           symbol: muted ? "speaker.slash.fill" : "speaker.wave.2.fill",
-          title: muted ? "Muted" : "Sound on", priority: 1))
+          title: muted ? String(localized: "Muted") : String(localized: "Sound on"), priority: 1))
     }
     if let current = next.volumeNamesByID, let previous = previousDevice.volumeNamesByID {
       let mounted = current.keys.filter { previous[$0] == nil }.sorted()
@@ -118,14 +118,14 @@ public struct MomentDetector: Sendable {
           StatusMoment(
             symbol: "externaldrive.badge.plus",
             title: mounted.count == 1
-              ? "\(current[id] ?? "Drive") mounted" : "\(mounted.count) drives mounted", priority: 1
+              ? String(localized: "\(current[id] ?? "Drive") mounted") : String(localized: "\(mounted.count) drives mounted"), priority: 1
           ))
       } else if let id = removed.first {
         events.append(
           StatusMoment(
             symbol: "externaldrive.badge.minus",
             title: removed.count == 1
-              ? "\(previous[id] ?? "Drive") disconnected" : "\(removed.count) drives disconnected",
+              ? String(localized: "\(previous[id] ?? "Drive") disconnected") : String(localized: "\(removed.count) drives disconnected"),
             priority: 1))
       }
     }
@@ -140,7 +140,7 @@ public struct MomentDetector: Sendable {
     guard let previousConnection, previousConnection != available else { return nil }
     return StatusMoment(
       symbol: available ? "network" : "wifi.exclamationmark",
-      title: available ? "Network available" : "Network unavailable", priority: 2)
+      title: available ? String(localized: "Network available") : String(localized: "Network unavailable"), priority: 2)
   }
   public mutating func observeBluetooth(connectedDevices next: [String: String]?) -> StatusMoment? {
     defer { previousBluetooth = next }
@@ -148,21 +148,21 @@ public struct MomentDetector: Sendable {
     let connected = next.keys.filter { previousBluetooth[$0] == nil }.sorted()
     let disconnected = previousBluetooth.keys.filter { next[$0] == nil }.sorted()
     if !connected.isEmpty && !disconnected.isEmpty {
-      return StatusMoment(symbol: "wave.3.right", title: "Bluetooth devices changed", priority: 1)
+      return StatusMoment(symbol: "wave.3.right", title: String(localized: "Bluetooth devices changed"), priority: 1)
     }
     if let identity = connected.first {
       return StatusMoment(
         symbol: "wave.3.right",
         title: connected.count == 1
-          ? "\(next[identity] ?? "Device") connected" : "\(connected.count) devices connected",
+          ? String(localized: "\(next[identity] ?? "Device") connected") : String(localized: "\(connected.count) devices connected"),
         priority: 1)
     }
     if let identity = disconnected.first {
       return StatusMoment(
         symbol: "wave.3.right",
         title: disconnected.count == 1
-          ? "\(previousBluetooth[identity] ?? "Device") disconnected"
-          : "\(disconnected.count) devices disconnected", priority: 1)
+          ? String(localized: "\(previousBluetooth[identity] ?? "Device") disconnected")
+          : String(localized: "\(disconnected.count) devices disconnected"), priority: 1)
     }
     return nil
   }

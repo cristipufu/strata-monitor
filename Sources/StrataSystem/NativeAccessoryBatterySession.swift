@@ -47,7 +47,7 @@ final class NativeAccessoryBatterySession: NSObject, CBCentralManagerDelegate, C
     dispatchPrecondition(condition: .onQueue(queue))
     guard self.continuation == nil, flow.phase == .idle else {
       continuation.resume(
-        throwing: AccessoryBatteryError.failed("This battery session has already ended."))
+        throwing: AccessoryBatteryError.failed(String(localized: "This battery session has already ended.")))
       return
     }
     self.continuation = continuation
@@ -75,14 +75,14 @@ final class NativeAccessoryBatterySession: NSObject, CBCentralManagerDelegate, C
       guard requireRadio(), let manager else { return }
       let found = manager.retrieveConnectedPeripherals(withServices: [batteryService])
       guard Set(found.map(\.identifier)).count == found.count else {
-        handle(.failed(.failed("Accessory identities are ambiguous. Try reading again.")))
+        handle(.failed(.failed(String(localized: "Accessory identities are ambiguous. Try reading again."))))
         return
       }
       peripherals = Dictionary(uniqueKeysWithValues: found.map { ($0.identifier, $0) })
       handle(
         .candidates(
           found.map {
-            BatteryCandidate(id: $0.identifier, name: $0.name ?? "Bluetooth LE accessory")
+            BatteryCandidate(id: $0.identifier, name: $0.name ?? String(localized: "Bluetooth LE accessory"))
           }))
     case .retainDevices(let identifiers):
       peripherals = peripherals.filter { identifiers.contains($0.key) }
@@ -93,7 +93,7 @@ final class NativeAccessoryBatterySession: NSObject, CBCentralManagerDelegate, C
           $0 === peripheral
         })
       else {
-        handle(.connectionFailed(id, "The accessory is no longer connected to this Mac."))
+        handle(.connectionFailed(id, String(localized: "The accessory is no longer connected to this Mac.")))
         return
       }
       attemptedConnections.insert(id)
@@ -149,7 +149,7 @@ final class NativeAccessoryBatterySession: NSObject, CBCentralManagerDelegate, C
   private func requireRadio() -> Bool {
     guard requireAuthorization() else { return false }
     guard let manager, manager.state == .poweredOn else {
-      handle(.failed(.failed("Bluetooth became unavailable during the battery read.")))
+      handle(.failed(.failed(String(localized: "Bluetooth became unavailable during the battery read."))))
       return false
     }
     return true
@@ -206,7 +206,7 @@ final class NativeAccessoryBatterySession: NSObject, CBCentralManagerDelegate, C
     guard central === manager, accepts(peripheral) else { return }
     handle(
       .connectionFailed(
-        peripheral.identifier, error?.localizedDescription ?? "The temporary connection failed."))
+        peripheral.identifier, error?.localizedDescription ?? String(localized: "The temporary connection failed.")))
   }
   func centralManager(
     _ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?
@@ -219,7 +219,7 @@ final class NativeAccessoryBatterySession: NSObject, CBCentralManagerDelegate, C
     let found = (peripheral.services ?? []).filter { $0.uuid == batteryService }
     guard found.count <= AccessoryBatteryPolicy().maximumServices else {
       handle(
-        .services(peripheral.identifier, [], "The accessory reported too many battery services."))
+        .services(peripheral.identifier, [], String(localized: "The accessory reported too many battery services.")))
       return
     }
     services = Dictionary(uniqueKeysWithValues: found.map { (UUID(), $0) })
