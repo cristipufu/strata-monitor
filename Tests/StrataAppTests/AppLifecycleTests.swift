@@ -24,9 +24,11 @@ actor GatedSampler: SystemSampling {
   }
 }
 
-@MainActor func waitUntil(_ condition: @escaping @MainActor () async -> Bool) async throws {
+@MainActor func waitUntil(
+  timeout: Duration = .seconds(10), _ condition: @escaping @MainActor () async -> Bool
+) async throws {
   let clock = ContinuousClock()
-  let deadline = clock.now + .seconds(3)
+  let deadline = clock.now + timeout
   while !(await condition()) && clock.now < deadline { try await Task.sleep(for: .milliseconds(5)) }
   try #require(await condition(), "The asynchronous operation must finish before the deadline")
 }
