@@ -277,15 +277,19 @@ private struct NetworkLeaders: View {
   }
   private var rows: [LeaderRow] {
     let rates = model.networkUsage.rates
-    return model.processes.compactMap { process in
-      rates[process.id].flatMap { $0.received + $0.sent > 0 ? (process, $0) : nil }
+    let activeProcesses: [(process: ProcessSample, rate: NetworkRate)] = model.processes.compactMap { process in
+      guard let rate = rates[process.id], rate.received + rate.sent > 0 else { return nil }
+      return (process, rate)
     }
-    .sorted { $0.1.received + $0.1.sent > $1.1.received + $1.1.sent }
-    .prefix(LeaderMeasure.shownCount)
-    .map { process, rate in
-      LeaderRow(
-        id: process.id, name: process.displayName,
-        value: "↓ \(ValueFormat.rate(rate.received)) ↑ \(ValueFormat.rate(rate.sent))")
+    let rankedProcesses = activeProcesses.sorted {
+      $0.rate.received + $0.rate.sent > $1.rate.received + $1.rate.sent
+    }
+    return rankedProcesses.prefix(LeaderMeasure.shownCount).map { entry in
+      let received = ValueFormat.rate(entry.rate.received)
+      let sent = ValueFormat.rate(entry.rate.sent)
+      return LeaderRow(
+        id: entry.process.id, name: entry.process.displayName,
+        value: "↓ \(received) ↑ \(sent)")
     }
   }
 }
