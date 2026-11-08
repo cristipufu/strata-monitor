@@ -151,7 +151,10 @@ struct SystemIntegrationTests {
   // child that was stopped and continued by other means.
   @Test func terminatingAPausedProcessThatHandlesTheSignalStillEndsIt() async throws {
     let script = "trap 'exit 0' TERM; while :; do sleep 0.2; done"
-    var arguments: [UnsafeMutablePointer<CChar>?] = ["/bin/sh", "-c", script].map { strdup($0) }
+    let commandArguments = ["/bin/sh", "-c", script]
+    var arguments = commandArguments.map { argument in
+      argument.withCString { strdup($0) }
+    }
     defer { arguments.forEach { free($0) } }
     arguments.append(nil)
     // The test runner's blocked signals and handlers must not carry over to the child.
