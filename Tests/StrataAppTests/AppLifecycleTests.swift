@@ -28,7 +28,7 @@ actor GatedSampler: SystemSampling {
   let clock = ContinuousClock()
   let deadline = clock.now + .seconds(3)
   while !(await condition()) && clock.now < deadline { try await Task.sleep(for: .milliseconds(5)) }
-  #expect(await condition(), "The asynchronous operation must finish before the deadline")
+  try #require(await condition(), "The asynchronous operation must finish before the deadline")
 }
 
 @Test @MainActor func stoppedMonitoringCannotPublishLateMeasurements() async throws {
