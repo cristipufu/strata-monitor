@@ -243,7 +243,9 @@ struct SystemIntegrationTests {
   }
 
   @Test func everyProcessIsListedAndOnlyReadableOnesAreMeasured() async throws {
+    let earlier = try ownResourceCounters()
     let inventory = await ProcessInventoryCollector().inventory()
+    let later = try ownResourceCounters()
     let launchd = try #require(inventory.processes.first { $0.id.pid == 1 })
     #expect(launchd.userID == 0 && launchd.name == "launchd")
     #expect(launchd.cpuTimeNanoseconds == nil && launchd.footprintBytes == nil)
@@ -254,7 +256,8 @@ struct SystemIntegrationTests {
 
     let own = try #require(inventory.processes.first { $0.id.pid == getpid() })
     let activity = try #require(own.activity)
-    #expect(activity.instructions > 0 && activity.cycles > 0)
+    #expect((earlier.ri_instructions...later.ri_instructions).contains(activity.instructions))
+    #expect((earlier.ri_cycles...later.ri_cycles).contains(activity.cycles))
     #expect(activity.peakFootprintBytes >= (own.footprintBytes ?? 0))
     let cpu = try #require(own.cpuTimeNanoseconds)
     #expect(activity.performanceCoreNanoseconds <= cpu + 50_000_000)
@@ -279,12 +282,17 @@ struct SystemIntegrationTests {
 
   @Test func processActivityBecomesPowerAndWakeupRates() async throws {
     let collector = SystemCollector()
-    _ = await collector.sample(includeProcesses: true)
+    let first = await collector.sample(includeProcesses: true)
+    let initialEnergy = try #require(
+      first.processes.first { $0.id.pid == getpid() }?.activity?.energyNanojoules)
     spinForCPUTime(0.2)
     let sample = await collector.sample(includeProcesses: true)
     let own = try #require(sample.processes.first { $0.id.pid == getpid() })
     #expect((own.cpuPercent ?? 0) > 1)
-    #expect(own.watts.map { $0 > 0 && $0 < 200 } == true)
+    let finalEnergy = try #require(own.activity?.energyNanojoules)
+    let watts = try #require(own.watts)
+    #expect(watts.isFinite && (0..<200).contains(watts))
+    #expect((watts > 0) == (finalEnergy > initialEnergy))
     #expect(own.wakeupsPerSecond.map { $0 >= 0 } == true)
     #expect(own.performanceCoreShare.map { (0...1).contains($0) } == true)
   }
@@ -473,6 +481,17 @@ struct SystemIntegrationTests {
       "Collected \(collected)s versus getrusage \(reference)s; include the machine timebase")
   }
 
+}
+
+private func ownResourceCounters() throws -> rusage_info_v6 {
+  var counters = rusage_info_v6()
+  let result = withUnsafeMutablePointer(to: &counters) { pointer in
+    pointer.withMemoryRebound(to: rusage_info_t?.self, capacity: 1) {
+      proc_pid_rusage(getpid(), RUSAGE_INFO_V6, $0)
+    }
+  }
+  try #require(result == 0)
+  return counters
 }
 
 private func cpuSeconds(_ value: rusage) -> Double {

@@ -241,11 +241,17 @@ import Testing
     hardware.update { $0.failedSnapshots = Set(3...100) }
     let service = DisplayService(hardware: hardware, previewDuration: .milliseconds(10))
     let catalog = try await service.catalog()
-    await #expect(throws: DisplayControlError.self) {
-      try await service.preview(.mode(hardware.firstID, hardware.alternate), catalogID: catalog.id)
+    // Keep the failed preview and its baseline in one actor turn, before a queued retry can run.
+    let initialReads = await { (service: isolated DisplayService) in
+      #expect(throws: DisplayControlError.self) {
+        try service.preview(.mode(hardware.firstID, hardware.alternate), catalogID: catalog.id)
+      }
+      return hardware.state.snapshots
+    }(service)
+    let recoveryDeadline = ContinuousClock.now + .seconds(10)
+    while hardware.state.snapshots < initialReads + 3, ContinuousClock.now < recoveryDeadline {
+      try await Task.sleep(for: .milliseconds(10))
     }
-    let initialReads = hardware.state.snapshots
-    try await Task.sleep(for: .milliseconds(2200))
     let reads = hardware.state.snapshots
     #expect(reads - initialReads == 3)
     #expect(await service.status().trial != nil)
