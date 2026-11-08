@@ -163,12 +163,7 @@ final class MenuBarController: NSObject {
     }
     .onHover { [weak self] inside in self?.receive(inside ? .entered(.popover) : .exited(.popover))
     }
-    let popoverHost = NSHostingView(rootView: view)
-    popoverHost.sizingOptions = []
-    popoverHost.wantsLayer = true
-    popoverHost.layer?.backgroundColor = NSColor.clear.cgColor
-    popoverHost.layer?.isOpaque = false
-    popover.contentView = popoverHost
+    popover.contentView = PanelHostingView(rootView: view)
     popover.onInteraction = { [weak self] in self?.engageWithoutToggle() }
     popover.onEscape = { [weak self] in self?.receive(.dismiss) }
   }
@@ -412,11 +407,11 @@ final class MenuBarController: NSObject {
     let anchor = window.convertToScreen(button.convert(button.bounds, to: nil))
     let screen = window.screen?.visibleFrame ?? NSScreen.main?.visibleFrame ?? anchor
     let size = NSSize(
-      width: Design.panelWidth + 2 * FloatingPanel.contentInset,
-      height: min(preferredPanelHeight + 2 * FloatingPanel.contentInset, screen.height - 20))
+      width: Design.panelWidth,
+      height: min(preferredPanelHeight, screen.height - 20))
     let proposed = NSRect(
       x: anchor.midX - size.width / 2,
-      y: anchor.minY - size.height - 7 + FloatingPanel.contentInset,
+      y: anchor.minY - size.height - 7,
       width: size.width, height: size.height)
     guard let frame = ScreenPlacement.clamped(proposed, to: screen.insetBy(dx: 8, dy: 8)),
       popover.frame != frame

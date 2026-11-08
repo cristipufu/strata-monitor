@@ -2,7 +2,6 @@ import AppKit
 
 @MainActor
 final class FloatingPanel: NSPanel, MenuBarPanelHosting {
-  static let contentInset: CGFloat = 12
   var acceptsKeyboard = false
   var onEscape: (() -> Void)?
   var onInteraction: (() -> Void)?
@@ -17,8 +16,7 @@ final class FloatingPanel: NSPanel, MenuBarPanelHosting {
     // animation would compete with it and can run a nested event loop.
     animationBehavior = .none
     backgroundColor = .clear
-    // Liquid Glass draws its own rounded edge and shadow. A second AppKit
-    // shadow follows the rectangular hosting window and produces a visible box.
+    // The rounded content owns its edge; the borderless window must not add a rectangular shadow.
     hasShadow = false
     level = .statusBar
     hidesOnDeactivate = false

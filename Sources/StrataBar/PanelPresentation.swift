@@ -75,8 +75,5 @@ struct AnimatedPanelShell<Content: View>: View {
         value: presentation.presented
       )
       .allowsHitTesting(presentation.presented)
-      // Give the glass edge room to render outside the card without touching
-      // the rectangular window's backing-store boundary.
-      .padding(FloatingPanel.contentInset)
   }
 }
