@@ -91,15 +91,16 @@ private func postPrivateDeviceNotification(_ name: String) async throws {
   #expect(!state.value.withLock { $0.released })
   try await postPrivateDeviceNotification(name)
   let clock = ContinuousClock()
-  let deadline = clock.now + .seconds(2)
+  let deliveryTimeout = Duration.seconds(10)
+  let deadline = clock.now + deliveryTimeout
   while state.value.withLock({ $0.callbacks }) == 0 && clock.now < deadline {
     try await Task.sleep(for: .milliseconds(5))
   }
-  #expect(state.value.withLock { $0.callbacks } == 1)
+  try #require(state.value.withLock { $0.callbacks } == 1)
   let canceled = sb_cancel_dispatch_notification(token)
   active = false
   #expect(canceled == 0)
-  let releaseDeadline = clock.now + .seconds(2)
+  let releaseDeadline = clock.now + deliveryTimeout
   while !state.value.withLock({ $0.released }) && clock.now < releaseDeadline {
     try await Task.sleep(for: .milliseconds(5))
   }

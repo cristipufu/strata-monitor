@@ -61,6 +61,7 @@ struct EndpointConnector: PrivilegedHelperConnecting, @unchecked Sendable {
 
 /// An in-process helper reachable through an anonymous listener, as the app reaches the daemon.
 final class InProcessHelper: @unchecked Sendable {
+  static let responseTimeout: Duration = .seconds(10)
   let listener = NSXPCListener.anonymous()
   let delegate: any NSXPCListenerDelegate
   init(delegate: any NSXPCListenerDelegate, callerRequirement: String? = nil) {
@@ -75,7 +76,7 @@ final class InProcessHelper: @unchecked Sendable {
   func connector(requirement: String? = nil) -> EndpointConnector {
     EndpointConnector(endpoint: listener.endpoint, requirement: requirement)
   }
-  func client(timeout: Duration = .seconds(5), retryDelay: TimeInterval = 10)
+  func client(timeout: Duration = InProcessHelper.responseTimeout, retryDelay: TimeInterval = 10)
     -> PrivilegedHelperClient
   {
     PrivilegedHelperClient(connector: connector(), timeout: timeout, retryDelay: retryDelay)

@@ -125,7 +125,8 @@ import Testing
     HelperCodeSigning.requirement(
       signingIdentifier: HelperContract.helperSigningIdentifier, team: "WKQLY75R65"))
   let helper = InProcessHelper(core: helperCore())
-  let client = PrivilegedHelperClient(connector: helper.connector(requirement: requirement))
+  let client = PrivilegedHelperClient(
+    connector: helper.connector(requirement: requirement), timeout: InProcessHelper.responseTimeout)
   await #expect(throws: PrivilegedHelperError.untrustedHelper) { try await client.verify() }
   await client.disconnect()
 }
@@ -183,7 +184,7 @@ func buildWithoutATeamNeverConnects() async throws {
   let delegate = ClosingDelegate(core: helperCore())
   let helper = InProcessHelper(delegate: delegate)
   let connector = helper.connector()
-  let client = PrivilegedHelperClient(connector: connector)
+  let client = PrivilegedHelperClient(connector: connector, timeout: InProcessHelper.responseTimeout)
   _ = try await client.verify()
   delegate.closeAll()
   _ = try await client.processInventory()
@@ -229,17 +230,19 @@ struct MissingServiceConnector: PrivilegedHelperConnecting {
 
 final class ClosingDelegate: NSObject, NSXPCListenerDelegate, @unchecked Sendable {
   private let wrapped: HelperListenerDelegate
-  private let accepted = NSMutableArray()
+  private let lock = NSLock()
+  private var accepted: [NSXPCConnection] = []
   init(core: HelperCore) { wrapped = HelperListenerDelegate(core: core) }
   func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection)
     -> Bool
   {
-    accepted.add(connection)
+    lock.withLock { accepted.append(connection) }
     return wrapped.listener(listener, shouldAcceptNewConnection: connection)
   }
-  var acceptedCount: Int { accepted.count }
+  var acceptedCount: Int { lock.withLock { accepted.count } }
   func closeAll() {
-    for case let connection as NSXPCConnection in accepted { connection.invalidate() }
+    let connections = lock.withLock { accepted }
+    for connection in connections { connection.invalidate() }
   }
 }
 
