@@ -37,4 +37,18 @@ jobs:
           python3 scripts/localize.py check
           python3 scripts/readme-localize.py check
       - name: Run headless tests
+        id: tests
+        env:
+          SWIFT_BACKTRACE: enable=yes,interactive=no,color=no
         run: scripts/test.sh
+      - name: Report test crashes
+        if: failure() && steps.tests.outcome == 'failure'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          reports = Path.home() / "Library/Logs/DiagnosticReports"
+          for report in sorted(reports.glob("StrataBarPackageTests*.ips"))[-3:]:
+              print(f"::group::{report.name}")
+              print(report.read_text()[:262144])
+              print("::endgroup::")
+          PY
