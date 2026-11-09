@@ -229,8 +229,8 @@ summaries in the conversation or pull request.
 Preview runs isolate preferences and window placement:
 
 ```sh
-'build/Strata Monitor.app/Contents/MacOS/StrataBar' --preview-page overview --appearance dark
-'build/Strata Monitor.app/Contents/MacOS/StrataBar' --preview --preview-self --preview-families
+'build/Strata Monitor.app/Contents/MacOS/Strata Monitor' --preview-page overview --appearance dark
+'build/Strata Monitor.app/Contents/MacOS/Strata Monitor' --preview --preview-self --preview-families
 ```
 
 `--render-glyphs /absolute/path.png`

@@ -4,7 +4,7 @@
     <key>CFBundleIdentifier</key><string>dev.stratabar.app</string>
     <key>CFBundleName</key><string>Strata Monitor</string>
     <key>CFBundleDisplayName</key><string>Strata Monitor</string>
-    <key>CFBundleExecutable</key><string>StrataBar</string>
+    <key>CFBundleExecutable</key><string>Strata Monitor</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>0.1.0</string>
     <key>CFBundleVersion</key><string>1</string>

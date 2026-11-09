@@ -30,11 +30,12 @@ cleanup() {
 }
 trap cleanup EXIT
 daemon_plist='Resources/dev.stratabar.helper.plist'
+application_executable="$(/usr/bin/plutil -extract CFBundleExecutable raw -o - Resources/Info.plist)"
 helper_identifier="$(/usr/bin/plutil -extract Label raw -o - "$daemon_plist")"
 helper_program="$(/usr/bin/plutil -extract BundleProgram raw -o - "$daemon_plist")"
 mkdir -p "$staged_application/Contents/MacOS" "$staged_application/Contents/Resources" \
     "$staged_application/Contents/Library/LaunchDaemons"
-cp "$binary_directory/StrataBar" "$staged_application/Contents/MacOS/StrataBar"
+cp "$binary_directory/StrataBar" "$staged_application/Contents/MacOS/$application_executable"
 cp "$binary_directory/StrataBarHelper" "$staged_application/$helper_program"
 cp Resources/Info.plist "$staged_application/Contents/Info.plist"
 cp "$daemon_plist" "$staged_application/Contents/Library/LaunchDaemons/$helper_identifier.plist"

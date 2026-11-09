@@ -148,7 +148,8 @@ jobs:
           for code in "$APP" "$APP/Contents/MacOS/StrataBarHelper"; do
             codesign -dvv "$code" 2>&1 | grep -E "^(Identifier|Authority|TeamIdentifier|Timestamp|Runtime Version)" || true
           done
-          echo "architectures: $(lipo -archs "$APP/Contents/MacOS/StrataBar")"
+          executable=$(plutil -extract CFBundleExecutable raw -o - "$APP/Contents/Info.plist")
+          echo "architectures: $(lipo -archs "$APP/Contents/MacOS/$executable")"
 
       - name: Notarize, staple and package
         env:
