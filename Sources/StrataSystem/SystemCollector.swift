@@ -9,6 +9,7 @@ public actor SystemCollector {
   // History reads processes every 30 seconds while nothing is shown, so rates span that gap.
   private var processRates = CounterRates<ProcessCounter>(maximumInterval: 45)
   private var gpuRates = GPUUsageRates(maximumInterval: 45)
+  private var churn = ProcessChurnTracker(maximumInterval: 45)
   private let gpuReader: GPUReader
   private let inventory: MergedProcessInventory
   private let userNames = UserNameDirectory()
@@ -29,6 +30,7 @@ public actor SystemCollector {
     rates.reset()
     processRates.reset()
     gpuRates.reset()
+    churn.reset()
     lastMeasured = nil
   }
   public func sample(includeProcesses: Bool, includeGPU: Bool = false) async -> SystemSample {
@@ -121,12 +123,16 @@ public actor SystemCollector {
   ) -> ProcessInventory {
     var inventory = source
     let gpuShares = gpuRates.fractions(of: gpu, for: inventory.processes.map(\.id), at: time)
+    let spawnRates = churn.observe(inventory.processes, at: time)
     inventory.processes = inventory.processes.map { source in
       var process = measuredRates(of: source, at: time)
       process.gpuTimeNanoseconds = gpu?.accumulatedTime(of: source.id)
       process.gpuPercent = gpuShares[source.id].map { $0 * 100 }
       process.userName = names[source.userID]
-      process.project = labeling.project(of: source)
+      let location = labeling.location(of: source)
+      process.project = location.project
+      process.workingDirectory = location.workingDirectory
+      process.spawnsPerSecond = spawnRates[source.id]
       return process
     }
     let live = Set(inventory.processes.map(\.id))

@@ -8,6 +8,11 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld proces)?",
+      "few": "%1$@ %2$@ (%3$lld procese)?",
+      "other": "%1$@ %2$@ (%3$lld de procese)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ la %2$lld%% CPU",
     "%@ connected": "%@ conectat",
@@ -91,6 +96,7 @@
       "few": "%1$lld resurse · instantaneu",
       "other": "%1$lld de resurse · instantaneu"
     },
+    "%lld spawning": "%1$lld în lansare",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, vârf %2$lld%%",
     "1 connected": "1 conectat",
     "1 display": "1 afișaj",
@@ -109,6 +115,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Identitățile accesorii sunt ambigue. Încercați să citiți din nou.",
     "Active": "Activ",
     "Active Processes": "Procese active",
+    "Active alongside %@ in %@": "Activ alături de %1$@ în %2$@",
     "Activity": "Activitate",
     "Actual menu-bar size": "Dimensiunea reală a barei de meniu",
     "Ad hoc": "Ad-hoc",
@@ -212,6 +219,7 @@
     "Controls are unavailable for this output.": "Comenzile nu sunt disponibile pentru această ieșire.",
     "Copy": "Copie",
     "Copy Endpoint": "Copiați punctul final",
+    "Copy Folder Path": "Copiază calea dosarului",
     "Copy PID": "Copiați PID",
     "Copy Path": "Copiați calea",
     "Copy Remote Endpoint": "Copiați punctul final la distanță",
@@ -282,6 +290,7 @@
     "Families": "Familii de procese",
     "File": "Fişier",
     "Fill": "Umple",
+    "Filter Explorer to Folder": "Filtrează Exploratorul după dosar",
     "Find": "Găsi",
     "Find Nearby Networks": "Găsiți rețele din apropiere",
     "Find Open Files": "Găsiți fișiere deschise",
@@ -294,6 +303,11 @@
     "Footprint": "Memorie utilizată",
     "Footprint subtotal": "Subtotal amprentă",
     "Force Quit": "Închide forțat",
+    "Force Quit (%lld processes)…": {
+      "one": "Închide forțat (%1$lld proces)…",
+      "few": "Închide forțat (%1$lld procese)…",
+      "other": "Închide forțat (%1$lld de procese)…"
+    },
     "Force Quit…": "Închide forțat…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ ocupat în medie pentru ultimul %2$@",
@@ -365,7 +379,6 @@
     "Low Power Mode": "Mod de putere redusă",
     "Mac": "Mac",
     "Mac is drawing": "Mac desenează",
-    "Mac status": "Stare Mac",
     "Make Yourself at Home": "Fă-te comod",
     "Maximum capacity": "Capacitate maxima",
     "Measured after the next reading.": "Măsurat după următoarea lectură.",
@@ -447,6 +460,8 @@
     "Open resources": "Resursele deschise",
     "Open the overview on hover": "Deschideți prezentarea generală la trecerea cursorului",
     "Orange": "Portocale",
+    "Orphaned (%@) · %@": "Orfan (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Buclă de procese orfană (%1$@) · %2$@",
     "Other": "Alte",
     "Other Users": "Alți utilizatori",
     "Output": "Ieșire",
@@ -461,6 +476,11 @@
     "Paste": "Pastă",
     "Paths under %@": "Căi sub %@",
     "Pause": "Pauză",
+    "Pause (%lld processes)": {
+      "one": "Pauză (%1$lld proces)",
+      "few": "Pauză (%1$lld procese)",
+      "other": "Pauză (%1$lld de procese)"
+    },
     "Paused": "Întrerupt",
     "Paused Processes": "Procese întrerupte",
     "Peak %@": "Vârful %@",
@@ -535,6 +555,12 @@
     "Resource query unavailable": "Interogarea resurselor nu este disponibilă",
     "Restoring display position": "Restabilirea poziției afișajului",
     "Resume": "Reia",
+    "Resume (%lld processes)": {
+      "one": "Reia (%1$lld proces)",
+      "few": "Reia (%1$lld procese)",
+      "other": "Reia (%1$lld de procese)"
+    },
+    "Reveal Folder in Finder": "Afișează dosarul în Finder",
     "Reveal in Finder": "Dezvăluie în Finder",
     "Reveal your menu bar": "Dezvăluie bara de meniu",
     "Revert": "Reveni",
@@ -554,6 +580,7 @@
       "other": "Eșantionare timp de %1$lld de secunde..."
     },
     "Save Full Report…": "Salvați raportul complet...",
+    "Scanning spawns in %@": "Scanează procesele lansate în %1$@",
     "Security unavailable": "Securitate indisponibilă",
     "Segmented": "Segmentat",
     "Select All": "Selectați Toate",
@@ -572,10 +599,13 @@
     "Share of samples where each function was running.": "Procentajul de mostre în care rula fiecare funcție.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Partajat cu restul Mac-ului, deci contează pentru memorie.",
     "Show": "Spectacol",
+    "Show 10": "Afișează 10",
+    "Show 5": "Afișează 5",
     "Show Exact Readings…": "Afișați citirile exacte...",
     "Show Inspector": "Arată inspector",
     "Show Welcome Tour": "Arată turul de bun venit",
     "Show all processes": "Afișați toate procesele",
+    "Show in Explorer": "Afișează în Explorator",
     "Show tracks": "Afișează piese",
     "Showing 100 of %lld resources": {
       "one": "Se afișează 100 din %1$lld resursă",
@@ -599,6 +629,7 @@
     "Sound": "Sunet",
     "Sound on": "Sunet activat",
     "Source Code": "Cod sursă",
+    "Spawn loop · %@": "Buclă de procese · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "Citirea standard a bateriei Bluetooth LE nu este disponibilă pe acest Mac.",
     "Standard battery services are unavailable or ambiguous.": "Serviciile standard de baterie sunt indisponibile sau ambigue.",
     "Started": "A început",
@@ -626,10 +657,14 @@
     "TCP": "TCP",
     "Teal": "Teal",
     "Team": "Echipă",
-    "Temperature": "Temperatură",
     "Temporarily prevent idle display sleep.": "Preveniți temporar repausul afișajului inactiv.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "Eliberarea temporară a conexiunii nu a fost confirmată. Accesoriile rămase nu au fost citite.",
     "Terminate": "Oprește",
+    "Terminate (%lld processes)…": {
+      "one": "Oprește (%1$lld proces)…",
+      "few": "Oprește (%1$lld procese)…",
+      "other": "Oprește (%1$lld de procese)…"
+    },
     "Terminate…": "Oprește…",
     "That resolution is no longer available.": "Acea rezoluție nu mai este disponibilă.",
     "The accessory disconnected during the battery read.": "Accesoriul a fost deconectat în timpul citirii bateriei.",
@@ -697,6 +732,7 @@
     "Threads": "Fire de execuție",
     "Timeline": "Cronologie",
     "Toggle inspector": "Comutați inspector",
+    "Top issues & activity": "Probleme principale și activitate",
     "Try Again": "Încearcă din nou",
     "Try a name, executable path, PID, or uid:501.": "Încercați un nume, o cale executabilă, PID sau uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Porniți Bluetooth înainte de a citi bateriile accesorii.",

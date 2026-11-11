@@ -6,6 +6,9 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "other": "%1$@ %2$@ (%3$lldプロセス)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ で %2$lld%% CPU",
     "%@ connected": "%@ 接続されました",
@@ -65,6 +68,7 @@
     "%lld resources · snapshot": {
       "other": "%1$lld リソース · スナップショット"
     },
+    "%lld spawning": "%1$lld 個を生成中",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU、ピーク %2$lld%%",
     "1 connected": "1 接続済み",
     "1 display": "1ディスプレイ",
@@ -83,6 +87,7 @@
     "Accessory identities are ambiguous. Try reading again.": "アクセサリーの正体は曖昧です。もう一度読んでみてください。",
     "Active": "アクティブ",
     "Active Processes": "アクティブなプロセス",
+    "Active alongside %@ in %@": "%2$@ 内の %1$@ と同時に稼働中",
     "Activity": "活動",
     "Actual menu-bar size": "実際のメニューバーのサイズ",
     "Ad hoc": "このために",
@@ -186,6 +191,7 @@
     "Controls are unavailable for this output.": "この出力ではコントロールは使用できません。",
     "Copy": "コピー",
     "Copy Endpoint": "エンドポイントのコピー",
+    "Copy Folder Path": "フォルダのパスをコピー",
     "Copy PID": "PIDをコピー",
     "Copy Path": "パスのコピー",
     "Copy Remote Endpoint": "リモートエンドポイントのコピー",
@@ -256,6 +262,7 @@
     "Families": "プロセスツリー",
     "File": "ファイル",
     "Fill": "埋める",
+    "Filter Explorer to Folder": "フォルダでエクスプローラを絞り込む",
     "Find": "探す",
     "Find Nearby Networks": "近くのネットワークを探す",
     "Find Open Files": "開いているファイルの検索",
@@ -268,6 +275,9 @@
     "Footprint": "メモリ使用量",
     "Footprint subtotal": "フットプリントの小計",
     "Force Quit": "強制終了",
+    "Force Quit (%lld processes)…": {
+      "other": "強制終了 (%1$lldプロセス)…"
+    },
     "Force Quit…": "強制終了…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ 過去 %2$@ の平均はビジーです",
@@ -339,7 +349,6 @@
     "Low Power Mode": "低電力モード",
     "Mac": "マック",
     "Mac is drawing": "マックが絵を描いている",
-    "Mac status": "Macのステータス",
     "Make Yourself at Home": "お寛ぎ下さい",
     "Maximum capacity": "最大容量",
     "Measured after the next reading.": "次回の読み取り後に測定します。",
@@ -421,6 +430,8 @@
     "Open resources": "開いているリソース",
     "Open the overview on hover": "ホバーで概要を開く",
     "Orange": "オレンジ",
+    "Orphaned (%@) · %@": "孤立プロセス (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "孤立した生成ループ (%1$@) · %2$@",
     "Other": "他の",
     "Other Users": "他のユーザー",
     "Output": "出力",
@@ -435,6 +446,9 @@
     "Paste": "ペースト",
     "Paths under %@": "%1$@ の下のパス",
     "Pause": "一時停止",
+    "Pause (%lld processes)": {
+      "other": "一時停止 (%1$lldプロセス)"
+    },
     "Paused": "一時停止中",
     "Paused Processes": "一時停止されたプロセス",
     "Peak %@": "ピーク %1$@",
@@ -509,6 +523,10 @@
     "Resource query unavailable": "リソースクエリは使用できません",
     "Restoring display position": "表示位置を戻す",
     "Resume": "再開",
+    "Resume (%lld processes)": {
+      "other": "再開 (%1$lldプロセス)"
+    },
+    "Reveal Folder in Finder": "Finder でフォルダを表示",
     "Reveal in Finder": "Finder で公開",
     "Reveal your menu bar": "メニューバーを表示する",
     "Revert": "元に戻す",
@@ -526,6 +544,7 @@
       "other": "%1$lld秒間のサンプリング…"
     },
     "Save Full Report…": "完全なレポートを保存…",
+    "Scanning spawns in %@": "%1$@ のプロセス生成をスキャン中",
     "Security unavailable": "セキュリティが利用できない",
     "Segmented": "セグメント化された",
     "Select All": "すべて選択",
@@ -544,10 +563,13 @@
     "Share of samples where each function was running.": "各関数が実行されていたサンプルの共有。",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Mac の他の部分と共有されるため、メモリとしてカウントされます。",
     "Show": "見せる",
+    "Show 10": "10件表示",
+    "Show 5": "5件表示",
     "Show Exact Readings…": "正確な測定値を表示…",
     "Show Inspector": "インスペクターを表示",
     "Show Welcome Tour": "ウェルカムツアーを表示",
     "Show all processes": "すべてのプロセスを表示",
+    "Show in Explorer": "エクスプローラで表示",
     "Show tracks": "トラックを表示する",
     "Showing 100 of %lld resources": {
       "other": "%1$lld 個のリソースのうち 100 個を表示"
@@ -569,6 +591,7 @@
     "Sound": "音",
     "Sound on": "サウンドオン",
     "Source Code": "ソースコード",
+    "Spawn loop · %@": "生成ループ · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "標準の Bluetooth LE バッテリー読み取りは、この Mac では利用できません。",
     "Standard battery services are unavailable or ambiguous.": "標準のバッテリー サービスが利用できないか、曖昧です。",
     "Started": "開始しました",
@@ -596,10 +619,12 @@
     "TCP": "TCP",
     "Teal": "ティール",
     "Team": "チーム",
-    "Temperature": "温度",
     "Temporarily prevent idle display sleep.": "アイドル状態のディスプレイのスリープを一時的に防止します。",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "接続の一時解除は確認できませんでした。残りの付属品は読み取れませんでした。",
     "Terminate": "終了",
+    "Terminate (%lld processes)…": {
+      "other": "終了 (%1$lldプロセス)…"
+    },
     "Terminate…": "終了…",
     "That resolution is no longer available.": "その解像度はもう利用できません。",
     "The accessory disconnected during the battery read.": "バッテリーの読み取り中にアクセサリが切断されました。",
@@ -667,6 +692,7 @@
     "Threads": "スレッド",
     "Timeline": "タイムライン",
     "Toggle inspector": "インスペクタの切り替え",
+    "Top issues & activity": "主な問題とアクティビティ",
     "Try Again": "もう一度やり直してください",
     "Try a name, executable path, PID, or uid:501.": "名前、実行可能パス、PID、または uid:501 を試してください。",
     "Turn on Bluetooth before reading accessory batteries.": "付属電池を読み取る前に、Bluetooth の電源を入れてください。",

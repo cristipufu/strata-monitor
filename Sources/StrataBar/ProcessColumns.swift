@@ -64,6 +64,10 @@ enum ProcessColumns {
         title: String(localized: "Started"), width: 130, value: { started($0.id) }, monospaced: true,
         sortedBy: ProcessSort.started, isShownByDefault: false),
       ExplorerColumn(
+        id: "folder", title: String(localized: "Folder"), width: 180,
+        value: { $0.workingDirectory.map { ActivityOutlierRanker.displayPath($0) } ?? ReadingValue.unavailable },
+        monospaced: true, isShownByDefault: false),
+      ExplorerColumn(
         title: "PID", width: 60, value: { String($0.id.pid) }, monospaced: true,
         sortedBy: ProcessSort.pid),
     ]

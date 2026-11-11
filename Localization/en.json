@@ -7,6 +7,10 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%@ %@ (%lld process)?",
+      "other": "%@ %@ (%lld processes)?"
+    },
     "%@ %@ (PID %@)?": "%@ %@ (PID %@)?",
     "%@ at %lld%% CPU": "%@ at %lld%% CPU",
     "%@ connected": "%@ connected",
@@ -78,6 +82,7 @@
       "one": "%lld resource · snapshot",
       "other": "%lld resources · snapshot"
     },
+    "%lld spawning": "%lld spawning",
     "%lld%% CPU, peak %lld%%": "%lld%% CPU, peak %lld%%",
     "1 connected": "1 connected",
     "1 display": "1 display",
@@ -96,6 +101,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Accessory identities are ambiguous. Try reading again.",
     "Active": "Active",
     "Active Processes": "Active Processes",
+    "Active alongside %@ in %@": "Active alongside %@ in %@",
     "Activity": "Activity",
     "Actual menu-bar size": "Actual menu-bar size",
     "Ad hoc": "Ad hoc",
@@ -199,6 +205,7 @@
     "Controls are unavailable for this output.": "Controls are unavailable for this output.",
     "Copy": "Copy",
     "Copy Endpoint": "Copy Endpoint",
+    "Copy Folder Path": "Copy Folder Path",
     "Copy PID": "Copy PID",
     "Copy Path": "Copy Path",
     "Copy Remote Endpoint": "Copy Remote Endpoint",
@@ -269,6 +276,7 @@
     "Families": "Families",
     "File": "File",
     "Fill": "Fill",
+    "Filter Explorer to Folder": "Filter Explorer to Folder",
     "Find": "Find",
     "Find Nearby Networks": "Find Nearby Networks",
     "Find Open Files": "Find Open Files",
@@ -281,6 +289,10 @@
     "Footprint": "Footprint",
     "Footprint subtotal": "Footprint subtotal",
     "Force Quit": "Force Quit",
+    "Force Quit (%lld processes)…": {
+      "one": "Force Quit (%lld process)…",
+      "other": "Force Quit (%lld processes)…"
+    },
     "Force Quit…": "Force Quit…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %@ busy on average for the last %@",
@@ -352,7 +364,6 @@
     "Low Power Mode": "Low Power Mode",
     "Mac": "Mac",
     "Mac is drawing": "Mac is drawing",
-    "Mac status": "Mac status",
     "Make Yourself at Home": "Make Yourself at Home",
     "Maximum capacity": "Maximum capacity",
     "Measured after the next reading.": "Measured after the next reading.",
@@ -434,6 +445,8 @@
     "Open resources": "Open resources",
     "Open the overview on hover": "Open the overview on hover",
     "Orange": "Orange",
+    "Orphaned (%@) · %@": "Orphaned (%@) · %@",
+    "Orphaned spawn loop (%@) · %@": "Orphaned spawn loop (%@) · %@",
     "Other": "Other",
     "Other Users": "Other Users",
     "Output": "Output",
@@ -448,6 +461,10 @@
     "Paste": "Paste",
     "Paths under %@": "Paths under %@",
     "Pause": "Pause",
+    "Pause (%lld processes)": {
+      "one": "Pause (%lld process)",
+      "other": "Pause (%lld processes)"
+    },
     "Paused": "Paused",
     "Paused Processes": "Paused Processes",
     "Peak %@": "Peak %@",
@@ -522,6 +539,11 @@
     "Resource query unavailable": "Resource query unavailable",
     "Restoring display position": "Restoring display position",
     "Resume": "Resume",
+    "Resume (%lld processes)": {
+      "one": "Resume (%lld process)",
+      "other": "Resume (%lld processes)"
+    },
+    "Reveal Folder in Finder": "Reveal Folder in Finder",
     "Reveal in Finder": "Reveal in Finder",
     "Reveal your menu bar": "Reveal your menu bar",
     "Revert": "Revert",
@@ -540,6 +562,7 @@
       "other": "Sampling for %lld seconds…"
     },
     "Save Full Report…": "Save Full Report…",
+    "Scanning spawns in %@": "Scanning spawns in %@",
     "Security unavailable": "Security unavailable",
     "Segmented": "Segmented",
     "Select All": "Select All",
@@ -558,10 +581,13 @@
     "Share of samples where each function was running.": "Share of samples where each function was running.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Shared with the rest of the Mac, so it counts toward Memory.",
     "Show": "Show",
+    "Show 10": "Show 10",
+    "Show 5": "Show 5",
     "Show Exact Readings…": "Show Exact Readings…",
     "Show Inspector": "Show Inspector",
     "Show Welcome Tour": "Show Welcome Tour",
     "Show all processes": "Show all processes",
+    "Show in Explorer": "Show in Explorer",
     "Show tracks": "Show tracks",
     "Showing 100 of %lld resources": {
       "one": "Showing 100 of %lld resource",
@@ -584,6 +610,7 @@
     "Sound": "Sound",
     "Sound on": "Sound on",
     "Source Code": "Source Code",
+    "Spawn loop · %@": "Spawn loop · %@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "Standard Bluetooth LE battery reading is unavailable on this Mac.",
     "Standard battery services are unavailable or ambiguous.": "Standard battery services are unavailable or ambiguous.",
     "Started": "Started",
@@ -611,10 +638,13 @@
     "TCP": "TCP",
     "Teal": "Teal",
     "Team": "Team",
-    "Temperature": "Temperature",
     "Temporarily prevent idle display sleep.": "Temporarily prevent idle display sleep.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "Temporary connection release was not confirmed. Remaining accessories were not read.",
     "Terminate": "Terminate",
+    "Terminate (%lld processes)…": {
+      "one": "Terminate (%lld process)…",
+      "other": "Terminate (%lld processes)…"
+    },
     "Terminate…": "Terminate…",
     "That resolution is no longer available.": "That resolution is no longer available.",
     "The accessory disconnected during the battery read.": "The accessory disconnected during the battery read.",
@@ -682,6 +712,7 @@
     "Threads": "Threads",
     "Timeline": "Timeline",
     "Toggle inspector": "Toggle inspector",
+    "Top issues & activity": "Top issues & activity",
     "Try Again": "Try Again",
     "Try a name, executable path, PID, or uid:501.": "Try a name, executable path, PID, or uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Turn on Bluetooth before reading accessory batteries.",

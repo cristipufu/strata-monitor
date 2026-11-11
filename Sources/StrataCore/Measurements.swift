@@ -78,7 +78,7 @@ public struct ProcessActivityCounters: Codable, Sendable, Equatable {
   }
 }
 
-public struct ProcessSample: Identifiable, Codable, Sendable {
+public struct ProcessSample: Identifiable, Codable, Sendable, Equatable {
   public let id: ProcessIdentity
   public let parentPID: Int32
   public let userID: UInt32
@@ -103,6 +103,8 @@ public struct ProcessSample: Identifiable, Codable, Sendable {
   public var gpuPercent: Double?
   public var userName: String?
   public var project: String?
+  public var workingDirectory: String?
+  public var spawnsPerSecond: Double?
   // CPU time and resident memory came from a slower outside source, so only that source's own
   // CPU percentage is meaningful for this row.
   public var isEstimated = false

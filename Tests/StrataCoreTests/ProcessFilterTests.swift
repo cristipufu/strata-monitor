@@ -46,14 +46,22 @@ import Testing
   #expect(Set(hierarchy.processes.map(\.id.pid)) == [10, 11])
 }
 
-@Test func searchFindsAccountAndProjectNames() {
+@Test func searchFindsAccountProjectAndWorkingDirectory() {
   var process = ProcessSample(
     id: ProcessIdentity(pid: 40, startSeconds: 1, startMicroseconds: 0), parentPID: 1,
     userID: 0, name: "falcon", path: "/Library/falcon", cpuTimeNanoseconds: nil,
     residentBytes: nil, footprintBytes: nil, threads: nil)
   process.userName = "root"
   process.project = "agent"
+  process.workingDirectory = "/Users/me/Documents/GitHub/strata"
   #expect(ExplorerQuery("user:root").matches(process))
   #expect(!ExplorerQuery("user:roo").matches(process), "The account token is an exact name")
   #expect(ExplorerQuery("agent").matches(process))
+  #expect(ExplorerQuery("cwd:/Users/me/Documents/GitHub/strata").matches(process))
+  #expect(!ExplorerQuery("cwd:/Users/me/Documents/GitHub/strata-bar").matches(process))
+  #expect(ExplorerQuery("cwd:github/strata").matches(process))
+  #expect(!ExplorerQuery("cwd:/Volumes/Other").matches(process))
+  #expect(ExplorerQuery("GitHub/strata").matches(process))
+  process.workingDirectory = "/Volumes/Work Drive/strata"
+  #expect(ExplorerQuery("cwd:/Volumes/Work Drive/strata").matches(process))
 }

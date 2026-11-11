@@ -131,3 +131,29 @@ private func actionTarget() -> ProcessSample {
   #expect(await service.executions == 0)
   controller.stop()
 }
+
+@Test @MainActor func batchRequestPreparesGroupActionWithMemberCount() async throws {
+  let service = ControlledProcessControl()
+  let controller = ProcessActionController(service: service) { _ in Issue.record("Unexpected error")
+  }
+  let first = actionTarget()
+  let second = ProcessSample(
+    id: ProcessIdentity(pid: 43, startSeconds: 1, startMicroseconds: 3), parentPID: 1,
+    userID: 501, name: "Worker", path: "", cpuTimeNanoseconds: nil, residentBytes: nil,
+    footprintBytes: nil, threads: nil)
+  let action = PreparedProcessAction(
+    id: UUID(), identities: [first.id, second.id], name: "Worker", signal: .terminate)
+  controller.request([first, second], name: "Worker", signal: .terminate)
+  try await waitUntil { await service.preparations == 1 }
+  await service.finishPreparation(action)
+  try await waitUntil { controller.prepared != nil }
+  #expect(controller.prepared?.count == 2)
+  if case .signal(let prepared) = controller.prepared {
+    #expect(prepared.identities == [first.id, second.id])
+  } else {
+    Issue.record("Expected prepared signal action")
+  }
+  controller.dismissConfirmation()
+  try await waitUntil { await service.canceled == [action.id] }
+  controller.stop()
+}

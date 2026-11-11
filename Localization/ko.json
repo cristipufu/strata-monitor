@@ -6,6 +6,9 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "other": "%1$@ %2$@ (%3$lld개 프로세스)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%2$lld%% CPU에서 %1$@",
     "%@ connected": "%@ 연결됨",
@@ -65,6 +68,7 @@
     "%lld resources · snapshot": {
       "other": "리소스 %1$lld개 · 스냅샷"
     },
+    "%lld spawning": "%1$lld개 생성 중",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, 피크 %2$lld%%",
     "1 connected": "1개 연결됨",
     "1 display": "디스플레이 1개",
@@ -83,6 +87,7 @@
     "Accessory identities are ambiguous. Try reading again.": "액세서리의 정체성이 모호합니다. 다시 읽어보세요.",
     "Active": "활동적인",
     "Active Processes": "활성 프로세스",
+    "Active alongside %@ in %@": "%2$@의 %1$@와(과) 함께 실행 중",
     "Activity": "활동",
     "Actual menu-bar size": "실제 메뉴바 크기",
     "Ad hoc": "특별히 그를 위하여",
@@ -186,6 +191,7 @@
     "Controls are unavailable for this output.": "이 출력에는 컨트롤을 사용할 수 없습니다.",
     "Copy": "복사",
     "Copy Endpoint": "끝점 복사",
+    "Copy Folder Path": "폴더 경로 복사",
     "Copy PID": "PID 복사",
     "Copy Path": "경로 복사",
     "Copy Remote Endpoint": "원격 끝점 복사",
@@ -256,6 +262,7 @@
     "Families": "프로세스 트리",
     "File": "파일",
     "Fill": "채우다",
+    "Filter Explorer to Folder": "폴더로 탐색기 필터링",
     "Find": "찾다",
     "Find Nearby Networks": "주변 네트워크 찾기",
     "Find Open Files": "열린 파일 찾기",
@@ -268,6 +275,9 @@
     "Footprint": "메모리 사용량",
     "Footprint subtotal": "발자국 소계",
     "Force Quit": "강제 종료",
+    "Force Quit (%lld processes)…": {
+      "other": "강제 종료 (%1$lld개 프로세스)…"
+    },
     "Force Quit…": "강제 종료…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@는 지난 %2$@ 동안 평균적으로 바빴습니다.",
@@ -339,7 +349,6 @@
     "Low Power Mode": "저전력 모드",
     "Mac": "스코틀랜드 사람",
     "Mac is drawing": "맥은 그림을 그리고 있다",
-    "Mac status": "맥 상태",
     "Make Yourself at Home": "집에서 편안하게 지내세요",
     "Maximum capacity": "최대 용량",
     "Measured after the next reading.": "다음 판독 후에 측정됩니다.",
@@ -421,6 +430,8 @@
     "Open resources": "열린 리소스",
     "Open the overview on hover": "마우스오버 시 개요 열기",
     "Orange": "주황색",
+    "Orphaned (%@) · %@": "고아 프로세스 (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "고아 프로세스 생성 루프 (%1$@) · %2$@",
     "Other": "다른",
     "Other Users": "다른 사용자",
     "Output": "산출",
@@ -435,6 +446,9 @@
     "Paste": "반죽",
     "Paths under %@": "%@ 아래의 경로",
     "Pause": "일시 정지",
+    "Pause (%lld processes)": {
+      "other": "일시 정지 (%1$lld개 프로세스)"
+    },
     "Paused": "일시중지됨",
     "Paused Processes": "일시 중지된 프로세스",
     "Peak %@": "피크 %@",
@@ -509,6 +523,10 @@
     "Resource query unavailable": "리소스 쿼리를 사용할 수 없습니다.",
     "Restoring display position": "디스플레이 위치 복원 중",
     "Resume": "재개",
+    "Resume (%lld processes)": {
+      "other": "재개 (%1$lld개 프로세스)"
+    },
+    "Reveal Folder in Finder": "Finder에서 폴더 보기",
     "Reveal in Finder": "Finder에서 공개",
     "Reveal your menu bar": "메뉴바를 공개하세요",
     "Revert": "돌아가는 것",
@@ -526,6 +544,7 @@
       "other": "%1$lld초 동안 샘플링…"
     },
     "Save Full Report…": "전체 보고서 저장…",
+    "Scanning spawns in %@": "%1$@의 프로세스 생성 검사 중",
     "Security unavailable": "보안을 사용할 수 없음",
     "Segmented": "분할됨",
     "Select All": "모두 선택",
@@ -544,10 +563,13 @@
     "Share of samples where each function was running.": "각 기능이 실행된 샘플의 공유입니다.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "나머지 Mac과 공유되므로 메모리에 포함됩니다.",
     "Show": "보여주다",
+    "Show 10": "10개 보기",
+    "Show 5": "5개 보기",
     "Show Exact Readings…": "정확한 판독값 표시…",
     "Show Inspector": "검사기 표시",
     "Show Welcome Tour": "환영 투어 보기",
     "Show all processes": "모든 프로세스 표시",
+    "Show in Explorer": "탐색기에서 보기",
     "Show tracks": "트랙 표시",
     "Showing 100 of %lld resources": {
       "other": "리소스 %1$lld개 중 100개 표시 중"
@@ -569,6 +591,7 @@
     "Sound": "소리",
     "Sound on": "소리 켜짐",
     "Source Code": "소스 코드",
+    "Spawn loop · %@": "생성 루프 · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "이 Mac에서는 표준 Bluetooth LE 배터리 판독을 사용할 수 없습니다.",
     "Standard battery services are unavailable or ambiguous.": "표준 배터리 서비스를 사용할 수 없거나 모호합니다.",
     "Started": "시작됨",
@@ -596,10 +619,12 @@
     "TCP": "TCP",
     "Teal": "물오리",
     "Team": "팀",
-    "Temperature": "온도",
     "Temporarily prevent idle display sleep.": "유휴 디스플레이 절전 모드를 일시적으로 방지합니다.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "임시접속 해제가 확인되지 않았습니다. 나머지 액세서리는 읽혀지지 않았습니다.",
     "Terminate": "끝내다",
+    "Terminate (%lld processes)…": {
+      "other": "끝내다 (%1$lld개 프로세스)…"
+    },
     "Terminate…": "끝내다…",
     "That resolution is no longer available.": "해당 해결 방법은 더 이상 사용할 수 없습니다.",
     "The accessory disconnected during the battery read.": "배터리를 읽는 동안 액세서리가 분리되었습니다.",
@@ -667,6 +692,7 @@
     "Threads": "스레드",
     "Timeline": "타임라인",
     "Toggle inspector": "검사기 전환",
+    "Top issues & activity": "주요 문제 및 활동",
     "Try Again": "다시 시도",
     "Try a name, executable path, PID, or uid:501.": "이름, 실행 파일 경로, PID 또는 uid:501를 사용해 보세요.",
     "Turn on Bluetooth before reading accessory batteries.": "액세서리 배터리를 읽기 전에 Bluetooth를 켜십시오.",

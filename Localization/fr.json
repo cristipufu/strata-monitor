@@ -8,6 +8,11 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld processus) ?",
+      "many": "%1$@ %2$@ (%3$lld processus) ?",
+      "other": "%1$@ %2$@ (%3$lld processus) ?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@) ?",
     "%@ at %lld%% CPU": "%1$@ à %2$lld%% CPU",
     "%@ connected": "%@ connecté",
@@ -91,6 +96,7 @@
       "many": "%1$lld ressources · instantané",
       "other": "%1$lld ressources · instantané"
     },
+    "%lld spawning": "%1$lld lancements",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, pic %2$lld%%",
     "1 connected": "1 connecté",
     "1 display": "1 affichage",
@@ -109,6 +115,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Les identités accessoires sont ambiguës. Essayez de lire à nouveau.",
     "Active": "Actif",
     "Active Processes": "Processus actifs",
+    "Active alongside %@ in %@": "Actif aux côtés de %1$@ dans %2$@",
     "Activity": "Activité",
     "Actual menu-bar size": "Taille réelle de la barre de menus",
     "Ad hoc": "Ad hoc",
@@ -212,6 +219,7 @@
     "Controls are unavailable for this output.": "Les contrôles ne sont pas disponibles pour cette sortie.",
     "Copy": "Copie",
     "Copy Endpoint": "Copier le point de terminaison",
+    "Copy Folder Path": "Copier le chemin du dossier",
     "Copy PID": "Copier PID",
     "Copy Path": "Copier le chemin",
     "Copy Remote Endpoint": "Copier le point de terminaison distant",
@@ -282,6 +290,7 @@
     "Families": "Familles de processus",
     "File": "Déposer",
     "Fill": "Remplir",
+    "Filter Explorer to Folder": "Filtrer l’explorateur sur le dossier",
     "Find": "Trouver",
     "Find Nearby Networks": "Trouver des réseaux à proximité",
     "Find Open Files": "Rechercher des fichiers ouverts",
@@ -294,6 +303,11 @@
     "Footprint": "Empreinte mémoire",
     "Footprint subtotal": "Sous-total de l'empreinte",
     "Force Quit": "Forcer à quitter",
+    "Force Quit (%lld processes)…": {
+      "one": "Forcer à quitter (%1$lld processus)…",
+      "many": "Forcer à quitter (%1$lld processus)…",
+      "other": "Forcer à quitter (%1$lld processus)…"
+    },
     "Force Quit…": "Forcer à quitter…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ occupé en moyenne pour le dernier %2$@",
@@ -365,7 +379,6 @@
     "Low Power Mode": "Mode faible consommation",
     "Mac": "Mac",
     "Mac is drawing": "Mac dessine",
-    "Mac status": "Statut Mac",
     "Make Yourself at Home": "Faites comme chez vous",
     "Maximum capacity": "Capacité maximale",
     "Measured after the next reading.": "Mesuré après la prochaine lecture.",
@@ -447,6 +460,8 @@
     "Open resources": "Ressources ouvertes",
     "Open the overview on hover": "Ouvrir l'aperçu au survol",
     "Orange": "Orange",
+    "Orphaned (%@) · %@": "Orphelin (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Boucle de processus orpheline (%1$@) · %2$@",
     "Other": "Autre",
     "Other Users": "Autres utilisateurs",
     "Output": "Sortir",
@@ -461,6 +476,11 @@
     "Paste": "Coller",
     "Paths under %@": "Chemins sous %@",
     "Pause": "Suspendre",
+    "Pause (%lld processes)": {
+      "one": "Suspendre (%1$lld processus)",
+      "many": "Suspendre (%1$lld processus)",
+      "other": "Suspendre (%1$lld processus)"
+    },
     "Paused": "En pause",
     "Paused Processes": "Processus suspendus",
     "Peak %@": "Pic %@",
@@ -535,6 +555,12 @@
     "Resource query unavailable": "Requête de ressources indisponible",
     "Restoring display position": "Restauration de la position d'affichage",
     "Resume": "Reprendre",
+    "Resume (%lld processes)": {
+      "one": "Reprendre (%1$lld processus)",
+      "many": "Reprendre (%1$lld processus)",
+      "other": "Reprendre (%1$lld processus)"
+    },
+    "Reveal Folder in Finder": "Afficher le dossier dans le Finder",
     "Reveal in Finder": "Révéler dans Finder",
     "Reveal your menu bar": "Révélez votre barre de menu",
     "Revert": "Revenir",
@@ -554,6 +580,7 @@
       "other": "Echantillonnage pendant %1$lld secondes…"
     },
     "Save Full Report…": "Enregistrer le rapport complet…",
+    "Scanning spawns in %@": "Analyse des lancements dans %1$@",
     "Security unavailable": "Sécurité indisponible",
     "Segmented": "Segmenté",
     "Select All": "Sélectionner tout",
@@ -572,10 +599,13 @@
     "Share of samples where each function was running.": "Part des échantillons dans lesquels chaque fonction était exécutée.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Partagé avec le reste du Mac, il compte donc dans la mémoire.",
     "Show": "Montrer",
+    "Show 10": "Afficher 10",
+    "Show 5": "Afficher 5",
     "Show Exact Readings…": "Afficher les lectures exactes…",
     "Show Inspector": "Afficher l'inspecteur",
     "Show Welcome Tour": "Afficher la visite de bienvenue",
     "Show all processes": "Afficher tous les processus",
+    "Show in Explorer": "Afficher dans l’explorateur",
     "Show tracks": "Afficher les pistes",
     "Showing 100 of %lld resources": {
       "one": "Affichage de 100 sur %1$lld ressource",
@@ -599,6 +629,7 @@
     "Sound": "Son",
     "Sound on": "Son activé",
     "Source Code": "Code source",
+    "Spawn loop · %@": "Boucle de processus · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "La lecture standard de la batterie Bluetooth LE n’est pas disponible sur ce Mac.",
     "Standard battery services are unavailable or ambiguous.": "Les services de batterie standard sont indisponibles ou ambigus.",
     "Started": "Commencé",
@@ -626,10 +657,14 @@
     "TCP": "TCP",
     "Teal": "Sarcelle",
     "Team": "Équipe",
-    "Temperature": "Température",
     "Temporarily prevent idle display sleep.": "Empêche temporairement la mise en veille de l'affichage inactif.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "La libération temporaire de la connexion n’a pas été confirmée. Les autres accessoires n'ont pas été lus.",
     "Terminate": "Mettre fin",
+    "Terminate (%lld processes)…": {
+      "one": "Mettre fin (%1$lld processus)…",
+      "many": "Mettre fin (%1$lld processus)…",
+      "other": "Mettre fin (%1$lld processus)…"
+    },
     "Terminate…": "Mettre fin…",
     "That resolution is no longer available.": "Cette résolution n'est plus disponible.",
     "The accessory disconnected during the battery read.": "L'accessoire s'est déconnecté pendant la lecture de la batterie.",
@@ -697,6 +732,7 @@
     "Threads": "Fils d’exécution",
     "Timeline": "Chronologie",
     "Toggle inspector": "Activer/désactiver l'inspecteur",
+    "Top issues & activity": "Principaux problèmes et activité",
     "Try Again": "Essayer à nouveau",
     "Try a name, executable path, PID, or uid:501.": "Essayez un nom, un chemin d'exécutable, PID ou uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Allumez le Bluetooth avant de lire les piles des accessoires.",

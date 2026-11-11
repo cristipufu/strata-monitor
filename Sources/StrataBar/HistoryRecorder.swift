@@ -102,9 +102,17 @@ import StrataSystem
       writeFailed = false
     }
     if diagnoses {
+      let currentProcesses =
+        processes
+        ?? (sample.processScan.map { !$0.failed } == true
+          ? sample.processes.map { process in
+            HistoryProcessPoint(
+              process, project: process.project,
+              networkBytesPerSecond: networkUsage[process.id].map { $0.received + $0.sent })
+          } : [])
       diagnosis = DiagnosisEngine.diagnose(
         DiagnosisInput(
-          current: point, processes: processes ?? [], recent: recent,
+          current: point, processes: currentProcesses, recent: recent,
           logicalCores: sample.cores.isEmpty ? nil : sample.cores.count))
     }
     return result.episodeChanges

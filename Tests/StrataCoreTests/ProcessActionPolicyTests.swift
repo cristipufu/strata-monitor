@@ -39,6 +39,8 @@ import Testing
   #expect(allows(.resume, process("bun", state: .stopped)))
   #expect(!allows(.resume, process("bun", state: .running)))
   #expect(allows(.terminate, process("Dock", state: .running)))
+  #expect(!allows(.terminate, process("loginwindow", state: .running)))
+  #expect(!allows(.forceQuit, process("WindowManager", state: .running)))
   #expect(!ProcessSignal.pause.needsConfirmation && ProcessSignal.forceQuit.needsConfirmation)
 }
 

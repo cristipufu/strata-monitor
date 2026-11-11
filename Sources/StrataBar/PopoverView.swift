@@ -214,15 +214,12 @@ struct OverviewContent: View {
   let openExplorer: (ExplorerDestination) -> Void
   var body: some View {
     VStack(alignment: .leading, spacing: Design.Spacing.large) {
-      if let recorder = model.historyRecorder {
-        DiagnosisCard(recorder: recorder, openExplorer: openExplorer)
-      }
       HStack(alignment: .top, spacing: Design.Spacing.small) {
         ForEach([Reading.cpu, .memory, .network]) { reading in
           PulseTile(model: model, reading: reading, color: reading.tint)
         }
       }.fixedSize(horizontal: false, vertical: true)
-      MeasureLeaders(model: model, measure: .cpu, openExplorer: openExplorer)
+      OverviewOutliersCard(model: model, openExplorer: openExplorer)
       HStack(alignment: .top, spacing: Design.Spacing.small) {
         ForEach([Reading.disk, .battery, .wifi, .sound]) { reading in
           Button {

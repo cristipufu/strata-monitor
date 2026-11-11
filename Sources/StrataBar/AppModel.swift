@@ -182,6 +182,7 @@ final class AppModel: ObservableObject {
   // Several views read the same process tree for one reading; it is built once per sample.
   var processFamilies: ProcessFamilies { familiesOfCurrentSample().families }
   var processFamilyRoots: [ProcessFamily] { familiesOfCurrentSample().roots }
+  var activityOutliers: [ActivityOutlier] { familiesOfCurrentSample().outliers }
   private func familiesOfCurrentSample() -> SampleFamilies {
     if let sampleFamilies, sampleFamilies.uptime == sample?.uptime { return sampleFamilies }
     let current = SampleFamilies(uptime: sample?.uptime, processes: processes)
@@ -584,10 +585,14 @@ final class AppModel: ObservableObject {
 
 private final class SampleFamilies {
   let uptime: TimeInterval?
+  let processes: [ProcessSample]
   let families: ProcessFamilies
   private(set) lazy var roots = families.roots
+  private(set) lazy var outliers = ActivityOutlierRanker.rank(
+    processes, families: families, currentUser: getuid(), limit: 10)
   init(uptime: TimeInterval?, processes: [ProcessSample]) {
     self.uptime = uptime
+    self.processes = processes
     families = ProcessFamilies(processes)
   }
 }

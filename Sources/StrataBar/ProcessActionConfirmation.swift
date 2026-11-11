@@ -16,6 +16,12 @@ enum ProcessActionConfirmation {
     case .applicationQuit(let action): action.identity
     }
   }
+  var count: Int {
+    switch self {
+    case .signal(let action): action.identities.count
+    case .applicationQuit: 1
+    }
+  }
   var title: String {
     switch self {
     case .signal(let action): action.signal.title

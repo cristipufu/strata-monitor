@@ -7,6 +7,10 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld proces)?",
+      "other": "%1$@ %2$@ (%3$lld processer)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ på %2$lld%% CPU",
     "%@ connected": "%@ tilsluttet",
@@ -78,6 +82,7 @@
       "one": "%1$lld ressource · øjebliksbillede",
       "other": "%1$lld ressourcer · øjebliksbillede"
     },
+    "%lld spawning": "%1$lld starter",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, peak %2$lld%%",
     "1 connected": "1 tilsluttet",
     "1 display": "1 skærm",
@@ -96,6 +101,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Tilbehørsidentiteter er tvetydige. Prøv at læse igen.",
     "Active": "Aktiv",
     "Active Processes": "Aktive processer",
+    "Active alongside %@ in %@": "Aktiv sideløbende med %1$@ i %2$@",
     "Activity": "Aktivitet",
     "Actual menu-bar size": "Faktisk størrelse på menulinjen",
     "Ad hoc": "Ad hoc",
@@ -199,6 +205,7 @@
     "Controls are unavailable for this output.": "Kontrolelementer er ikke tilgængelige for denne udgang.",
     "Copy": "Kopi",
     "Copy Endpoint": "Kopiér slutpunkt",
+    "Copy Folder Path": "Kopier mappesti",
     "Copy PID": "Kopier PID",
     "Copy Path": "Kopier sti",
     "Copy Remote Endpoint": "Kopier fjernendepunkt",
@@ -269,6 +276,7 @@
     "Families": "Procesfamilier",
     "File": "Fil",
     "Fill": "Fylde",
+    "Filter Explorer to Folder": "Filtrer Stifinder til mappe",
     "Find": "Finde",
     "Find Nearby Networks": "Find netværk i nærheden",
     "Find Open Files": "Find åbne filer",
@@ -281,6 +289,10 @@
     "Footprint": "Hukommelsesforbrug",
     "Footprint subtotal": "Footprint subtotal",
     "Force Quit": "Afbryd",
+    "Force Quit (%lld processes)…": {
+      "one": "Afbryd (%1$lld proces)…",
+      "other": "Afbryd (%1$lld processer)…"
+    },
     "Force Quit…": "Afbryd…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ optaget i gennemsnit for de sidste %2$@",
@@ -352,7 +364,6 @@
     "Low Power Mode": "Lav strømtilstand",
     "Mac": "Mac",
     "Mac is drawing": "Mac tegner",
-    "Mac status": "Mac status",
     "Make Yourself at Home": "Føl dig hjemme",
     "Maximum capacity": "Maksimal kapacitet",
     "Measured after the next reading.": "Målt efter næste aflæsning.",
@@ -434,6 +445,8 @@
     "Open resources": "Åbne ressourcer",
     "Open the overview on hover": "Åbn oversigten ved at hovere",
     "Orange": "Orange",
+    "Orphaned (%@) · %@": "Forældreløs (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Forældreløs procesløkke (%1$@) · %2$@",
     "Other": "Andre",
     "Other Users": "Andre brugere",
     "Output": "Produktion",
@@ -448,6 +461,10 @@
     "Paste": "Indsæt",
     "Paths under %@": "Stier under %@",
     "Pause": "Sæt på pause",
+    "Pause (%lld processes)": {
+      "one": "Sæt på pause (%1$lld proces)",
+      "other": "Sæt på pause (%1$lld processer)"
+    },
     "Paused": "Pause",
     "Paused Processes": "Pausede processer",
     "Peak %@": "Peak %@",
@@ -522,6 +539,11 @@
     "Resource query unavailable": "Ressourceforespørgsel er ikke tilgængelig",
     "Restoring display position": "Gendannelse af displayposition",
     "Resume": "Genoptag",
+    "Resume (%lld processes)": {
+      "one": "Genoptag (%1$lld proces)",
+      "other": "Genoptag (%1$lld processer)"
+    },
+    "Reveal Folder in Finder": "Vis mappe i Finder",
     "Reveal in Finder": "Afsløres i Finder",
     "Reveal your menu bar": "Afslør din menulinje",
     "Revert": "Vende tilbage",
@@ -540,6 +562,7 @@
       "other": "Sampling i %1$lld sekunder..."
     },
     "Save Full Report…": "Gem hele rapporten...",
+    "Scanning spawns in %@": "Scanner nye processer i %1$@",
     "Security unavailable": "Sikkerhed ikke tilgængelig",
     "Segmented": "Segmenteret",
     "Select All": "Vælg alle",
@@ -558,10 +581,13 @@
     "Share of samples where each function was running.": "Andel af prøver, hvor hver funktion kørte.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Delt med resten af ​​Mac'en, så det tæller med i hukommelsen.",
     "Show": "Vise",
+    "Show 10": "Vis 10",
+    "Show 5": "Vis 5",
     "Show Exact Readings…": "Vis nøjagtige aflæsninger...",
     "Show Inspector": "Vis Inspektør",
     "Show Welcome Tour": "Vis velkomsttur",
     "Show all processes": "Vis alle processer",
+    "Show in Explorer": "Vis i Stifinder",
     "Show tracks": "Vis spor",
     "Showing 100 of %lld resources": {
       "one": "Viser 100 af %1$lld ressource",
@@ -584,6 +610,7 @@
     "Sound": "Sund",
     "Sound on": "Lyd på",
     "Source Code": "Kildekode",
+    "Spawn loop · %@": "Procesløkke · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "Standard Bluetooth LE batteriaflæsning er ikke tilgængelig på denne Mac.",
     "Standard battery services are unavailable or ambiguous.": "Standard batteritjenester er utilgængelige eller tvetydige.",
     "Started": "Startede",
@@ -611,10 +638,13 @@
     "TCP": "TCP",
     "Teal": "Blågrøn",
     "Team": "Hold",
-    "Temperature": "Temperatur",
     "Temporarily prevent idle display sleep.": "Forhindrer midlertidigt inaktiv skærm dvale.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "Midlertidig forbindelsesfrigivelse blev ikke bekræftet. Det resterende tilbehør blev ikke læst.",
     "Terminate": "Opsige",
+    "Terminate (%lld processes)…": {
+      "one": "Opsige (%1$lld proces)…",
+      "other": "Opsige (%1$lld processer)…"
+    },
     "Terminate…": "Opsige…",
     "That resolution is no longer available.": "Den beslutning er ikke længere tilgængelig.",
     "The accessory disconnected during the battery read.": "Tilbehøret blev afbrudt under batteriaflæsningen.",
@@ -682,6 +712,7 @@
     "Threads": "Tråde",
     "Timeline": "Tidslinje",
     "Toggle inspector": "Skift inspektør",
+    "Top issues & activity": "Vigtigste problemer og aktivitet",
     "Try Again": "Prøv igen",
     "Try a name, executable path, PID, or uid:501.": "Prøv et navn, eksekverbar sti, PID eller uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Tænd for Bluetooth, før du læser tilbehørsbatterier.",

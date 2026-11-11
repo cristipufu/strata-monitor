@@ -25,7 +25,7 @@ final class FloatingPanel: NSPanel, MenuBarPanelHosting {
   }
   override func cancelOperation(_ sender: Any?) { onEscape?() }
   override func sendEvent(_ event: NSEvent) {
-    if event.type == .leftMouseDown { onInteraction?() }
+    if event.type == .leftMouseDown || event.type == .rightMouseDown { onInteraction?() }
     super.sendEvent(event)
   }
   func animateFrame(_ frame: NSRect, duration: TimeInterval) {

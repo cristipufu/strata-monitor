@@ -6,6 +6,9 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "other": "%1$@ %2$@（%3$lld个进程）？"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@（PID %3$@）？",
     "%@ at %lld%% CPU": "%1$@ 于 %2$lld%% CPU",
     "%@ connected": "%@ 已连接",
@@ -65,6 +68,7 @@
     "%lld resources · snapshot": {
       "other": "%1$lld个资源·快照"
     },
+    "%lld spawning": "%1$lld 个正在派生",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU，峰值%2$lld%%",
     "1 connected": "1 个已连接",
     "1 display": "1 个显示屏",
@@ -83,6 +87,7 @@
     "Accessory identities are ambiguous. Try reading again.": "配件身份不明确。尝试再次阅读。",
     "Active": "积极的",
     "Active Processes": "活动进程",
+    "Active alongside %@ in %@": "与 %2$@ 中的 %1$@ 同时活跃",
     "Activity": "活动",
     "Actual menu-bar size": "实际菜单栏大小",
     "Ad hoc": "特别指定",
@@ -186,6 +191,7 @@
     "Controls are unavailable for this output.": "此输出无法进行控制。",
     "Copy": "复制",
     "Copy Endpoint": "复制端点",
+    "Copy Folder Path": "复制文件夹路径",
     "Copy PID": "复制PID",
     "Copy Path": "复制路径",
     "Copy Remote Endpoint": "复制远程端点",
@@ -256,6 +262,7 @@
     "Families": "进程树",
     "File": "文件",
     "Fill": "充满",
+    "Filter Explorer to Folder": "按文件夹筛选浏览窗口",
     "Find": "寻找",
     "Find Nearby Networks": "查找附近的网络",
     "Find Open Files": "查找打开的文件",
@@ -268,6 +275,9 @@
     "Footprint": "内存占用",
     "Footprint subtotal": "足迹小计",
     "Force Quit": "强制退出",
+    "Force Quit (%lld processes)…": {
+      "other": "强制退出 (%1$lld个进程)…"
+    },
     "Force Quit…": "强制退出…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ 最后 %2$@ 平均繁忙",
@@ -339,7 +349,6 @@
     "Low Power Mode": "低功耗模式",
     "Mac": "苹果",
     "Mac is drawing": "麦克正在画画",
-    "Mac status": "Mac 状态",
     "Make Yourself at Home": "请随便一点，就像在自己家一样",
     "Maximum capacity": "最大容量",
     "Measured after the next reading.": "下次读数后测量。",
@@ -421,6 +430,8 @@
     "Open resources": "已打开的资源",
     "Open the overview on hover": "悬停时打开概述",
     "Orange": "橙子",
+    "Orphaned (%@) · %@": "孤立进程 (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "孤立派生循环 (%1$@) · %2$@",
     "Other": "其他",
     "Other Users": "其他用户",
     "Output": "输出",
@@ -435,6 +446,9 @@
     "Paste": "粘贴",
     "Paths under %@": "%@下的路径",
     "Pause": "暂停",
+    "Pause (%lld processes)": {
+      "other": "暂停 (%1$lld个进程)"
+    },
     "Paused": "已暂停",
     "Paused Processes": "暂停的进程",
     "Peak %@": "峰值%@",
@@ -509,6 +523,10 @@
     "Resource query unavailable": "资源查询不可用",
     "Restoring display position": "恢复显示位置",
     "Resume": "继续",
+    "Resume (%lld processes)": {
+      "other": "继续 (%1$lld个进程)"
+    },
+    "Reveal Folder in Finder": "在访达中显示文件夹",
     "Reveal in Finder": "揭示于Finder",
     "Reveal your menu bar": "显示您的菜单栏",
     "Revert": "恢复",
@@ -526,6 +544,7 @@
       "other": "采样 %1$lld 秒..."
     },
     "Save Full Report…": "保存完整报告...",
+    "Scanning spawns in %@": "正在扫描 %1$@ 中的派生进程",
     "Security unavailable": "安全性不可用",
     "Segmented": "分段式",
     "Select All": "选择全部",
@@ -544,10 +563,13 @@
     "Share of samples where each function was running.": "每个函数运行的样本份额。",
     "Shared with the rest of the Mac, so it counts toward Memory.": "与 Mac 的其余部分共享，因此它计入内存。",
     "Show": "展示",
+    "Show 10": "显示 10 项",
+    "Show 5": "显示 5 项",
     "Show Exact Readings…": "显示精确读数...",
     "Show Inspector": "显示检查员",
     "Show Welcome Tour": "展会欢迎参观",
     "Show all processes": "显示所有进程",
+    "Show in Explorer": "在浏览窗口中显示",
     "Show tracks": "显示曲目",
     "Showing 100 of %lld resources": {
       "other": "显示 %1$lld 个资源中的 100 个"
@@ -569,6 +591,7 @@
     "Sound": "声音",
     "Sound on": "声音打开",
     "Source Code": "源代码",
+    "Spawn loop · %@": "派生循环 · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "标准 Bluetooth LE 电池读数在此 Mac 上不可用。",
     "Standard battery services are unavailable or ambiguous.": "标准电池服务不可用或不明确。",
     "Started": "开始",
@@ -596,10 +619,12 @@
     "TCP": "TCP",
     "Teal": "青色",
     "Team": "团队",
-    "Temperature": "温度",
     "Temporarily prevent idle display sleep.": "暂时防止空闲显示器休眠。",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "未确认临时连接释放。其余附件未读取。",
     "Terminate": "终止",
+    "Terminate (%lld processes)…": {
+      "other": "终止 (%1$lld个进程)…"
+    },
     "Terminate…": "终止…",
     "That resolution is no longer available.": "该决议不再可用。",
     "The accessory disconnected during the battery read.": "读取电池期间配件断开连接。",
@@ -667,6 +692,7 @@
     "Threads": "线程",
     "Timeline": "时间轴",
     "Toggle inspector": "切换检查器",
+    "Top issues & activity": "主要问题与活动",
     "Try Again": "再试一次",
     "Try a name, executable path, PID, or uid:501.": "尝试输入名称、可执行路径、PID 或 uid:501。",
     "Turn on Bluetooth before reading accessory batteries.": "在读取附件电池之前打开 Bluetooth。",

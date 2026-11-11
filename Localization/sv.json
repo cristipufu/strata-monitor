@@ -7,6 +7,10 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld process)?",
+      "other": "%1$@ %2$@ (%3$lld processer)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ på %2$lld%% CPU",
     "%@ connected": "%@ ansluten",
@@ -78,6 +82,7 @@
       "one": "%1$lld resurs · ögonblicksbild",
       "other": "%1$lld resurser · ögonblicksbild"
     },
+    "%lld spawning": "%1$lld startar",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, topp %2$lld%%",
     "1 connected": "1 ansluten",
     "1 display": "1 display",
@@ -96,6 +101,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Accessoaridentiteter är tvetydiga. Försök att läsa igen.",
     "Active": "Aktiv",
     "Active Processes": "Aktiva processer",
+    "Active alongside %@ in %@": "Aktiv jämsides med %1$@ i %2$@",
     "Activity": "Aktivitet",
     "Actual menu-bar size": "Verklig storlek på menyraden",
     "Ad hoc": "Ad hoc",
@@ -199,6 +205,7 @@
     "Controls are unavailable for this output.": "Kontroller är inte tillgängliga för denna utgång.",
     "Copy": "Kopiera",
     "Copy Endpoint": "Kopiera slutpunkt",
+    "Copy Folder Path": "Kopiera mappsökväg",
     "Copy PID": "Kopiera PID",
     "Copy Path": "Kopiera sökväg",
     "Copy Remote Endpoint": "Kopiera Remote Endpoint",
@@ -269,6 +276,7 @@
     "Families": "Processfamiljer",
     "File": "Fil",
     "Fill": "Fylla",
+    "Filter Explorer to Folder": "Filtrera Utforskaren efter mapp",
     "Find": "Hitta",
     "Find Nearby Networks": "Hitta nätverk i närheten",
     "Find Open Files": "Hitta öppna filer",
@@ -281,6 +289,10 @@
     "Footprint": "Minnesanvändning",
     "Footprint subtotal": "Footprint delsumma",
     "Force Quit": "Tvångsavsluta",
+    "Force Quit (%lld processes)…": {
+      "one": "Tvångsavsluta (%1$lld process)…",
+      "other": "Tvångsavsluta (%1$lld processer)…"
+    },
     "Force Quit…": "Tvångsavsluta…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ upptagen i genomsnitt för den senaste %2$@",
@@ -352,7 +364,6 @@
     "Low Power Mode": "Lågeffektläge",
     "Mac": "Mac",
     "Mac is drawing": "Mac ritar",
-    "Mac status": "Mac-status",
     "Make Yourself at Home": "Känn dig som hemma",
     "Maximum capacity": "Maximal kapacitet",
     "Measured after the next reading.": "Uppmätt efter nästa avläsning.",
@@ -434,6 +445,8 @@
     "Open resources": "Öppna resurser",
     "Open the overview on hover": "Öppna översikten när du håller muspekaren",
     "Orange": "Orange",
+    "Orphaned (%@) · %@": "Föräldralös (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Föräldralös processloop (%1$@) · %2$@",
     "Other": "Andra",
     "Other Users": "Andra användare",
     "Output": "Produktion",
@@ -448,6 +461,10 @@
     "Paste": "Klistra",
     "Paths under %@": "Vägar under %@",
     "Pause": "Pausa",
+    "Pause (%lld processes)": {
+      "one": "Pausa (%1$lld process)",
+      "other": "Pausa (%1$lld processer)"
+    },
     "Paused": "Pausad",
     "Paused Processes": "Pausade processer",
     "Peak %@": "Topp %@",
@@ -522,6 +539,11 @@
     "Resource query unavailable": "Resursfrågan är inte tillgänglig",
     "Restoring display position": "Återställer displayposition",
     "Resume": "Återuppta",
+    "Resume (%lld processes)": {
+      "one": "Återuppta (%1$lld process)",
+      "other": "Återuppta (%1$lld processer)"
+    },
+    "Reveal Folder in Finder": "Visa mapp i Finder",
     "Reveal in Finder": "Avslöja i Finder",
     "Reveal your menu bar": "Visa din menyrad",
     "Revert": "Återgå",
@@ -540,6 +562,7 @@
       "other": "Sampling i %1$lld sekunder..."
     },
     "Save Full Report…": "Spara hela rapporten...",
+    "Scanning spawns in %@": "Skannar processtarter i %1$@",
     "Security unavailable": "Säkerhet otillgänglig",
     "Segmented": "Segmenterad",
     "Select All": "Välj Alla",
@@ -558,10 +581,13 @@
     "Share of samples where each function was running.": "Andel av prover där varje funktion kördes.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Delas med resten av Mac, så det räknas till minnet.",
     "Show": "Visa",
+    "Show 10": "Visa 10",
+    "Show 5": "Visa 5",
     "Show Exact Readings…": "Visa exakta avläsningar...",
     "Show Inspector": "Visa inspektör",
     "Show Welcome Tour": "Visa välkomsttur",
     "Show all processes": "Visa alla processer",
+    "Show in Explorer": "Visa i Utforskaren",
     "Show tracks": "Visa spår",
     "Showing 100 of %lld resources": {
       "one": "Visar 100 av %1$lld resurs",
@@ -584,6 +610,7 @@
     "Sound": "Ljud",
     "Sound on": "Ljud på",
     "Source Code": "Källkod",
+    "Spawn loop · %@": "Processloop · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "Standard Bluetooth LE batteriavläsning är inte tillgänglig på denna Mac.",
     "Standard battery services are unavailable or ambiguous.": "Standardbatteritjänster är otillgängliga eller tvetydiga.",
     "Started": "Startade",
@@ -611,10 +638,13 @@
     "TCP": "TCP",
     "Teal": "Kricka",
     "Team": "Team",
-    "Temperature": "Temperatur",
     "Temporarily prevent idle display sleep.": "Förhindra tillfälligt viloläge för displayen.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "Den tillfälliga anslutningsversionen bekräftades inte. Resterande tillbehör lästes inte.",
     "Terminate": "Avsluta",
+    "Terminate (%lld processes)…": {
+      "one": "Avsluta (%1$lld process)…",
+      "other": "Avsluta (%1$lld processer)…"
+    },
     "Terminate…": "Avsluta…",
     "That resolution is no longer available.": "Den upplösningen är inte längre tillgänglig.",
     "The accessory disconnected during the battery read.": "Tillbehöret kopplades bort under batteriavläsningen.",
@@ -682,6 +712,7 @@
     "Threads": "Trådar",
     "Timeline": "Tidslinje",
     "Toggle inspector": "Växla inspektör",
+    "Top issues & activity": "Viktigaste problemen och aktivitet",
     "Try Again": "Försök igen",
     "Try a name, executable path, PID, or uid:501.": "Prova ett namn, körbar sökväg, PID eller uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Slå på Bluetooth innan du läser tillbehörsbatterier.",

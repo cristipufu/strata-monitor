@@ -6,7 +6,11 @@ import StrataCore
 struct ProcessLabeling: Sendable {
   private static let projectRunners: Set<String> = [
     "bun", "node", "deno", "ruby", "java", "zsh", "bash", "fish", "sh", "swift", "swift-frontend",
-    "cargo", "go", "npm", "pnpm", "yarn", "make", "uv", "php", "perl",
+    "cargo", "go", "npm", "pnpm", "yarn", "make", "uv", "php", "perl", "rustc", "rustdoc",
+    "rust-analyzer", "swift-build", "swift-test", "swift-package", "swift-format",
+    "swiftpm-testing-helper", "xctest", "clang", "clang++", "ld", "git", "gh", "codex", "claude",
+    "pytest", "jest", "vitest", "playwright", "esbuild", "tsc", "vite", "webpack", "tsx", "cmake",
+    "ninja", "bazel", "gradle", "dotnet", "beam.smp", "elixir", "google chrome for testing",
   ]
   private var projects: ProjectResolver
   private let workingDirectories: any WorkingDirectoryReading
@@ -23,13 +27,31 @@ struct ProcessLabeling: Sendable {
   }
 
   mutating func project(of process: ProcessSample) -> String? {
-    guard process.userID == currentUser, Self.runsProjects(process.name),
-      let directory = workingDirectories.workingDirectory(of: process.id.pid)
-    else { return nil }
-    return projects.project(forWorkingDirectory: directory)
+    location(of: process).project
+  }
+
+  mutating func location(of process: ProcessSample) -> (workingDirectory: String?, project: String?) {
+    guard process.userID == currentUser,
+      Self.runsProjects(process.name) || Self.isCommandLineExecutable(process.path),
+      let directory = workingDirectories.workingDirectory(of: process.id.pid),
+      !directory.isEmpty, directory != "/"
+    else { return (nil, nil) }
+    return (directory, projects.project(forWorkingDirectory: directory))
   }
 
   static func runsProjects(_ name: String) -> Bool {
-    projectRunners.contains(name) || name.hasPrefix("python")
+    let lower = name.lowercased()
+    return projectRunners.contains(lower) || lower.hasPrefix("python")
+  }
+
+  private static func isCommandLineExecutable(_ path: String) -> Bool {
+    guard !path.isEmpty else { return false }
+    if path.hasPrefix("/Applications/") || path.hasPrefix("/System/")
+      || path.hasPrefix("/Library/Apple/") || path.hasPrefix("/usr/libexec/")
+      || path.hasPrefix("/usr/sbin/")
+    {
+      return false
+    }
+    return !path.contains(".app/") && !path.contains(".xpc/") && !path.contains(".appex/")
   }
 }

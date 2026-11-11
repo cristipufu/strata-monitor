@@ -7,6 +7,10 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld süreç)?",
+      "other": "%1$@ %2$@ (%3$lld süreç)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ ve %2$lld%% CPU",
     "%@ connected": "%@ bağlandı",
@@ -78,6 +82,7 @@
       "one": "%1$lld kaynak · anlık görüntü",
       "other": "%1$lld kaynak · anlık görüntü"
     },
+    "%lld spawning": "%1$lld başlatılıyor",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, zirve %2$lld%%",
     "1 connected": "1 bağlı",
     "1 display": "1 ekran",
@@ -96,6 +101,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Aksesuar kimlikleri belirsizdir. Tekrar okumayı deneyin.",
     "Active": "Aktif",
     "Active Processes": "Aktif Süreçler",
+    "Active alongside %@ in %@": "%2$@ içinde %1$@ ile birlikte etkin",
     "Activity": "Etkinlik",
     "Actual menu-bar size": "Gerçek menü çubuğu boyutu",
     "Ad hoc": "Geçici",
@@ -199,6 +205,7 @@
     "Controls are unavailable for this output.": "Bu çıktı için kontroller mevcut değildir.",
     "Copy": "Kopyala",
     "Copy Endpoint": "Uç Noktayı Kopyala",
+    "Copy Folder Path": "Klasör Yolunu Kopyala",
     "Copy PID": "PID'yi kopyala",
     "Copy Path": "Yolu Kopyala",
     "Copy Remote Endpoint": "Uzak Uç Noktayı Kopyala",
@@ -269,6 +276,7 @@
     "Families": "İşlem Aileleri",
     "File": "Dosya",
     "Fill": "Doldurmak",
+    "Filter Explorer to Folder": "Gezgini Klasöre Göre Filtrele",
     "Find": "Bulmak",
     "Find Nearby Networks": "Yakındaki Ağları Bul",
     "Find Open Files": "Açık Dosyaları Bul",
@@ -281,6 +289,10 @@
     "Footprint": "Bellek Kullanımı",
     "Footprint subtotal": "Ayak izi alt toplamı",
     "Force Quit": "Çıkmaya Zorla",
+    "Force Quit (%lld processes)…": {
+      "one": "Çıkmaya Zorla (%1$lld süreç)…",
+      "other": "Çıkmaya Zorla (%1$lld süreç)…"
+    },
     "Force Quit…": "Çıkmaya Zorla…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ son %2$@ için ortalama olarak meşgul",
@@ -352,7 +364,6 @@
     "Low Power Mode": "Düşük Güç Modu",
     "Mac": "Mac",
     "Mac is drawing": "Mac çizim yapıyor",
-    "Mac status": "Mac durumu",
     "Make Yourself at Home": "Kendini evinde gibi hisset",
     "Maximum capacity": "Maksimum kapasite",
     "Measured after the next reading.": "Bir sonraki okumadan sonra ölçülür.",
@@ -434,6 +445,8 @@
     "Open resources": "Kaynakları aç",
     "Open the overview on hover": "Fareyle üzerine gelindiğinde genel bakışı açın",
     "Orange": "Turuncu",
+    "Orphaned (%@) · %@": "Sahipsiz (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Sahipsiz süreç döngüsü (%1$@) · %2$@",
     "Other": "Diğer",
     "Other Users": "Diğer Kullanıcılar",
     "Output": "Çıkış",
@@ -448,6 +461,10 @@
     "Paste": "Yapıştır",
     "Paths under %@": "%@ altındaki yollar",
     "Pause": "Duraklat",
+    "Pause (%lld processes)": {
+      "one": "Duraklat (%1$lld süreç)",
+      "other": "Duraklat (%1$lld süreç)"
+    },
     "Paused": "Duraklatıldı",
     "Paused Processes": "Duraklatılan İşlemler",
     "Peak %@": "Zirve %@",
@@ -522,6 +539,11 @@
     "Resource query unavailable": "Kaynak sorgusu kullanılamıyor",
     "Restoring display position": "Ekran konumunu geri yükleme",
     "Resume": "Sürdür",
+    "Resume (%lld processes)": {
+      "one": "Sürdür (%1$lld süreç)",
+      "other": "Sürdür (%1$lld süreç)"
+    },
+    "Reveal Folder in Finder": "Klasörü Finder’da Göster",
     "Reveal in Finder": "Finder'de ortaya çıkarma",
     "Reveal your menu bar": "Menü çubuğunuzu ortaya çıkarın",
     "Revert": "Geri al",
@@ -540,6 +562,7 @@
       "other": "%1$lld saniye boyunca örnekleme…"
     },
     "Save Full Report…": "Raporun Tamamını Kaydet…",
+    "Scanning spawns in %@": "%1$@ içindeki süreç başlatmaları taranıyor",
     "Security unavailable": "Güvenlik kullanılamıyor",
     "Segmented": "Bölümlere ayrılmış",
     "Select All": "Tümünü Seç",
@@ -558,10 +581,13 @@
     "Share of samples where each function was running.": "Her işlevin çalıştığı örneklerin paylaşımı.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Mac'in geri kalanıyla paylaşıldığından Bellek kapsamında sayılır.",
     "Show": "Göstermek",
+    "Show 10": "10 Göster",
+    "Show 5": "5 Göster",
     "Show Exact Readings…": "Tam Okumaları Göster…",
     "Show Inspector": "Müfettişi Göster",
     "Show Welcome Tour": "Karşılama Turunu Göster",
     "Show all processes": "Tüm süreçleri göster",
+    "Show in Explorer": "Gezginde Göster",
     "Show tracks": "Parçaları göster",
     "Showing 100 of %lld resources": {
       "one": "%1$lld kaynaktan 100 tanesi gösteriliyor",
@@ -584,6 +610,7 @@
     "Sound": "Ses",
     "Sound on": "Ses açık",
     "Source Code": "Kaynak Kodu",
+    "Spawn loop · %@": "Süreç döngüsü · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "Standart Bluetooth LE pil okuma özelliği bu Mac'te kullanılamıyor.",
     "Standard battery services are unavailable or ambiguous.": "Standart pil hizmetleri kullanılamıyor veya belirsiz.",
     "Started": "Başlatıldı",
@@ -611,10 +638,13 @@
     "TCP": "TCP",
     "Teal": "turkuaz",
     "Team": "Takım",
-    "Temperature": "Sıcaklık",
     "Temporarily prevent idle display sleep.": "Boş ekranın uyku moduna geçmesini geçici olarak önleyin.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "Geçici bağlantının serbest bırakılması onaylanmadı. Kalan aksesuarlar okunmadı.",
     "Terminate": "Sonlandır",
+    "Terminate (%lld processes)…": {
+      "one": "Sonlandır (%1$lld süreç)…",
+      "other": "Sonlandır (%1$lld süreç)…"
+    },
     "Terminate…": "Sonlandır…",
     "That resolution is no longer available.": "O çözünürlük artık mevcut değil.",
     "The accessory disconnected during the battery read.": "Pil okuması sırasında aksesuarın bağlantısı kesildi.",
@@ -682,6 +712,7 @@
     "Threads": "İş Parçacıkları",
     "Timeline": "Zaman çizelgesi",
     "Toggle inspector": "Denetçiyi aç/kapat",
+    "Top issues & activity": "Başlıca sorunlar ve etkinlik",
     "Try Again": "Tekrar deneyin",
     "Try a name, executable path, PID, or uid:501.": "Bir ad, yürütülebilir yol, PID veya uid:501 deneyin.",
     "Turn on Bluetooth before reading accessory batteries.": "Aksesuar pillerini okumadan önce Bluetooth'yi açın.",

@@ -8,6 +8,11 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld processo)?",
+      "many": "%1$@ %2$@ (%3$lld processos)?",
+      "other": "%1$@ %2$@ (%3$lld processos)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ em %2$lld%% CPU",
     "%@ connected": "%@ ligado",
@@ -91,6 +96,7 @@
       "many": "%1$lld características · instantâneo",
       "other": "%1$lld recursos · instantâneo"
     },
+    "%lld spawning": "%1$lld a iniciar",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, pico %2$lld%%",
     "1 connected": "1 conectado",
     "1 display": "1 exibição",
@@ -109,6 +115,7 @@
     "Accessory identities are ambiguous. Try reading again.": "As identidades acessórias são ambíguas. Tente ler novamente.",
     "Active": "Ativo",
     "Active Processes": "Processos Ativos",
+    "Active alongside %@ in %@": "Ativo em simultâneo com %1$@ em %2$@",
     "Activity": "Atividade",
     "Actual menu-bar size": "Tamanho real da barra de menus",
     "Ad hoc": "Ad hoc",
@@ -212,6 +219,7 @@
     "Controls are unavailable for this output.": "Os controlos não estão disponíveis para esta saída.",
     "Copy": "Cópia",
     "Copy Endpoint": "Copiar ponto final",
+    "Copy Folder Path": "Copiar caminho da pasta",
     "Copy PID": "Copiar PID",
     "Copy Path": "Copiar caminho",
     "Copy Remote Endpoint": "Copiar endpoint remoto",
@@ -282,6 +290,7 @@
     "Families": "Famílias de processos",
     "File": "Ficheiro",
     "Fill": "Preencher",
+    "Filter Explorer to Folder": "Filtrar Explorador pela pasta",
     "Find": "Encontrar",
     "Find Nearby Networks": "Encontre redes próximas",
     "Find Open Files": "Encontre ficheiros abertos",
@@ -294,6 +303,11 @@
     "Footprint": "Utilização de memória",
     "Footprint subtotal": "Subtotal da pegada",
     "Force Quit": "Forçar saída",
+    "Force Quit (%lld processes)…": {
+      "one": "Forçar saída (%1$lld processo)…",
+      "many": "Forçar saída (%1$lld processos)…",
+      "other": "Forçar saída (%1$lld processos)…"
+    },
     "Force Quit…": "Forçar saída…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ ocupado em média no último %2$@",
@@ -365,7 +379,6 @@
     "Low Power Mode": "Modo de baixo consumo",
     "Mac": "Mac",
     "Mac is drawing": "Mac está a desenhar",
-    "Mac status": "Estado do Mac",
     "Make Yourself at Home": "Fique à vontade",
     "Maximum capacity": "Capacidade máxima",
     "Measured after the next reading.": "Medido após a leitura seguinte.",
@@ -447,6 +460,8 @@
     "Open resources": "Recursos abertos",
     "Open the overview on hover": "Abra a vista geral ao passar o rato",
     "Orange": "Laranja",
+    "Orphaned (%@) · %@": "Órfão (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Ciclo de processos órfão (%1$@) · %2$@",
     "Other": "Outro",
     "Other Users": "Outros utilizadores",
     "Output": "Saída",
@@ -461,6 +476,11 @@
     "Paste": "Colar",
     "Paths under %@": "Percursos sob %@",
     "Pause": "Pausar",
+    "Pause (%lld processes)": {
+      "one": "Pausar (%1$lld processo)",
+      "many": "Pausar (%1$lld processos)",
+      "other": "Pausar (%1$lld processos)"
+    },
     "Paused": "Pausado",
     "Paused Processes": "Processos pausados",
     "Peak %@": "Pico %@",
@@ -535,6 +555,12 @@
     "Resource query unavailable": "Consulta de recurso indisponível",
     "Restoring display position": "Restaurar a posição de exibição",
     "Resume": "Retomar",
+    "Resume (%lld processes)": {
+      "one": "Retomar (%1$lld processo)",
+      "many": "Retomar (%1$lld processos)",
+      "other": "Retomar (%1$lld processos)"
+    },
+    "Reveal Folder in Finder": "Mostrar pasta no Finder",
     "Reveal in Finder": "Revelar em Finder",
     "Reveal your menu bar": "Revele a sua barra de menu",
     "Revert": "Reverter",
@@ -554,6 +580,7 @@
       "other": "Amostragem durante %1$lld segundos…"
     },
     "Save Full Report…": "Guardar relatório completo…",
+    "Scanning spawns in %@": "A analisar processos iniciados em %1$@",
     "Security unavailable": "Segurança indisponível",
     "Segmented": "Segmentado",
     "Select All": "Selecionar tudo",
@@ -572,10 +599,13 @@
     "Share of samples where each function was running.": "Partilha de amostras em que cada função estava a ser executada.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Partilhado com o resto do Mac, portanto conta para a memória.",
     "Show": "Espetáculo",
+    "Show 10": "Mostrar 10",
+    "Show 5": "Mostrar 5",
     "Show Exact Readings…": "Mostrar leituras exatas…",
     "Show Inspector": "Mostrar Inspetor",
     "Show Welcome Tour": "Mostrar tour de boas-vindas",
     "Show all processes": "Mostrar todos os processos",
+    "Show in Explorer": "Mostrar no Explorador",
     "Show tracks": "Mostrar faixas",
     "Showing 100 of %lld resources": {
       "one": "A mostrar 100 de %1$lld recurso",
@@ -599,6 +629,7 @@
     "Sound": "Som",
     "Sound on": "Som ativado",
     "Source Code": "Código Fonte",
+    "Spawn loop · %@": "Ciclo de processos · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "A leitura padrão da bateria Bluetooth LE não está disponível neste Mac.",
     "Standard battery services are unavailable or ambiguous.": "Os serviços de bateria padrão não estão disponíveis ou são ambíguos.",
     "Started": "Iniciado",
@@ -626,10 +657,14 @@
     "TCP": "TCP",
     "Teal": "Cerceta",
     "Team": "Equipa",
-    "Temperature": "Temperatura",
     "Temporarily prevent idle display sleep.": "Impedir temporariamente a suspensão do ecrã ocioso.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "A libertação temporária da ligação não foi confirmada. Os restantes acessórios não foram lidos.",
     "Terminate": "Encerrar",
+    "Terminate (%lld processes)…": {
+      "one": "Terminar (%1$lld processo)…",
+      "many": "Terminar (%1$lld processos)…",
+      "other": "Terminar (%1$lld processos)…"
+    },
     "Terminate…": "Terminar…",
     "That resolution is no longer available.": "Essa resolução já não está disponível.",
     "The accessory disconnected during the battery read.": "O acessório foi desligado durante a leitura da bateria.",
@@ -697,6 +732,7 @@
     "Threads": "Threads",
     "Timeline": "Linha do tempo",
     "Toggle inspector": "Alternar inspetor",
+    "Top issues & activity": "Principais problemas e atividade",
     "Try Again": "Tente novamente",
     "Try a name, executable path, PID, or uid:501.": "Experimente um nome, caminho executável, PID ou uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Ligue Bluetooth antes de ler as pilhas acessórias.",

@@ -6,6 +6,9 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "other": "%1$@ %2$@（%3$lld個處理程序）？"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@（PID %3$@）？",
     "%@ at %lld%% CPU": "%1$@ 於 %2$lld%% CPU",
     "%@ connected": "%@ 已連接",
@@ -65,6 +68,7 @@
     "%lld resources · snapshot": {
       "other": "%1$lld個資源·快照"
     },
+    "%lld spawning": "%1$lld 個正在衍生",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU，峰值%2$lld%%",
     "1 connected": "1 個已連接",
     "1 display": "1 個顯示屏",
@@ -83,6 +87,7 @@
     "Accessory identities are ambiguous. Try reading again.": "配件身份不明確。嘗試再次閱讀。",
     "Active": "積極的",
     "Active Processes": "活動行程",
+    "Active alongside %@ in %@": "與 %2$@ 中的 %1$@ 同時活躍",
     "Activity": "活動",
     "Actual menu-bar size": "實際選單列大小",
     "Ad hoc": "特別指定",
@@ -186,6 +191,7 @@
     "Controls are unavailable for this output.": "此輸出無法進行控制。",
     "Copy": "複製",
     "Copy Endpoint": "複製端點",
+    "Copy Folder Path": "複製檔案夾路徑",
     "Copy PID": "複製PID",
     "Copy Path": "複製路徑",
     "Copy Remote Endpoint": "複製遠端點",
@@ -256,6 +262,7 @@
     "Families": "處理程序樹",
     "File": "文件",
     "Fill": "充滿",
+    "Filter Explorer to Folder": "按檔案夾篩選瀏覽視窗",
     "Find": "尋找",
     "Find Nearby Networks": "尋找附近的網絡",
     "Find Open Files": "尋找開啟的文件",
@@ -268,6 +275,9 @@
     "Footprint": "記憶體用量",
     "Footprint subtotal": "足跡小計",
     "Force Quit": "強制結束",
+    "Force Quit (%lld processes)…": {
+      "other": "強制結束 (%1$lld個處理程序)…"
+    },
     "Force Quit…": "強制結束…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ 最後 %2$@ 平均繁忙",
@@ -339,7 +349,6 @@
     "Low Power Mode": "低功耗模式",
     "Mac": "蘋果",
     "Mac is drawing": "麥克正在畫畫",
-    "Mac status": "Mac 狀態",
     "Make Yourself at Home": "請隨便一點，就像在自己家一樣",
     "Maximum capacity": "最大容量",
     "Measured after the next reading.": "下次讀數後測量。",
@@ -421,6 +430,8 @@
     "Open resources": "已開啟的資源",
     "Open the overview on hover": "懸停時打開概述",
     "Orange": "橘子",
+    "Orphaned (%@) · %@": "孤立處理程序 (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "孤立衍生迴圈 (%1$@) · %2$@",
     "Other": "其他",
     "Other Users": "其他用戶",
     "Output": "輸出",
@@ -435,6 +446,9 @@
     "Paste": "貼上",
     "Paths under %@": "%@下的路徑",
     "Pause": "暫停",
+    "Pause (%lld processes)": {
+      "other": "暫停 (%1$lld個處理程序)"
+    },
     "Paused": "已暫停",
     "Paused Processes": "暫停的進程",
     "Peak %@": "峰值%@",
@@ -509,6 +523,10 @@
     "Resource query unavailable": "資源查詢不可用",
     "Restoring display position": "恢復顯示位置",
     "Resume": "繼續",
+    "Resume (%lld processes)": {
+      "other": "繼續 (%1$lld個處理程序)"
+    },
+    "Reveal Folder in Finder": "在 Finder 中顯示檔案夾",
     "Reveal in Finder": "揭示於Finder",
     "Reveal your menu bar": "顯示您的選單欄",
     "Revert": "恢復",
@@ -526,6 +544,7 @@
       "other": "採樣 %1$lld 秒..."
     },
     "Save Full Report…": "儲存完整報告...",
+    "Scanning spawns in %@": "正在掃描 %1$@ 中的衍生處理程序",
     "Security unavailable": "安全性不可用",
     "Segmented": "分段式",
     "Select All": "選擇全部",
@@ -544,10 +563,13 @@
     "Share of samples where each function was running.": "每個函數運行的樣本份額。",
     "Shared with the rest of the Mac, so it counts toward Memory.": "與 Mac 的其餘部分共享，因此它計入內存。",
     "Show": "展示",
+    "Show 10": "顯示 10 項",
+    "Show 5": "顯示 5 項",
     "Show Exact Readings…": "顯示精確讀數...",
     "Show Inspector": "顯示檢查員",
     "Show Welcome Tour": "展會歡迎參觀",
     "Show all processes": "顯示所有進程",
+    "Show in Explorer": "在瀏覽視窗中顯示",
     "Show tracks": "顯示曲目",
     "Showing 100 of %lld resources": {
       "other": "顯示 %1$lld 個資源中的 100 個"
@@ -569,6 +591,7 @@
     "Sound": "聲音",
     "Sound on": "聲音打開",
     "Source Code": "原始碼",
+    "Spawn loop · %@": "衍生迴圈 · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "標準 Bluetooth LE 電池讀數在此 Mac 上不可用。",
     "Standard battery services are unavailable or ambiguous.": "標準電池服務不可用或不明確。",
     "Started": "開始",
@@ -596,10 +619,12 @@
     "TCP": "TCP",
     "Teal": "青色",
     "Team": "團隊",
-    "Temperature": "溫度",
     "Temporarily prevent idle display sleep.": "暫時防止空閒顯示器休眠。",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "未確認臨時連線釋放。其餘附件未讀取。",
     "Terminate": "終止",
+    "Terminate (%lld processes)…": {
+      "other": "終止 (%1$lld個處理程序)…"
+    },
     "Terminate…": "終止…",
     "That resolution is no longer available.": "該決議不再可用。",
     "The accessory disconnected during the battery read.": "讀取電池期間配件斷開連接。",
@@ -667,6 +692,7 @@
     "Threads": "執行緒",
     "Timeline": "時間軸",
     "Toggle inspector": "切換檢查器",
+    "Top issues & activity": "主要問題與活動",
     "Try Again": "再試一次",
     "Try a name, executable path, PID, or uid:501.": "嘗試輸入名稱、可執行路徑、PID 或 uid:501。",
     "Turn on Bluetooth before reading accessory batteries.": "在讀取附件電池之前打開 Bluetooth。",

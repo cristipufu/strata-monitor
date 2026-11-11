@@ -33,6 +33,15 @@ final class ProcessActionController: ObservableObject {
       .signal(try await service.prepare(process, signal: signal))
     }
   }
+  func request(_ processes: [ProcessSample], name: String, signal: ProcessSignal) {
+    if processes.count == 1, let single = processes.first {
+      request(single, signal: signal)
+      return
+    }
+    prepare(performsImmediately: !signal.needsConfirmation) { [service] in
+      .signal(try await service.prepare(processes, name: name, signal: signal))
+    }
+  }
   // Undoes every pause Strata Monitor made; processes that ended since are simply forgotten.
   func resumePausedProcesses() async {
     for identity in paused.identities {
@@ -86,7 +95,7 @@ final class ProcessActionController: ObservableObject {
     switch action {
     case .signal(let action):
       try await service.perform(action)
-      update { $0.record(action.signal, for: action.identity) }
+      update { $0.record(action.signal, for: action.identities) }
     case .applicationQuit(let action): try await applicationQuit.perform(action)
     }
   }

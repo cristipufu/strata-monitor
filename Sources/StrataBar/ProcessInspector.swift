@@ -100,6 +100,18 @@ struct ProcessInspector: View {
           if let live = liveProcess, ProcessSamplingController.canSample(live) {
             ProcessSampleSection(controller: sampling, process: live)
           }
+          if let directory = process.workingDirectory, !directory.isEmpty {
+            VStack(alignment: .leading, spacing: Design.Spacing.medium) {
+              SectionHeading(String(localized: "Folder"))
+              Text(directory).font(Design.Typography.footnote.monospaced())
+                .foregroundStyle(.secondary).textSelection(.enabled).contextMenu {
+                ExplorerActionButtons(actions: rowActions.file(directory))
+              }
+              HStack {
+                ExplorerActionButtons(actions: rowActions.file(directory))
+              }.buttonStyle(.glass).controlSize(.small)
+            }
+          }
           if !process.path.isEmpty {
             VStack(alignment: .leading, spacing: Design.Spacing.medium) {
               SectionHeading(String(localized: "Executable"))
@@ -264,12 +276,18 @@ struct ProcessActionButtons: View {
 // Attached at the window's root so an action started from any row or menu is confirmed in view.
 struct ProcessActionConfirmationDialog: ViewModifier {
   @ObservedObject var actions: ProcessActionController
+  var isActive = true
   func body(content: Content) -> some View {
     content.confirmationDialog(
-      actions.prepared.map { String(localized: "\($0.title) \($0.name) (PID \(String($0.identity.pid)))?") }
+      actions.prepared.map {
+        $0.count > 1
+          ? String(localized: "\($0.title) \($0.name) (\($0.count) processes)?")
+          : String(localized: "\($0.title) \($0.name) (PID \(String($0.identity.pid)))?")
+      }
         ?? String(localized: "Process action"),
       isPresented: Binding(
-        get: { actions.prepared != nil }, set: { if !$0 { actions.dismissConfirmation() } }),
+        get: { isActive && actions.prepared != nil },
+        set: { if !$0 && isActive { actions.dismissConfirmation() } }),
       titleVisibility: .visible
     ) {
       if let action = actions.prepared {

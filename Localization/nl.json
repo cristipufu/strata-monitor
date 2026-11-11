@@ -7,6 +7,10 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld proces)?",
+      "other": "%1$@ %2$@ (%3$lld processen)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ en %2$lld%% CPU",
     "%@ connected": "%@ aangesloten",
@@ -78,6 +82,7 @@
       "one": "%1$lld bron · momentopname",
       "other": "%1$lld bronnen · momentopname"
     },
+    "%lld spawning": "%1$lld starten",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, piek %2$lld%%",
     "1 connected": "1 aangesloten",
     "1 display": "1 scherm",
@@ -96,6 +101,7 @@
     "Accessory identities are ambiguous. Try reading again.": "Bijkomende identiteiten zijn dubbelzinnig. Probeer opnieuw te lezen.",
     "Active": "Actief",
     "Active Processes": "Actieve processen",
+    "Active alongside %@ in %@": "Actief naast %1$@ in %2$@",
     "Activity": "Activiteit",
     "Actual menu-bar size": "Werkelijke grootte van de menubalk",
     "Ad hoc": "Ad-hoc",
@@ -199,6 +205,7 @@
     "Controls are unavailable for this output.": "Er zijn geen bedieningselementen beschikbaar voor deze uitvoer.",
     "Copy": "Kopiëren",
     "Copy Endpoint": "Eindpunt kopiëren",
+    "Copy Folder Path": "Kopieer mappad",
     "Copy PID": "Kopieer PID",
     "Copy Path": "Kopieer pad",
     "Copy Remote Endpoint": "Kopieer extern eindpunt",
@@ -269,6 +276,7 @@
     "Families": "Procesfamilies",
     "File": "Bestand",
     "Fill": "Vullen",
+    "Filter Explorer to Folder": "Filter Verkenner op map",
     "Find": "Vinden",
     "Find Nearby Networks": "Vind netwerken in de buurt",
     "Find Open Files": "Vind geopende bestanden",
@@ -281,6 +289,10 @@
     "Footprint": "Geheugengebruik",
     "Footprint subtotal": "Voetafdruk subtotaal",
     "Force Quit": "Forceer stop",
+    "Force Quit (%lld processes)…": {
+      "one": "Forceer stop (%1$lld proces)…",
+      "other": "Forceer stop (%1$lld processen)…"
+    },
     "Force Quit…": "Forceer stop…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ gemiddeld druk voor de laatste %2$@",
@@ -352,7 +364,6 @@
     "Low Power Mode": "Low Power-modus",
     "Mac": "Mac",
     "Mac is drawing": "Mac is aan het tekenen",
-    "Mac status": "Mac-status",
     "Make Yourself at Home": "Doe alsof u thuis bent",
     "Maximum capacity": "Maximale capaciteit",
     "Measured after the next reading.": "Gemeten na de volgende meting.",
@@ -434,6 +445,8 @@
     "Open resources": "Open bronnen",
     "Open the overview on hover": "Open het overzicht door te hoveren",
     "Orange": "Oranje",
+    "Orphaned (%@) · %@": "Verweesd (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Verweesde proceslus (%1$@) · %2$@",
     "Other": "Ander",
     "Other Users": "Andere gebruikers",
     "Output": "Uitvoer",
@@ -448,6 +461,10 @@
     "Paste": "Plakken",
     "Paths under %@": "Paden onder %@",
     "Pause": "Pauzeer",
+    "Pause (%lld processes)": {
+      "one": "Pauzeer (%1$lld proces)",
+      "other": "Pauzeer (%1$lld processen)"
+    },
     "Paused": "Gepauzeerd",
     "Paused Processes": "Onderbroken processen",
     "Peak %@": "Piek %@",
@@ -522,6 +539,11 @@
     "Resource query unavailable": "Resourcequery niet beschikbaar",
     "Restoring display position": "Weergavepositie herstellen",
     "Resume": "Hervat",
+    "Resume (%lld processes)": {
+      "one": "Hervat (%1$lld proces)",
+      "other": "Hervat (%1$lld processen)"
+    },
+    "Reveal Folder in Finder": "Toon map in Finder",
     "Reveal in Finder": "Onthullen in Finder",
     "Reveal your menu bar": "Onthul uw menubalk",
     "Revert": "Terugdraaien",
@@ -540,6 +562,7 @@
       "other": "Monstername gedurende %1$lld seconden…"
     },
     "Save Full Report…": "Volledig rapport opslaan…",
+    "Scanning spawns in %@": "Scant processtarts in %1$@",
     "Security unavailable": "Beveiliging niet beschikbaar",
     "Segmented": "Gesegmenteerd",
     "Select All": "Selecteer Alles",
@@ -558,10 +581,13 @@
     "Share of samples where each function was running.": "Aandeel voorbeelden waarbij elke functie werd uitgevoerd.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Gedeeld met de rest van de Mac, dus het telt mee voor het geheugen.",
     "Show": "Show",
+    "Show 10": "Toon 10",
+    "Show 5": "Toon 5",
     "Show Exact Readings…": "Exacte meetwaarden weergeven…",
     "Show Inspector": "Toon inspecteur",
     "Show Welcome Tour": "Welkomstrondleiding weergeven",
     "Show all processes": "Toon alle processen",
+    "Show in Explorer": "Toon in Verkenner",
     "Show tracks": "Toon nummers",
     "Showing 100 of %lld resources": {
       "one": "Toont 100 van %1$lld bron",
@@ -584,6 +610,7 @@
     "Sound": "Geluid",
     "Sound on": "Geluid aan",
     "Source Code": "Broncode",
+    "Spawn loop · %@": "Proceslus · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "Standaard Bluetooth LE-batterijmeting is niet beschikbaar op deze Mac.",
     "Standard battery services are unavailable or ambiguous.": "Standaard batterijservices zijn niet beschikbaar of dubbelzinnig.",
     "Started": "Gestart",
@@ -611,10 +638,13 @@
     "TCP": "TCP",
     "Teal": "Wintertaling",
     "Team": "Team",
-    "Temperature": "Temperatuur",
     "Temporarily prevent idle display sleep.": "Voorkom tijdelijk de slaapstand van het inactieve beeldscherm.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "Tijdelijke vrijgave van de verbinding is niet bevestigd. Overige accessoires zijn niet gelezen.",
     "Terminate": "Beëindigen",
+    "Terminate (%lld processes)…": {
+      "one": "Beëindigen (%1$lld proces)…",
+      "other": "Beëindigen (%1$lld processen)…"
+    },
     "Terminate…": "Beëindigen…",
     "That resolution is no longer available.": "Die resolutie is niet meer beschikbaar.",
     "The accessory disconnected during the battery read.": "Het accessoire is losgekoppeld tijdens het lezen van de batterij.",
@@ -682,6 +712,7 @@
     "Threads": "Threads",
     "Timeline": "Tijdlijn",
     "Toggle inspector": "Schakel inspecteur in",
+    "Top issues & activity": "Belangrijkste problemen en activiteit",
     "Try Again": "Probeer het opnieuw",
     "Try a name, executable path, PID, or uid:501.": "Probeer een naam, een uitvoerbaar pad, PID of uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Schakel de Bluetooth in voordat u de batterijen van de accessoires leest.",

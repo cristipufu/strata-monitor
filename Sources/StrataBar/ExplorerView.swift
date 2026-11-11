@@ -70,7 +70,10 @@ struct ExplorerView: View {
       .inspectorColumnWidth(min: 260, ideal: 290, max: 360)
     }
     .frame(minHeight: 600)
-    .modifier(ProcessActionConfirmationDialog(actions: model.processActions))
+    .modifier(
+      ProcessActionConfirmationDialog(
+        actions: model.processActions, isActive: !model.isReadingPageVisible(.overview))
+    )
     .task(id: section) { model.setDemand(AppModel.networkUsageDemand, active: section == .network) }
     .onDisappear { model.setDemand(AppModel.networkUsageDemand, active: false) }
     .tint(Design.accent(model.profile.accent))

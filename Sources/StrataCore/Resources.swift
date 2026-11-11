@@ -64,16 +64,31 @@ public struct ExplorerQuery: Sendable {
   private let tokens: [String]
   public init(_ text: String) {
     self.text = text
-    tokens = text.lowercased().split(whereSeparator: \.isWhitespace).map(String.init)
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    if trimmed.hasPrefix("cwd:/") {
+      tokens = [trimmed]
+    } else {
+      tokens = trimmed.split(whereSeparator: \.isWhitespace).map(String.init)
+    }
   }
   public func matches(_ process: ProcessSample) -> Bool {
     tokens.allSatisfy { token in
       if token.hasPrefix("pid:") { return Int32(token.dropFirst(4)) == process.id.pid }
       if token.hasPrefix("uid:") { return UInt32(token.dropFirst(4)) == process.userID }
       if token.hasPrefix("user:") { return process.userName?.lowercased() == String(token.dropFirst(5)) }
+      if token.hasPrefix("cwd:") {
+        let folder = String(token.dropFirst(4))
+        guard !folder.isEmpty, let directory = process.workingDirectory?.lowercased() else {
+          return false
+        }
+        if folder.hasPrefix("/") {
+          return directory == folder || directory.hasPrefix(folder + "/")
+        }
+        return directory.contains(folder)
+      }
       if token.hasPrefix("port:") { return false }
       let searchable =
-        "\(process.name) \(process.project ?? "") \(process.path) \(process.id.pid) \(process.userID) \(process.userName ?? "")"
+        "\(process.name) \(process.project ?? "") \(process.workingDirectory ?? "") \(process.path) \(process.id.pid) \(process.userID) \(process.userName ?? "")"
       return searchable.lowercased().contains(token)
     }
   }

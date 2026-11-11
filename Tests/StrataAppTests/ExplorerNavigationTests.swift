@@ -72,4 +72,8 @@ import Testing
   navigation.open(.port(3000))
   #expect(navigation.section == .ports && navigation.query == "port:3000")
   #expect(navigation.identity == nil && navigation.pathScope == nil)
+  let pid = ProcessIdentity(pid: 99, startSeconds: 1, startMicroseconds: 0)
+  navigation.open(.folderProcesses("/Users/me/code/strata", pid))
+  #expect(navigation.section == .processes && navigation.grouping == .individual)
+  #expect(navigation.query == "cwd:/Users/me/code/strata" && navigation.identity == pid)
 }

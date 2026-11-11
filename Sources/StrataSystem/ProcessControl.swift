@@ -19,16 +19,33 @@ public enum ProcessActionError: LocalizedError, Sendable {
 public protocol ProcessControlling: Sendable {
   func prepare(_ process: ProcessSample, signal: ProcessSignal) async throws
     -> PreparedProcessAction
+  func prepare(_ processes: [ProcessSample], name: String, signal: ProcessSignal) async throws
+    -> PreparedProcessAction
   func perform(_ action: PreparedProcessAction) async throws
   func cancel(_ identifier: UUID) async
   // Only for undoing Strata Monitor's own pause, so it needs no confirmation.
   func resumePaused(_ identity: ProcessIdentity) async throws
 }
 
+extension ProcessControlling {
+  public func prepare(_ processes: [ProcessSample], name: String, signal: ProcessSignal)
+    async throws -> PreparedProcessAction
+  {
+    guard let first = processes.first else { throw ProcessActionError.ineligible }
+    let single = try await prepare(first, signal: signal)
+    return PreparedProcessAction(
+      id: single.id, identities: processes.map(\.id), name: name, signal: signal)
+  }
+}
+
 public actor ProcessControl: ProcessControlling {
+  private struct Target {
+    let identity: ProcessIdentity
+    let token: SBActionToken
+  }
   private struct Pending {
     let action: PreparedProcessAction
-    let token: SBActionToken
+    let targets: [Target]
     let created: TimeInterval
   }
   private var pending: Pending?
@@ -41,20 +58,34 @@ public actor ProcessControl: ProcessControlling {
   public func prepare(_ process: ProcessSample, signal: ProcessSignal) throws
     -> PreparedProcessAction
   {
+    try prepare([process], name: process.name, signal: signal)
+  }
+  public func prepare(_ processes: [ProcessSample], name: String, signal: ProcessSignal) throws
+    -> PreparedProcessAction
+  {
     try Task.checkCancellation()
     pending = nil
-    guard
-      ProcessActionPolicy.allows(
-        signal, for: process, currentPID: getpid(), currentUser: getuid())
-    else {
+    let eligible = ProcessActionPolicy.eligible(
+      signal, in: processes, currentPID: getpid(), currentUser: getuid())
+    guard !eligible.isEmpty else {
       throw ProcessActionError.ineligible
     }
-    let identity = process.id
-    let token = try Self.token(for: identity)
-    try Task.checkCancellation()
+    var targets: [Target] = []
+    var lastError: ProcessActionError = .targetChanged
+    for process in eligible {
+      try Task.checkCancellation()
+      do {
+        let token = try Self.token(for: process.id)
+        targets.append(Target(identity: process.id, token: token))
+      } catch let error as ProcessActionError {
+        lastError = error
+        if eligible.count == 1 { throw error }
+      }
+    }
+    guard !targets.isEmpty else { throw lastError }
     let action = PreparedProcessAction(
-      id: UUID(), identity: identity, name: process.name, signal: signal)
-    pending = Pending(action: action, token: token, created: uptime())
+      id: UUID(), identities: targets.map(\.identity), name: name, signal: signal)
+    pending = Pending(action: action, targets: targets, created: uptime())
     return action
   }
   public func perform(_ action: PreparedProcessAction) throws {
@@ -63,20 +94,32 @@ public actor ProcessControl: ProcessControlling {
       throw ProcessActionError.expired
     }
     pending = nil
-    guard stored.action.identity == action.identity,
+    guard stored.action.identities == action.identities,
       ProcessActionPolicy.confirmationIsCurrent(created: stored.created, now: uptime())
     else {
       throw ProcessActionError.expired
     }
-    let identity = stored.action.identity
-    guard sb_process_identity(identity.pid, identity.startSeconds, identity.startMicroseconds)
-    else {
-      throw ProcessActionError.targetChanged
+    var sentCount = 0
+    var lastError: ProcessActionError = .targetChanged
+    for target in stored.targets {
+      let identity = target.identity
+      guard sb_process_identity(identity.pid, identity.startSeconds, identity.startMicroseconds)
+      else {
+        if stored.targets.count == 1 { throw ProcessActionError.targetChanged }
+        continue
+      }
+      do {
+        try Self.send(stored.action.signal, with: target.token)
+        // A paused process keeps Terminate pending until it runs again, and a pause can still be
+        // landing; continuing right after, as service managers do, lets it handle Terminate either way.
+        if stored.action.signal == .terminate { try? Self.send(.resume, with: target.token) }
+        sentCount += 1
+      } catch let error as ProcessActionError {
+        lastError = error
+        if stored.targets.count == 1 { throw error }
+      }
     }
-    try Self.send(stored.action.signal, with: stored.token)
-    // A paused process keeps Terminate pending until it runs again, and a pause can still be
-    // landing; continuing right after, as service managers do, lets it handle Terminate either way.
-    if stored.action.signal == .terminate { try? Self.send(.resume, with: stored.token) }
+    guard sentCount > 0 else { throw lastError }
   }
   public func resumePaused(_ identity: ProcessIdentity) throws {
     try Self.send(.resume, with: Self.token(for: identity))

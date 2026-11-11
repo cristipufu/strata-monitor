@@ -7,6 +7,10 @@
     "other"
   ],
   "strings": {
+    "%@ %@ (%lld processes)?": {
+      "one": "%1$@ %2$@ (%3$lld folyamat)?",
+      "other": "%1$@ %2$@ (%3$lld folyamat)?"
+    },
     "%@ %@ (PID %@)?": "%1$@ %2$@ (PID %3$@)?",
     "%@ at %lld%% CPU": "%1$@ és %2$lld%% CPU",
     "%@ connected": "%@ csatlakoztatva",
@@ -78,6 +82,7 @@
       "one": "%1$lld erőforrás · pillanatkép",
       "other": "%1$lld forrás · pillanatkép"
     },
+    "%lld spawning": "%1$lld indul",
     "%lld%% CPU, peak %lld%%": "%1$lld%% CPU, csúcs %2$lld%%",
     "1 connected": "1 csatlakoztatva",
     "1 display": "1 kijelző",
@@ -96,6 +101,7 @@
     "Accessory identities are ambiguous. Try reading again.": "A kiegészítő identitás kétértelmű. Próbáld újra olvasni.",
     "Active": "Aktív",
     "Active Processes": "Aktív folyamatok",
+    "Active alongside %@ in %@": "Aktív %1$@ mellett itt: %2$@",
     "Activity": "Tevékenység",
     "Actual menu-bar size": "A menüsor tényleges mérete",
     "Ad hoc": "Ad hoc",
@@ -199,6 +205,7 @@
     "Controls are unavailable for this output.": "A vezérlők nem érhetők el ehhez a kimenethez.",
     "Copy": "Másolat",
     "Copy Endpoint": "Végpont másolása",
+    "Copy Folder Path": "Mappa útvonalának másolása",
     "Copy PID": "Másolja a PID-t",
     "Copy Path": "Útvonal másolása",
     "Copy Remote Endpoint": "Távoli végpont másolása",
@@ -269,6 +276,7 @@
     "Families": "Folyamatcsaládok",
     "File": "Fájl",
     "Fill": "Töltse ki",
+    "Filter Explorer to Folder": "Felfedező szűrése a mappára",
     "Find": "Lelet",
     "Find Nearby Networks": "Keresse meg a közeli hálózatokat",
     "Find Open Files": "Keresse meg a Nyitott fájlok lehetőséget",
@@ -281,6 +289,10 @@
     "Footprint": "Memóriahasználat",
     "Footprint subtotal": "Lábnyom részösszeg",
     "Force Quit": "Kilépésre kényszerítés",
+    "Force Quit (%lld processes)…": {
+      "one": "Kilépésre kényszerítés (%1$lld folyamat)…",
+      "other": "Kilépésre kényszerítés (%1$lld folyamat)…"
+    },
     "Force Quit…": "Kilépésre kényszerítés…",
     "GPU": "GPU",
     "GPU %@ busy on average for the last %@": "GPU %1$@ átlagosan elfoglalt az utolsó %2$@",
@@ -352,7 +364,6 @@
     "Low Power Mode": "Alacsony fogyasztású mód",
     "Mac": "Mac",
     "Mac is drawing": "Mac rajzol",
-    "Mac status": "Mac állapot",
     "Make Yourself at Home": "Érezze magát otthon",
     "Maximum capacity": "Maximális kapacitás",
     "Measured after the next reading.": "A következő leolvasás után mérve.",
@@ -434,6 +445,8 @@
     "Open resources": "Nyílt források",
     "Open the overview on hover": "Nyissa meg az áttekintést az egérmutatóval",
     "Orange": "Narancs",
+    "Orphaned (%@) · %@": "Árva (%1$@) · %2$@",
+    "Orphaned spawn loop (%@) · %@": "Árva folyamathurok (%1$@) · %2$@",
     "Other": "Más",
     "Other Users": "Más felhasználók",
     "Output": "Kimenet",
@@ -448,6 +461,10 @@
     "Paste": "Paszta",
     "Paths under %@": "Útvonalak a %@ alatt",
     "Pause": "Szüneteltetés",
+    "Pause (%lld processes)": {
+      "one": "Szüneteltetés (%1$lld folyamat)",
+      "other": "Szüneteltetés (%1$lld folyamat)"
+    },
     "Paused": "Szüneteltetve",
     "Paused Processes": "Szüneteltetett folyamatok",
     "Peak %@": "Csúcs %@",
@@ -522,6 +539,11 @@
     "Resource query unavailable": "Az erőforrás-lekérdezés nem érhető el",
     "Restoring display position": "A kijelző pozíciójának visszaállítása",
     "Resume": "Folytatás",
+    "Resume (%lld processes)": {
+      "one": "Folytatás (%1$lld folyamat)",
+      "other": "Folytatás (%1$lld folyamat)"
+    },
+    "Reveal Folder in Finder": "Mappa megjelenítése a Finderben",
     "Reveal in Finder": "Mutasd be a Finder-ben",
     "Reveal your menu bar": "Mutasd fel a menüsorodat",
     "Revert": "Vissza",
@@ -540,6 +562,7 @@
       "other": "Mintavétel %1$lld másodpercig…"
     },
     "Save Full Report…": "Teljes jelentés mentése…",
+    "Scanning spawns in %@": "Induló folyamatok vizsgálata itt: %1$@",
     "Security unavailable": "A biztonság nem érhető el",
     "Segmented": "Szegmentált",
     "Select All": "Válassza az Összes lehetőséget",
@@ -558,10 +581,13 @@
     "Share of samples where each function was running.": "Azon minták megosztása, ahol az egyes funkciók futottak.",
     "Shared with the rest of the Mac, so it counts toward Memory.": "Megosztva a Mac többi részével, így beleszámít a memóriába.",
     "Show": "Megmutat",
+    "Show 10": "10 megjelenítése",
+    "Show 5": "5 megjelenítése",
     "Show Exact Readings…": "Pontos leolvasások megjelenítése…",
     "Show Inspector": "Mutasd az Ellenőrt",
     "Show Welcome Tour": "Mutasd az üdvözlő körutat",
     "Show all processes": "Az összes folyamat megjelenítése",
+    "Show in Explorer": "Megjelenítés a Felfedezőben",
     "Show tracks": "Számok megjelenítése",
     "Showing 100 of %lld resources": {
       "one": "100/%1$lld erőforrás megjelenítése",
@@ -584,6 +610,7 @@
     "Sound": "Hang",
     "Sound on": "Hang be",
     "Source Code": "Forráskód",
+    "Spawn loop · %@": "Folyamathurok · %1$@",
     "Standard Bluetooth LE battery reading is unavailable on this Mac.": "A normál Bluetooth LE akkumulátorleolvasás nem érhető el ezen a Macen.",
     "Standard battery services are unavailable or ambiguous.": "A szabványos akkumulátorszolgáltatások nem érhetők el, vagy nem egyértelműek.",
     "Started": "Elindult",
@@ -611,10 +638,13 @@
     "TCP": "TCP",
     "Teal": "Böjti réce",
     "Team": "Csapat",
-    "Temperature": "Hőmérséklet",
     "Temporarily prevent idle display sleep.": "Ideiglenesen megakadályozza a tétlen kijelző alvó állapotát.",
     "Temporary connection release was not confirmed. Remaining accessories were not read.": "A kapcsolat ideiglenes feloldását nem erősítették meg. A többi tartozékot nem olvasták el.",
     "Terminate": "Leállítás",
+    "Terminate (%lld processes)…": {
+      "one": "Befejezés (%1$lld folyamat)…",
+      "other": "Befejezés (%1$lld folyamat)…"
+    },
     "Terminate…": "Befejezés…",
     "That resolution is no longer available.": "Ez a felbontás már nem elérhető.",
     "The accessory disconnected during the battery read.": "A tartozék az akkumulátor leolvasása közben lekapcsolódott.",
@@ -682,6 +712,7 @@
     "Threads": "Szálak",
     "Timeline": "Idővonal",
     "Toggle inspector": "Ellenőrző váltás",
+    "Top issues & activity": "Legfontosabb problémák és aktivitás",
     "Try Again": "Próbáld újra",
     "Try a name, executable path, PID, or uid:501.": "Próbálja ki a nevet, a végrehajtható elérési utat, a PID vagy a uid:501.",
     "Turn on Bluetooth before reading accessory batteries.": "Kapcsolja be a Bluetooth-t, mielőtt leolvassa a kiegészítő elemeket.",

@@ -42,6 +42,7 @@ enum ExplorerDestination {
   case resume
   case processes(ProcessIdentity?)
   case family(ProcessIdentity?)
+  case folderProcesses(String, ProcessIdentity?)
   // Process families sorted by a page's measure, optionally with one selected.
   case ranked(ProcessSort, ProcessIdentity?)
   case ports
@@ -102,6 +103,12 @@ final class ExplorerNavigation: ObservableObject {
       grouping = .families
       self.identity = identity
       query = ""
+      clearResourceScope()
+    case .folderProcesses(let folder, let identity):
+      section = .processes
+      grouping = .individual
+      self.identity = identity
+      query = "cwd:\(folder)"
       clearResourceScope()
     case .ranked(let sort, let identity):
       open(.family(identity))
